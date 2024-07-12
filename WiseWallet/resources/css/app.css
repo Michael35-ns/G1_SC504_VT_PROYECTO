@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-aside {
+    width: 66px; 
+}
+.usuario_img{
+    position: fixed;
+    top: 10px; /* Ajusta la distancia desde el borde superior según tu diseño */
+    right: 20px; 
+}
