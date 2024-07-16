@@ -1,11 +1,18 @@
 <?php
 
+use App\Http\Controllers\GraficoController;
+use App\Http\Controllers\IngresoController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/crearIngreso', [IngresoController::class, 'index'])->name('crearIngreso');
+Route::get('/crearIngreso', [IngresoController::class, 'show'])->name('crearIngreso');
+Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso.store');
+
+Route::get('/grafico', [GraficoController::class, 'show'])->name('grafico');
 
 /*
 Route::get('/', function () {
