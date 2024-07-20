@@ -9,10 +9,11 @@ Route::get('/', function () {
 });
 
 Route::get('/crearIngreso', [IngresoController::class, 'index'])->name('crearIngreso');
-Route::get('/crearIngreso', [IngresoController::class, 'show'])->name('crearIngreso');
+Route::get('/crearGasto', [IngresoController::class, 'index'])->name('crearGasto');
+Route::post('/buscarIngresos', [IngresoController::class, 'store'])->name('buscarIngresos');
+
 Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso.store');
 
-Route::get('/grafico', [GraficoController::class, 'show'])->name('grafico');
 
 /*
 Route::get('/', function () {
