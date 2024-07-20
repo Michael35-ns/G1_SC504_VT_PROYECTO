@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @stack('styles')
     <title>WiseWallet - @yield('titulo')</title>
     @vite('resources/css/app.css')
@@ -77,6 +77,9 @@
                         <h2 class="font-black text-center text-3xl mb-10">
                             @yield('titulo')
                         </h2>
+                        <div class="w-full flex justify-center">
+                            @yield('grafico')
+                        </div>
                         <div class="w-full flex justify-center">
                             @yield('contenido')
                         </div>

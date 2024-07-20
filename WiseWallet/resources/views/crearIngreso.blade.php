@@ -4,28 +4,41 @@
     Transacciones
 @endsection
 
-@section('contenido')
 
+@section('grafico')
+<div class="porcentajes" style="--porcentaje: 75">
+    <svg width="150" heigth="150">
+        <circle r="65" cx="50%" cy="50%" pathlength="100"class="bg-circle"/>
+        <circle r="65" cx="50%" cy="50%" pathlength="100" class="progress-circle"/>
+    </svg>
+    <span>75%</span>
+</div>
+<!--
 <div class="w-1/3 p-4 bg-white rounded-lg shadow-lg">
     <h1 class="text-2xl font-bold mb-4 text-center">Gráfico de Porcentaje</h1>
     <div class="relative pt-1">
         <div class="flex mb-2 items-center justify-between">
             <div>
                 <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
-                    {{ $label }}
+                   
                 </span>
             </div>
             <div class="text-right">
                 <span class="text-xs font-semibold inline-block text-teal-600">
-                    {{ $percentage }}%
+                   
                 </span>
             </div>
         </div>
         <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200">
-            <div style="width: {{ $percentage }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
+            <div style="width: " class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
         </div>
     </div>
 </div>
+-->
+@endsection
+
+@section('contenido')
+
 
     <div class="md:w-1/2 p-10 bg-white rounded-lg shadow-xl mt-10 md:mt-0">
         @if (session('success'))

@@ -11,4 +11,42 @@
     right: 20px; 
 }
 
+@keyframes rellenar {
+    to{
+        stroke-dasharray: var(--porcentaje) 100;
+    }
+}
+
+.porcentajes{
+    position: relative;
+}
+.porcentajes span{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    bottom: 0%;
+    right: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 20px/1em Verdana;
+}
+
+circle {
+    fill: none;
+    stroke-width: 20;
+    transform: rotate(-90deg);
+    transform-origin: 50%;
+}
+
+.bg-circle {
+    stroke: #AAA;
+    stroke-dasharray: 100 100;
+}
+
+.progress-circle {
+    stroke: blue;
+    stroke-dasharray: 0 100;
+    animation: rellenar .35s linear forwards;
+}
 
