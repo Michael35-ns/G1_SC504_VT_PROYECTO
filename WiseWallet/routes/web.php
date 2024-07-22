@@ -1,18 +1,31 @@
 <?php
 
-use App\Http\Controllers\GraficoController;
-use App\Http\Controllers\IngresoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\IngresoController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResennaController;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('resennas', ResennaController::class);
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/login',[LoginController::class, 'index'])->name('login');
+Route::post('/login',[LoginController::class,'store']);
+Route::post('/logout',[LogoutController::class, 'store'])->name('logout');
+
 Route::get('/crearIngreso', [IngresoController::class, 'index'])->name('crearIngreso');
-Route::get('/crearIngreso', [IngresoController::class, 'show'])->name('crearIngreso');
+Route::get('/crearGasto', [IngresoController::class, 'index'])->name('crearGasto');
+Route::post('/buscarIngresos', [IngresoController::class, 'store'])->name('buscarIngresos');
+
 Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso.store');
 
-Route::get('/grafico', [GraficoController::class, 'show'])->name('grafico');
 
 /*
 Route::get('/', function () {
