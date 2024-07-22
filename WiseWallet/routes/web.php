@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\IngresoController;
+use App\Http\Controllers\ObjetivoEconomicoController;
 use App\Http\Controllers\RegisterController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +25,10 @@ Route::get('/crearGasto', [IngresoController::class, 'index'])->name('crearGasto
 Route::post('/buscarIngresos', [IngresoController::class, 'store'])->name('buscarIngresos');
 
 Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso.store');
+
+Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])->name('objetivoEconomico');  // Asegúrate de tener esta línea
+
+Route::post('/objetivoEconomico', [ObjetivoEconomicoController::class, 'store'])->name('objetivoEconomico.store'); //
 
 
 /*

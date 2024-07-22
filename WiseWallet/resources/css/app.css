@@ -45,7 +45,7 @@ circle {
 }
 
 .progress-circle {
-    stroke: blue;
+    stroke: var(--color);
     stroke-dasharray: 0 100;
     animation: rellenar .35s linear forwards;
 }
@@ -78,7 +78,3 @@ circle {
   text-align: left;
   color: white;
 }
-   
-
-
-

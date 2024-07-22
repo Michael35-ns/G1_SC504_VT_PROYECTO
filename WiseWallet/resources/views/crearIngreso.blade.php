@@ -9,7 +9,7 @@
         <div></div>
 
         <div>
-            <div class="porcentajes" style="--porcentaje: 75">
+            <div class="porcentajes" style="--porcentaje: 75;--color: blue;">
                 <svg width="150" heigth="150">
                     <circle r="68" cx="50%" cy="50%" pathlength="100"class="bg-circle" />
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" />
