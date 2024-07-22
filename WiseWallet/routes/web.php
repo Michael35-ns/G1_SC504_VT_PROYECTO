@@ -6,13 +6,15 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\ObjetivoEconomicoController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResennaController;
+
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::resource('resennas', ResennaController::class);
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
