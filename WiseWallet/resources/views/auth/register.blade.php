@@ -17,16 +17,16 @@
                     <label for="nombre_completo" class="mb-2 block text-white font-bold">
                         Nombre completo:
                     </label>
-                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required>
-                    <input type="text" id="apellido1" name="apellido1" class="form-control" placeholder="Apellido1">
-                    <input type="text" id="apellido2" name="apellido2" class="form-control" placeholder="Apellido2">
+                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" class="form-control border p-2 rounded-lg" required/>
+                    <input type="text" id="apellido1" name="apellido1" class="form-control" placeholder="Apellido1" class="form-control border p-2 rounded-lg"/>
+                    <input type="text" id="apellido2" name="apellido2" class="form-control" placeholder="Apellido2" class="form-control border p-2 rounded-lg"/>
                 </div>
                 <div class="mb-5">
                     <label for="username" class="mb-2 block text-white font-bold">
                         Nombre de usuario
                     </label>
                     <input id="username" name="username" type="text" placeholder="Nombre usuario"
-                        class="form-control border p-3 w-full rounded-lg @error('username') border-red-500 @enderror"
+                        class="form-control border p-2 w-full rounded-lg @error('username') border-red-500 @enderror"
                         value="{{ old('username') }}" />
                     @error('username')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
@@ -37,7 +37,7 @@
                         Email
                     </label>
                     <input id="email" name="email" type="email" placeholder="Tu Email de Registro"
-                        class="form-control border p-3 w-full rounded-lg @error('email') border-red-500 @enderror"
+                        class="form-control border p-2 w-full rounded-lg @error('email') border-red-500 @enderror"
                         value="{{ old('email') }}" />
                     @error('email')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
@@ -48,7 +48,7 @@
                         Contraseña
                     </label>
                     <input id="password" name="password" type="password" placeholder="Password de Registro"
-                        class="form-control border p-3 w-full rounded-lg @error('password') border-red-500 @enderror" />
+                        class="form-control border p-2 w-full rounded-lg @error('password') border-red-500 @enderror" />
                     @error('password')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                     @enderror
@@ -57,7 +57,7 @@
                     <label for="image" class="mb-2 block text-white font-bold">
                         Foto de perfil
                     </label>
-                    <input id="image" name="image" type="file" class="form-control input-mediano border p-3 w-full rounded-lg @error('image') border-red-500 @enderror" />
+                    <input id="image" name="image" type="file" class="form-control input-mediano border p-2 w-full rounded-lg @error('image') border-red-500 @enderror" />
                     @error('image')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                     @enderror
