@@ -6,6 +6,9 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\ObjetivoEconomicoController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResennaController;
+use App\Http\Controllers\PresupuestoController;
+
 
 
 Route::get('/', function () {
@@ -30,6 +33,7 @@ Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])-
 
 Route::post('/objetivoEconomico', [ObjetivoEconomicoController::class, 'store'])->name('objetivoEconomico.store'); //
 
+Route::resource('presupuestos', PresupuestoController::class)->only(['index', 'show']);
 
 /*
 Route::get('/', function () {
