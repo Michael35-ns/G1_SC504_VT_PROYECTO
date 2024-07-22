@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::get('/crearIngreso', [IngresoController::class, 'index'])->name('crearIngreso');
 Route::get('/crearGasto', [IngresoController::class, 'index'])->name('crearGasto');
 Route::post('/buscarIngresos', [IngresoController::class, 'store'])->name('buscarIngresos');
-
+Route::post('/registrarIngreso', [IngresoController::class, 'store'])->name('registrarIngresos');
 Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso.store');
 
 

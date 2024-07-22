@@ -67,7 +67,7 @@
             </div>
         </aside>
         <main class="w-full p-5 min-h-10 overflow-y-auto">
-            <div class="flex flex-col p-4 md:gap-8 gap-4 h-full border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <div class="flex flex-col p-4 md:gap-8 gap-4 h-full">
                 <h1 class="font-black text-gray-900 text-center text-5xl">
                     @yield('titulo')
                 </h1>
@@ -77,6 +77,12 @@
             </div>
         </main>
     </div>
+
+
+
+    @stack('js')
+
+
 </body>
 
 </html>
