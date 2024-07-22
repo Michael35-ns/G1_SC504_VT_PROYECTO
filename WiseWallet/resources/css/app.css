@@ -34,7 +34,7 @@
 
 circle {
     fill: none;
-    stroke-width: 20;
+    stroke-width: 14;
     transform: rotate(-90deg);
     transform-origin: 50%;
 }
@@ -45,8 +45,36 @@ circle {
 }
 
 .progress-circle {
-    stroke: blue;
+    stroke: var(--color);
     stroke-dasharray: 0 100;
     animation: rellenar .35s linear forwards;
 }
 
+.content_login {
+  position: relative;
+}
+.contenedor-imagen{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+.contenedor-imagen::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  background-color: #0b0b0c;
+  opacity: 0.5;
+}
+.container-login{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  text-align: left;
+  color: white;
+}
