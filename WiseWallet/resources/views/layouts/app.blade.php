@@ -42,7 +42,7 @@
                 <span class="-mr-1 font-medium">WiseWallet</span>
             </div>
             <div>
-                <a href="{{ route('login') }}" class="usuario_img" >
+                <a href="{{ route('login') }}" class="usuario_img">
                     <img src="https://cdn-icons-png.flaticon.com/512/1057/1057231.png" class="w-11" alt="Usuario">
                 </a>
             </div>
@@ -73,7 +73,7 @@
                                 </a>
                             </li>
                             <li class="min-w-max">
-                                <a href="#"
+                                <a href="{{ route('resennas.index') }}"
                                     class="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-gray-800 transition-all duration-300">
                                     <img src="https://cdn-icons-png.flaticon.com/512/2990/2990468.png" class="w-9"
                                         alt="Reseñas">
@@ -81,7 +81,7 @@
                                 </a>
                             </li>
                             <li class="min-w-max">
-                                <a href="{{ route('objetivoEconomico') }}"
+                                <a href="{{ route('objetivoEconomico') }}"
                                     class="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-gray-800 transition-all duration-300">
                                     <img src="https://cdn-icons-png.flaticon.com/512/5917/5917200.png" class="w-9"
                                         alt="ObjetivosEconomicos">

@@ -20,7 +20,7 @@
                 <span class="ml-2 text-gray-500 text-sm">15 Jul 2024</span>
             </div>
             <p class="text-lg font-semibold text-gray-700">Excelente Servicio</p>
-            <p class="text-gray-600">Tuve una experiencia maravillosa con el producto. La calidad superó mis expectativas y el servicio al cliente fue excepcional.</p>
+            <p class="text-gray-600">Tuve una experiencia maravillosa con la página. La informacion superó mis expectativas y el servicio fue excepcional.</p>
 
             <div class="flex items-center mt-2">
                 @for ($i = 1; $i <= 5; $i++)
@@ -31,7 +31,7 @@
                 @endfor
             </div>
 
-            @if (auth()->user() && (auth()->user()->id == 1 || auth()->user()->is_admin)) <!-- Reemplazar 1 con el ID del usuario autenticado -->
+            @if (auth()->user() && (auth()->user()->id == 1 || auth()->user()->is_admin)) =
                 <div class="flex justify-end mt-2">
                     <a href="{{ route('resennas.edit', 1) }}" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 rounded mr-2">
                         Editar
@@ -54,7 +54,7 @@
                 <span class="ml-2 text-gray-500 text-sm">10 Jul 2024</span>
             </div>
             <p class="text-lg font-semibold text-gray-700">Muy Satisfecha</p>
-            <p class="text-gray-600">El producto es de excelente calidad. La entrega fue puntual y el empaquetado muy cuidadoso. Definitivamente volveré a comprar.</p>
+            <p class="text-gray-600">Completamente satisfecha con la experiencia de usar esta pagina, todo muy util y valioso.</p>
 
             <div class="flex items-center mt-2">
                 @for ($i = 1; $i <= 5; $i++)
@@ -88,7 +88,7 @@
                 <span class="ml-2 text-gray-500 text-sm">05 Jul 2024</span>
             </div>
             <p class="text-lg font-semibold text-gray-700">Buen Producto</p>
-            <p class="text-gray-600">El producto cumple con lo prometido. Aunque el tiempo de entrega fue un poco largo, el artículo llegó en buen estado.</p>
+            <p class="text-gray-600">Seguire usando la pagina para administrar mi dinero, definitivamente me ha ayudado.</p>
 
             <div class="flex items-center mt-2">
                 @for ($i = 1; $i <= 5; $i++)
