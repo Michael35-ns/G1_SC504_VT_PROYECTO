@@ -103,7 +103,7 @@
             ];
         @endphp
 
-        <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', OpenRegistrarIngreso: false }" class="flex flex-col gap-5 py-5">
+        <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', OpenRegistrarIngreso: false, OpenEditarIngreso: false, OpenVerInfo: false }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
 
                 <div class="flex w-60 rounded-full bg-gray-200">
@@ -132,7 +132,7 @@
 
             </div>
 
-            {{-- Formulario oculto --}}
+            {{-- Filtros --}}
             <div x-show="open" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
@@ -186,12 +186,12 @@
                                 </div>
                             </div>
                             <div class="flex space-x-2">
-                                <a href="#"
+                                <a href="#" @click="OpenVerInfo=true"
                                     class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition gap-2">
                                     <span>Ver Más</span>
                                     <x-icons.ver class="!w-5 !h-5" />
                                 </a>
-                                <a href="#"
+                                <a href="#" @click="OpenEditarIngreso=true"
                                     class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition">
                                     <span>Actualizar</span>
                                     <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
@@ -214,7 +214,7 @@
             <div x-show="OpenRegistrarIngreso" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
-                    action="{{ route('buscarIngresos') }}" method="POST"
+                    action="{{ route('registrarIngresos') }}" method="POST"
                     class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
                     @csrf
                     <h3 class="text-lg font-semibold mb-4">Agregar Ingreso</h3>
@@ -258,6 +258,71 @@
                     </div>
                 </form>
             </div>
+
+            {{-- Editar Ingreso --}}
+            <div x-show="OpenEditarIngreso" style="display: none"
+                class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
+                    action="{{ route('registrarIngresos') }}" method="POST"
+                    class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
+                    @csrf
+                    <h3 class="text-lg font-semibold mb-4">Editar Ingreso</h3>
+                    <div class="mb-4">
+                        <label for="NombreIngreso" class="block text-sm text-gray-700">Nombre del ingreso</label>
+                        <input type="text" id="NombreIngreso" name="NombreIngreso" x-model="NombreIngreso"
+                            class="border border-gray-300 rounded w-full py-2 px-4">
+                    </div>
+                    <div class="mb-4">
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
+                        <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
+                            <option value="Emprendimiento">Emprendimiento</option>
+                            <option value="Trabajo">Trabajo</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                        <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <x-calendario.calendario />
+                    </div>
+                    <div class="mb-4">
+                        <label for="monto" class="block text-sm font-medium text-gray-700">Monto</label>
+                        <input type="number" id="monto" name="monto"
+                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Monto Activo</label>
+                        <select class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
+                            <option class="text-white" value="mensual">Mensual</option>
+                            <option class="text-white" value="anual">Anual</option>
+                            <option class="text-white" value="semanal">Semanal</option>
+                            <option class="text-white" value="diario">Diario</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" @click="OpenEditarIngreso = false"
+                            class="py-2 px-4 bg-red-500  text-white rounded">Cancelar</button>
+                        <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+            {{-- Ver más informacion del ingreso --}}
+            <div x-show="OpenVerInfo" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-bold mb-4">Detalles del Ingreso</h2>
+                    <div class="mb-2"><strong>Categoria:</strong> <span x-text="selectedIngreso.categoria"></span></div>
+                    <div class="mb-2"><strong>Fecha:</strong> <span x-text="selectedIngreso.fecha"></span></div>
+                    <div class="mb-2"><strong>Descripción:</strong> <span x-text="selectedIngreso.decripcion"></span>
+                    </div>
+                    <div class="mb-2"><strong>Monto:</strong> <span x-text="selectedIngreso.monto"></span></div>
+                    <div class="mb-2"><strong>Estado:</strong> <span x-text="selectedIngreso.estado"></span></div>
+                    <button @click="OpenVerInfo=false"
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Cerrar</button>
+                </div>
+            </div>
+
 
             <div x-show="confirmacionEliminar" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
