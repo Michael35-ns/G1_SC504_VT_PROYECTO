@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\GraficoController;
+use App\Http\Controllers\GastoController;
 use App\Http\Controllers\IngresoController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/crearIngreso', [IngresoController::class, 'index'])->name('crearIngreso');
-Route::get('/crearGasto', [IngresoController::class, 'index'])->name('crearGasto');
+Route::get('/crearGasto', [GastoController::class, 'index'])->name('crearGasto');
 Route::post('/buscarIngresos', [IngresoController::class, 'store'])->name('buscarIngresos');
 Route::post('/registrarIngreso', [IngresoController::class, 'store'])->name('registrarIngresos');
 Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso.store');

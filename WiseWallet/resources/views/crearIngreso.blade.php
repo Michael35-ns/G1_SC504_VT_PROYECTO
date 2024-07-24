@@ -116,7 +116,7 @@
                 </div>
 
                 <div class="ml-4">
-                    <button @click="open=true" class="w-full py-2 px-4 bg-cyan-600 text-white rounded-lg">
+                    <button @click="open=true" class="w-full py-2 px-4 bg-cyan-600 text-white rounded-full">
                         Aplicar Filtros
                     </button>
                 </div>
@@ -125,7 +125,7 @@
 
                 {{-- Crear ingreso --}}
                 <div>
-                    <button @click="OpenRegistrarIngreso=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded">
+                    <button @click="OpenRegistrarIngreso=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
                         Crear Ingreso
                     </button>
                 </div>
@@ -309,7 +309,8 @@
             </div>
 
             {{-- Ver más informacion del ingreso --}}
-            <div x-show="OpenVerInfo" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+            <div x-show="OpenVerInfo" style="display: none"
+                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                     <h2 class="text-xl font-bold mb-4">Detalles del Ingreso</h2>
                     <div class="mb-2"><strong>Categoria:</strong> <span x-text="selectedIngreso.categoria"></span></div>
