@@ -213,8 +213,8 @@
             {{-- Popup Crear Ingreso --}}
             <div x-show="OpenRegistrarIngreso" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
-                    action="{{ route('registrarIngresos') }}" method="POST"
+                <form x-on:submit.prevent="document.getElementById('registrarIngresoForm').submit()"
+                    id="registrarIngresoForm" action="{{ route('registrarIngresos') }}" method="POST"
                     class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
                     @csrf
                     <h3 class="text-lg font-semibold mb-4">Agregar Ingreso</h3>
@@ -235,7 +235,9 @@
                         <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
                     </div>
                     <div class="mb-4">
-                        <x-calendario.calendario />
+                        <label for="fecha">Fecha del gasto:</label>
+                        <input type="date" id="fecha" name="fecha"
+                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
                     </div>
                     <div class="mb-4">
                         <label for="monto" class="block text-sm font-medium text-gray-700">Monto</label>
@@ -249,6 +251,7 @@
                             <option class="text-white" value="anual">Anual</option>
                             <option class="text-white" value="semanal">Semanal</option>
                             <option class="text-white" value="diario">Diario</option>
+                            <option class="text-white" value="unico">Unico</option>
                         </select>
                     </div>
                     <div class="flex justify-end space-x-4">
@@ -259,10 +262,11 @@
                 </form>
             </div>
 
+
             {{-- Editar Ingreso --}}
             <div x-show="OpenEditarIngreso" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
+                <form x-on:submit.prevent="document.getElementById('editarIngresoForm').submit()" id="editarIngresoForm"
                     action="{{ route('registrarIngresos') }}" method="POST"
                     class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
                     @csrf

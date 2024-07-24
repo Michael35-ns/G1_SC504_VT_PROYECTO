@@ -2,31 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\User;
+use App\Models\Ingreso;
 use Illuminate\Http\Request;
 
 class IngresoController extends Controller
 {
-
-    public function index(){
+    public function index()
+    {
         return view('crearIngreso');
     }
 
     public function store(Request $request)
     {
         // Validar los datos del formulario
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
+        $validatedData = $request->validate([
+            'NombreIngreso' => 'required|string|max:50',
+            'categoria' => 'required|string|max:50',
+            'descripcion' => 'required|string|max:200',
+            'monto' => 'required|numeric',
         ]);
+        
+        $data = [
+            'DESCRIPCION_INGRESO' => $validatedData['descripcion'],
+            'MONTO_INGRESO' => $validatedData['monto'],
+            'FECHA_INGRESO' => now(),
+            'ID_USUARIO' => auth()->id(),
+            'ID_TRANSACCION' => null,
+            'ID_ESTADO' => 1,
+        ];
 
-        // Guardar el ingreso en la base de datos
-        // Aquí deberías añadir tu lógica para guardar el ingreso
-        // Por ejemplo:
-        // Ingreso::create($request->all());
+        $ingreso = new Ingreso();
+        $ingreso->agregarIngreso($data);
 
-        // Redirigir a una ruta o vista específica
         return redirect()->route('crearIngreso')->with('success', 'Ingreso creado con éxito');
     }
 
@@ -37,5 +44,4 @@ class IngresoController extends Controller
 
         return view('crearIngreso', compact('label', 'percentage'));
     }
-
 }
