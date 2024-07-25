@@ -78,32 +78,29 @@
         </nav>
 
         @php
-            $ingresos = [
+            $gastos = [
                 [
-                    'categoria' => 'Emprendimiento',
+                    'categoria' => 'Fiesta',
                     'fecha' => '2024-07-01',
-                    'decripcion' => 'Venta de producto A',
                     'monto' => 1500,
-                    'estado' => 'Activo',
+                    'estado' => 'Unico',
                 ],
                 [
-                    'categoria' => 'Trabajo',
+                    'categoria' => 'Universidad',
                     'fecha' => '2024-07-01',
-                    'decripcion' => 'Servicio de consultoría',
                     'monto' => 2000,
                     'estado' => 'Activo',
                 ],
                 [
-                    'categoria' => 'Emprendimiento',
+                    'categoria' => 'Alimentacion',
                     'fecha' => '2024-07-01',
-                    'decripcion' => 'Venta de producto B',
                     'monto' => 3000,
-                    'estado' => 'Activo',
+                    'estado' => 'Unico',
                 ],
             ];
         @endphp
 
-        <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', OpenRegistrarIngreso: false, OpenEditarIngreso: false, OpenVerInfo: false }" class="flex flex-col gap-5 py-5">
+        <section x-data="{ aplicarFiltro: '', filtro: '', search: '', confirmacionEliminar: '', OpenCategoria: '', OpenCrearCategoria: '', OpenEliminarCategoria: '', OpenRegistrarGasto: '', OpenEditarGasto: '', OpenVerInfo: '' }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
 
                 <div class="flex w-60 rounded-full bg-gray-200">
@@ -116,16 +113,17 @@
                 </div>
 
                 <div class="ml-4">
-                    <button @click="open=true" class="w-full py-2 px-4 bg-cyan-600 text-white rounded-full">
+                    <button @click="aplicarFiltro=true" class="w-full py-2 px-4 bg-cyan-600 text-white rounded-full">
                         Aplicar Filtros
                     </button>
                 </div>
-
-                <div></div>
-
-                {{-- Crear ingreso --}}
                 <div>
-                    <button @click="OpenRegistrarIngreso=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
+                    <button @click="OpenCategoria=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
+                        Crear categoria
+                    </button>
+                </div>
+                <div>
+                    <button @click="OpenRegistrarGasto=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
                         Crear Gasto
                     </button>
                 </div>
@@ -133,7 +131,7 @@
             </div>
 
             {{-- Filtros --}}
-            <div x-show="open" style="display: none"
+            <div x-show="aplicarFiltro" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
                     action="{{ route('buscarIngresos') }}" method="POST"
@@ -155,7 +153,8 @@
                         </select>
                     </div>
                     <div class="flex justify-end space-x-4">
-                        <button type="button" @click="open = false" class="py-2 px-4 bg-gray-300 rounded">Cancelar</button>
+                        <button type="button" @click="aplicarFiltro = false"
+                            class="py-2 px-4 bg-gray-300 rounded">Cancelar</button>
                         <button type="submit" class="py-2 px-4 bg-cyan-600 text-white rounded">Aplicar</button>
                     </div>
                 </form>
@@ -165,24 +164,20 @@
             {{-- Lista de resultados --}}
             <div class="col-span-full">
                 <div class="divide-y divide-gray-600 w-3/4 mx-auto bg-white shadow-md rounded-lg">
-                    @foreach ($ingresos as $ingreso)
+                    @foreach ($gastosTabla as $gastosTabla)
                         <div class="py-4 px-4 flex justify-between items-center">
                             <div class="flex-1">
                                 <div class="px-3 py-1 text-left text-xs font-medium text-black uppercase tracking-wider">
-                                    Categoria: <span class="font-bold text-gray-700">{{ $ingreso['categoria'] }}</span>
+                                    Categoria: <span class="font-bold text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['ID_TRANSACCION'] }}</span>
                                 </div>
                                 <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fecha: <span class="font-normal text-gray-700">{{ $ingreso['fecha'] }}</span>
+                                    Fecha: <span class="font-normal text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['FECHA_GASTO'] }}</span>
                                 </div>
                                 <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Descripción: <span
-                                        class="font-normal text-gray-700">{{ $ingreso['decripcion'] }}</span>
+                                    Monto: <span class="font-normal text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['MONTO_GASTO'] }}</span>
                                 </div>
                                 <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Monto: <span class="font-normal text-gray-700">{{ $ingreso['monto'] }}</span>
-                                </div>
-                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Estado: <span class="font-normal text-gray-700">{{ $ingreso['estado'] }}</span>
+                                    Estado: <span class="font-normal text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['ID_ESTADO'] }}</span>
                                 </div>
                             </div>
                             <div class="flex space-x-2">
@@ -191,7 +186,7 @@
                                     <span>Ver Más</span>
                                     <x-icons.ver class="!w-5 !h-5" />
                                 </a>
-                                <a href="#" @click="OpenEditarIngreso=true"
+                                <a href="#" @click="OpenEditarGasto=true"
                                     class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition">
                                     <span>Actualizar</span>
                                     <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
@@ -209,33 +204,20 @@
                 </div>
             </div>
 
-
-            {{-- Popup Crear Ingreso --}}
-            <div x-show="OpenRegistrarIngreso" style="display: none"
+            {{-- Popup Crear Gasto --}}
+            <div x-show="OpenRegistrarGasto" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
                     action="{{ route('registrarIngresos') }}" method="POST"
                     class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
                     @csrf
-                    <h3 class="text-lg font-semibold mb-4">Agregar Ingreso</h3>
-                    <div class="mb-4">
-                        <label for="NombreIngreso" class="block text-sm text-gray-700">Nombre del ingreso</label>
-                        <input type="text" id="NombreIngreso" name="NombreIngreso" x-model="NombreIngreso"
-                            class="border border-gray-300 rounded w-full py-2 px-4">
-                    </div>
+                    <h3 class="text-lg font-semibold mb-4">Agregar Gasto</h3>
                     <div class="mb-4">
                         <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
                         <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
-                            <option value="Emprendimiento">Emprendimiento</option>
-                            <option value="Trabajo">Trabajo</option>
+                            <option value="Emprendimiento">Universidad</option>
+                            <option value="Trabajo">Fiesta</option>
                         </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                        <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <x-calendario.calendario />
                     </div>
                     <div class="mb-4">
                         <label for="monto" class="block text-sm font-medium text-gray-700">Monto</label>
@@ -243,48 +225,47 @@
                             class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Monto Activo</label>
+                        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                        <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="fecha">Fecha del gasto:</label>
+                        <input type="date" id="fecha" name="fecha"
+                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Estado del
+                            gasto:</label>
                         <select class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
                             <option class="text-white" value="mensual">Mensual</option>
                             <option class="text-white" value="anual">Anual</option>
                             <option class="text-white" value="semanal">Semanal</option>
                             <option class="text-white" value="diario">Diario</option>
+                            <option class="text-white" value="diario">Unico</option>
                         </select>
                     </div>
                     <div class="flex justify-end space-x-4">
-                        <button type="button" @click="OpenRegistrarIngreso = false"
+                        <button type="button" @click="OpenRegistrarGasto = false"
                             class="py-2 px-4 bg-red-500  text-white rounded">Cancelar</button>
                         <button type="submit" class="py-2 px-4 bg-green-500 text-white rounded">Agregar</button>
                     </div>
                 </form>
             </div>
 
-            {{-- Editar Ingreso --}}
-            <div x-show="OpenEditarIngreso" style="display: none"
+            {{-- Editar Gasto --}}
+            <div x-show="OpenEditarGasto" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
                     action="{{ route('registrarIngresos') }}" method="POST"
                     class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
                     @csrf
-                    <h3 class="text-lg font-semibold mb-4">Editar Ingreso</h3>
-                    <div class="mb-4">
-                        <label for="NombreIngreso" class="block text-sm text-gray-700">Nombre del ingreso</label>
-                        <input type="text" id="NombreIngreso" name="NombreIngreso" x-model="NombreIngreso"
-                            class="border border-gray-300 rounded w-full py-2 px-4">
-                    </div>
+                    <h3 class="text-lg font-semibold mb-4">Editar Gasto</h3>
                     <div class="mb-4">
                         <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
                         <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
-                            <option value="Emprendimiento">Emprendimiento</option>
-                            <option value="Trabajo">Trabajo</option>
+                            <option value="Emprendimiento">Universidad</option>
+                            <option value="Trabajo">Fiesta</option>
                         </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                        <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <x-calendario.calendario />
                     </div>
                     <div class="mb-4">
                         <label for="monto" class="block text-sm font-medium text-gray-700">Monto</label>
@@ -292,32 +273,43 @@
                             class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Monto Activo</label>
+                        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                        <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="fecha">Fecha del gasto:</label>
+                        <input type="date" id="fecha" name="fecha"
+                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Estado del
+                            gasto:</label>
                         <select class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
                             <option class="text-white" value="mensual">Mensual</option>
                             <option class="text-white" value="anual">Anual</option>
                             <option class="text-white" value="semanal">Semanal</option>
                             <option class="text-white" value="diario">Diario</option>
+                            <option class="text-white" value="diario">Unico</option>
                         </select>
                     </div>
                     <div class="flex justify-end space-x-4">
-                        <button type="button" @click="OpenEditarIngreso = false"
+                        <button type="button" @click="OpenEditarGasto = false"
                             class="py-2 px-4 bg-red-500  text-white rounded">Cancelar</button>
                         <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded">Guardar</button>
                     </div>
                 </form>
             </div>
 
-            {{-- Ver más informacion del ingreso --}}
+            {{-- Ver más informacion del Gasto --}}
             <div x-show="OpenVerInfo" style="display: none"
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-                    <h2 class="text-xl font-bold mb-4">Detalles del Ingreso</h2>
+                    <h2 class="text-xl font-bold mb-4">Detalles del gasto</h2>
                     <div class="mb-2"><strong>Categoria:</strong> <span x-text="selectedIngreso.categoria"></span></div>
                     <div class="mb-2"><strong>Fecha:</strong> <span x-text="selectedIngreso.fecha"></span></div>
+                    <div class="mb-2"><strong>Monto:</strong> <span x-text="selectedIngreso.monto"></span></div>
                     <div class="mb-2"><strong>Descripción:</strong> <span x-text="selectedIngreso.decripcion"></span>
                     </div>
-                    <div class="mb-2"><strong>Monto:</strong> <span x-text="selectedIngreso.monto"></span></div>
                     <div class="mb-2"><strong>Estado:</strong> <span x-text="selectedIngreso.estado"></span></div>
                     <button @click="OpenVerInfo=false"
                         class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Cerrar</button>
@@ -330,7 +322,7 @@
                 <div class="bg-gray-950 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
                     <img src="https://cdn-icons-png.flaticon.com/512/3817/3817209.png" alt="confirmación" width="60px"
                         height="60px" class="mx-auto mb-4">
-                    <p class="text-lg mb-4">¿Estás seguro que quieres eliminar este ingreso?</p>
+                    <p class="text-lg mb-4">¿Estás seguro que quieres eliminar este gasto?</p>
                     <div class="flex justify-center space-x-4">
                         <button @click="confirmacionEliminar = false"
                             class="py-2 px-4 bg-blue-500 text-white rounded-lg w-24">No</button>
@@ -341,10 +333,56 @@
             </div>
 
 
-            {{-- Paginación de la lista --}}
-            <div class="col-span-full mt-4">
-                {{-- Aquí puedes agregar los controles de paginación --}}
+            <div x-show="OpenCategoria" x-transition
+                class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
+                    <p class="text-lg mb-4">Categorías:</p>
+                    <div class="flex justify-center space-x-4">
+                        <button @click="OpenCrearCategoria = true; OpenCategoria = false"
+                            class="py-2 px-4 bg-blue-500 text-white rounded-lg w-24">Crear</button>
+                        <button @click="OpenEliminarCategoria = true; OpenCategoria = false"
+                            class="py-2 px-4 bg-red-400 text-white rounded-lg w-24">Eliminar</button>
+                        <button @click="OpenCategoria = false"
+                            class="py-2 px-4 bg-red-500 text-white rounded-lg w-24 hover:bg-red-600 transition">Cerrar</button>
+                    </div>
+                </div>
             </div>
+
+            <div x-show="OpenCrearCategoria" x-transition
+                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-bold mb-4">Crear una nueva categoría de gasto</h2>
+                    <div class="mb-4">
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                        <input type="text" id="categoria" name="categoria"
+                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                    </div>
+                    <button @click="OpenCrearCategoria = false"
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Agregar</button>
+                    <button @click="OpenCrearCategoria = false"
+                        class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                </div>
+            </div>
+
+            <div x-show="OpenEliminarCategoria" x-transition
+                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-bold mb-4">Eliminar una categoría de gasto</h2>
+                    <div class="mb-4">
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                        <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
+                            <option value="Emprendimiento">Universidad</option>
+                            <option value="Trabajo">Fiesta</option>
+                        </select>
+                    </div>
+                    <button @click="OpenEliminarCategoria = false"
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Eliminar</button>
+                    <button @click="OpenEliminarCategoria = false"
+                        class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                </div>
+            </div>
+
+
 
         </section>
 
