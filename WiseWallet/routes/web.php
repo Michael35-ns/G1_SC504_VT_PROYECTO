@@ -32,7 +32,11 @@ Route::post('/crearIngreso', [IngresoController::class, 'store'])->name('ingreso
 
 Route::get('/crear-objetivo', [ObjetivoEconomicoController::class, 'create'])->name('crearObjetivoEconomico');
 Route::post('/agregar-objetivo', [ObjetivoEconomicoController::class, 'agregarObjetivo']);
+<<<<<<< Updated upstream
 Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])->name('objetivoEconomico');
 
 
 
+=======
+Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])->name('objetivoEconomico');
+>>>>>>> Stashed changes

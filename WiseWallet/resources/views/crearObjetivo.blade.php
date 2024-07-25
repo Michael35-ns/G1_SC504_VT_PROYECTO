@@ -67,7 +67,11 @@
             </div>
 
             <div class="flex justify-end space-x-4">
+<<<<<<< Updated upstream
                 <a href="welcome"><button type="button" class="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition">Cancelar</button></a>
+=======
+                <a href="{{ url('/objetivoEconomico') }}"><button type="button" class="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition">Cancelar</button></a>
+>>>>>>> Stashed changes
                 <button type="submit" class="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition">Procesar</button>
             </div>
         </form>
