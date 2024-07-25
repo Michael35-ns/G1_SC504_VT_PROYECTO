@@ -32,6 +32,7 @@ Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])-
 
 Route::post('/objetivoEconomico', [ObjetivoEconomicoController::class, 'store'])->name('objetivoEconomico.store'); //
 
+Route::resource('presupuestos', PresupuestoController::class)->only(['index', 'show']);
 
 /*
 Route::get('/', function () {
