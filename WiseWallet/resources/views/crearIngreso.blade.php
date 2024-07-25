@@ -213,8 +213,8 @@
             {{-- Popup Crear Ingreso --}}
             <div x-show="OpenRegistrarIngreso" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                <form x-on:submit.prevent="document.getElementById('registrarIngresoForm').submit()"
-                    id="registrarIngresoForm" action="{{ route('registrarIngresos') }}" method="POST"
+                <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
+                    action="{{ route('registrarIngresos') }}" method="POST"
                     class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
                     @csrf
                     <h3 class="text-lg font-semibold mb-4">Agregar Ingreso</h3>
@@ -226,8 +226,10 @@
                     <div class="mb-4">
                         <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
                         <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
-                            <option value="Emprendimiento">Emprendimiento</option>
-                            <option value="Trabajo">Trabajo</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria['ID_TRANSACCION'] }}">{{ $categoria['TIPO_TRANSACCION'] }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-4">
@@ -235,9 +237,7 @@
                         <textarea id="descripcion" name="descripcion" class="border border-gray-300 rounded w-full py-2 px-4"></textarea>
                     </div>
                     <div class="mb-4">
-                        <label for="fecha">Fecha del gasto:</label>
-                        <input type="date" id="fecha" name="fecha"
-                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                        <x-calendario.calendario />
                     </div>
                     <div class="mb-4">
                         <label for="monto" class="block text-sm font-medium text-gray-700">Monto</label>
@@ -261,6 +261,7 @@
                     </div>
                 </form>
             </div>
+
 
 
             {{-- Editar Ingreso --}}

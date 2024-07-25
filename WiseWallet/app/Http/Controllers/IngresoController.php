@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ingreso;
+use App\Models\FideCategoriaTransaccionTb;
+use App\Models\FideIngresosTb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IngresoController extends Controller
 {
     public function index()
     {
-        return view('crearIngreso');
+        // $categorias=FideCategoriaTransaccionTb::all();
+        $categorias = FideCategoriaTransaccionTb::SP_ALL_BY_ID(2);
+        return view('crearIngreso', compact('categorias'));
     }
 
     public function store(Request $request)
@@ -21,9 +25,9 @@ class IngresoController extends Controller
             'descripcion' => 'required|string|max:200',
             'monto' => 'required|numeric',
         ]);
-        
+
         $data = [
-            'DESCRIPCION_INGRESO' => $validatedData['descripcion'],
+            'DESCRIPCION_INGRESO' => $validatedData['NombreIngreso'],
             'MONTO_INGRESO' => $validatedData['monto'],
             'FECHA_INGRESO' => now(),
             'ID_USUARIO' => auth()->id(),
@@ -31,17 +35,9 @@ class IngresoController extends Controller
             'ID_ESTADO' => 1,
         ];
 
-        $ingreso = new Ingreso();
+        $ingreso = new FideIngresosTb();
         $ingreso->agregarIngreso($data);
 
         return redirect()->route('crearIngreso')->with('success', 'Ingreso creado con éxito');
-    }
-
-    public function show()
-    {
-        $label = 'Progreso';
-        $percentage = 75;
-
-        return view('crearIngreso', compact('label', 'percentage'));
     }
 }
