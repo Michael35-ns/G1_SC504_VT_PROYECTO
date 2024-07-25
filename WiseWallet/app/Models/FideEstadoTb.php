@@ -21,4 +21,7 @@ class FideEstadoTb extends Model
         'fecha_modificacion',
         'accion',
     ];
+
+    
+
 }

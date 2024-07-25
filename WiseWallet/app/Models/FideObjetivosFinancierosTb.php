@@ -61,4 +61,5 @@ class FideObjetivosFinancierosTb extends Model
     {
         return $this->belongsTo(FidePresupuestoTb::class, 'id_presupuesto');
     }
+
 }

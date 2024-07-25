@@ -11,7 +11,7 @@ class GastoController extends Controller
 {
 
     public function index(){
-        $gastosTabla = FideGastosTb::SP_ALL_BY_ID(2);
+        $gastosTabla = FideGastosTb::getGastosByUsuario(2);
         return view('crearGasto', compact('gastosTabla'));
     }
 

@@ -103,7 +103,7 @@
             ];
         @endphp
 
-        <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', OpenRegistrarIngreso: false, OpenEditarIngreso: false, OpenVerInfo: false }" class="flex flex-col gap-5 py-5">
+        <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', OpenCategoria: '', OpenCrearCategoria: '', OpenEliminarCategoria: '', OpenRegistrarIngreso: false, OpenEditarIngreso: false, OpenVerInfo: false }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
 
                 <div class="flex w-60 rounded-full bg-gray-200">
@@ -122,7 +122,11 @@
                 </div>
 
                 <div></div>
-
+                <div>
+                    <button @click="OpenCategoria=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
+                        Crear categoria
+                    </button>
+                </div>
                 {{-- Crear ingreso --}}
                 <div>
                     <button @click="OpenRegistrarIngreso=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
@@ -345,6 +349,54 @@
                 </div>
             </div>
 
+            <div x-show="OpenCategoria" x-transition
+                class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
+                    <p class="text-lg mb-4">Categorías:</p>
+                    <div class="flex justify-center space-x-4">
+                        <button @click="OpenCrearCategoria = true; OpenCategoria = false"
+                            class="py-2 px-4 bg-blue-500 text-white rounded-lg w-24">Crear</button>
+                        <button @click="OpenEliminarCategoria = true; OpenCategoria = false"
+                            class="py-2 px-4 bg-red-400 text-white rounded-lg w-24">Eliminar</button>
+                        <button @click="OpenCategoria = false"
+                            class="py-2 px-4 bg-red-500 text-white rounded-lg w-24 hover:bg-red-600 transition">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="OpenCrearCategoria" x-transition
+                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-bold mb-4">Crear una nueva categoría de gasto</h2>
+                    <div class="mb-4">
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                        <input type="text" id="categoria" name="categoria"
+                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                    </div>
+                    <button @click="OpenCrearCategoria = false"
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Agregar</button>
+                    <button @click="OpenCrearCategoria = false"
+                        class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                </div>
+            </div>
+
+            <div x-show="OpenEliminarCategoria" x-transition
+                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-bold mb-4">Eliminar una categoría de gasto</h2>
+                    <div class="mb-4">
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                        <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
+                            <option value="Emprendimiento">Universidad</option>
+                            <option value="Trabajo">Fiesta</option>
+                        </select>
+                    </div>
+                    <button @click="OpenEliminarCategoria = false"
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Eliminar</button>
+                    <button @click="OpenEliminarCategoria = false"
+                        class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                </div>
+            </div>
 
             {{-- Paginación de la lista --}}
             <div class="col-span-full mt-4">

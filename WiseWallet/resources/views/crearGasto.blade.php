@@ -77,29 +77,6 @@
             </span>
         </nav>
 
-        @php
-            $gastos = [
-                [
-                    'categoria' => 'Fiesta',
-                    'fecha' => '2024-07-01',
-                    'monto' => 1500,
-                    'estado' => 'Unico',
-                ],
-                [
-                    'categoria' => 'Universidad',
-                    'fecha' => '2024-07-01',
-                    'monto' => 2000,
-                    'estado' => 'Activo',
-                ],
-                [
-                    'categoria' => 'Alimentacion',
-                    'fecha' => '2024-07-01',
-                    'monto' => 3000,
-                    'estado' => 'Unico',
-                ],
-            ];
-        @endphp
-
         <section x-data="{ aplicarFiltro: '', filtro: '', search: '', confirmacionEliminar: '', OpenCategoria: '', OpenCrearCategoria: '', OpenEliminarCategoria: '', OpenRegistrarGasto: '', OpenEditarGasto: '', OpenVerInfo: '' }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
 
@@ -164,20 +141,21 @@
             {{-- Lista de resultados --}}
             <div class="col-span-full">
                 <div class="divide-y divide-gray-600 w-3/4 mx-auto bg-white shadow-md rounded-lg">
-                    @foreach ($gastosTabla as $gastosTabla)
+                    @foreach ($gastosTabla as $gastoTabla)
+
                         <div class="py-4 px-4 flex justify-between items-center">
                             <div class="flex-1">
                                 <div class="px-3 py-1 text-left text-xs font-medium text-black uppercase tracking-wider">
-                                    Categoria: <span class="font-bold text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['ID_TRANSACCION'] }}</span>
+                                    Categoria: <span class="font-bold text-gray-700">{{ $gastoTabla['TIPO_TRANSACCION'] }}</span>
                                 </div>
                                 <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fecha: <span class="font-normal text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['FECHA_GASTO'] }}</span>
+                                    Fecha: <span class="font-normal text-gray-700">{{ $gastoTabla['FECHA_GASTO'] }}</span>
                                 </div>
                                 <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Monto: <span class="font-normal text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['MONTO_GASTO'] }}</span>
+                                    Monto: <span class="font-normal text-gray-700">{{ $gastoTabla['MONTO_GASTO'] }}</span>
                                 </div>
                                 <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Estado: <span class="font-normal text-gray-700">"{{ $gastosTabla['ID_GASTO'] }}">{{ $gastosTabla['ID_ESTADO'] }}</span>
+                                    Estado: <span class="font-normal text-gray-700">{{ $gastoTabla['TIPO_ESTADO'] }}</span>
                                 </div>
                             </div>
                             <div class="flex space-x-2">
