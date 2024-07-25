@@ -7,6 +7,7 @@ use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\ObjetivoEconomicoController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResennaController;
+use App\Http\Controllers\PresupuestoController;
 
 
 
