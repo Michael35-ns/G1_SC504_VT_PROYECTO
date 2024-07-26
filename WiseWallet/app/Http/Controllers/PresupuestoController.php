@@ -9,7 +9,10 @@ class PresupuestoController extends Controller
 {
     public function index()
     {
-        return view('presupuesto.index', ['presupuestos' => Presupuesto::findMany([1, 5, 6, 7])]);
+        $defaultUser = 8;
+        $preuspuestosFound = Presupuesto::readByUserId($defaultUser);
+        // Presupuesto::findMany([1, 5, 6, 7])
+        return view('presupuesto.index', ['presupuestos' => $preuspuestosFound ]);
     }
 
     public function show(string $id)

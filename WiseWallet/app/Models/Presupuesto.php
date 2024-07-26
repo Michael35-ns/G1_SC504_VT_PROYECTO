@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use PDO;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Presupuesto extends Model
 {
@@ -15,28 +15,22 @@ class Presupuesto extends Model
     protected $primaryKey = 'ID_PRESUPUESTO';
     public $timestamps = false;
 
-    public function readById(): Presupuesto
+    public static function readByUserId(int $userId): Collection
     {
-        $results = DB::select("SELECT READ_ALL_PRESUPUESTOS_FN() AS mfrc FROM dual");
-        $presModels = Presupuesto::hydrate($results);
-        // $this->hydrate()->
 
-        
+        $stmtBinds = ["pUserId" => $userId];
+        $results = DB::select("SELECT READ_ALL_PRESUPUESTOS_FN(P_USER_ID => :pUserId) AS mfrc FROM dual", $stmtBinds);
+        $presModels = \App\Models\Presupuesto::hydrate($results);
+
+
         // $cursor = null;
-        $stmt = DB::getPdo()->prepare("DECLARE EMPS_DATA_C SYS_REFCURSOR; BEGIN G6_SC504_VT_PROYECTO.READ_BY_ID_PRESUPUESTO_SP(:id, :pidc); END;");
-        $stmt->bindParam(':pidc', $cursor, PDO::PARAM_STMT);
-        $stmt->bindParam(':id', $value1, PDO::PARAM_INT);
-        $stmt-> execute();
-    
-        $stmt = $cursor->stmt;
-        $stmt->execute();
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // // Fetch results from the cursor
-        // $stmt = $cursor->stmt;
-        // $stmt->execute();
-        // $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // return $results;
+        // $stmt = DB::getPdo()->prepare("DECLARE EMPS_DATA_C SYS_REFCURSOR; BEGIN G6_SC504_VT_PROYECTO.READ_BY_ID_PRESUPUESTO_SP(:id, :pidc); END;");
+        // $stmt->bindParam(':pidc', $cursor, PDO::PARAM_STMT);
+        // $stmt->bindParam(':id', $value1, PDO::PARAM_INT);
+        // $stmt-> execute();
 
-        return \App\Models\Presupuesto::factory(10)->create();
+        if ($presModels->isEmpty()) {
+            return \App\Models\Presupuesto::factory(10)->create();
+        } else return $presModels;
     }
 }
