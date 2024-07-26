@@ -1,0 +1,10 @@
+.tabActive {
+    @apply bg-gray-600 text-white !important
+}
+
+.wtab {
+    @apply hidden
+}
+.tab--active { 
+    @apply flex
+}
