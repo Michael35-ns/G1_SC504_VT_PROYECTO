@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-aside {
+    width: 66px; 
+}
+.usuario_img{
+    position: fixed;
+    top: 10px; /* Ajusta la distancia desde el borde superior según tu diseño */
+    right: 20px; 
+}
+
+@keyframes rellenar {
+    to{
+        stroke-dasharray: var(--porcentaje) 100;
+    }
+}
+
+.porcentajes{
+    position: relative;
+}
+.porcentajes span{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    bottom: 0%;
+    right: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 20px/1em Verdana;
+}
+
+circle {
+    fill: none;
+    stroke-width: 14;
+    transform: rotate(-90deg);
+    transform-origin: 50%;
+}
+
+.bg-circle {
+    stroke: #AAA;
+    stroke-dasharray: 100 100;
+}
+
+.progress-circle {
+    stroke: var(--color);
+    stroke-dasharray: 0 100;
+    animation: rellenar .35s linear forwards;
+}
+
+.content_login {
+  position: relative;
+}
+.contenedor-imagen{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+.contenedor-imagen::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  background-color: #0b0b0c;
+  opacity: 0.5;
+}
+.container-login{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  text-align: left;
+  color: white;
+}
