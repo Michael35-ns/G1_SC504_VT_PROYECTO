@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+ 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
         integrity="sha512-dTZpGPg9lb+4m6X35iYJPL3wWyWZ8HRl3rJgtT5V3Id+ZjI5/7MXaGQCUFZ0O2GjVwBdltFl+slylbE7RYyzlA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-
+ 
 <body class="hold-transition sidebar-mini bg-gray-100 h-screen flex flex-col">
     <nav class="h-auto text-white p-2 bg-gray-900 flex gap-2 justify-between items-center">
         <div class="w-max bg group flex items-center space-x-4 text-white bg-gray-900">
@@ -26,7 +26,7 @@
             </a>
         </div>
     </nav>
-
+ 
     <div class="flex flex-1 overflow-y-auto">
         <aside class="bg-gray-900 custom-aside h-full z-50">
             <div
@@ -59,7 +59,7 @@
                                 </a>
                             </li>
                             <li class="min-w-max">
-                                <a href="#"
+                                <a href="{{ route('objetivoEconomico') }}"
                                     class="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-gray-800 transition-all duration-300">
                                     <img src="https://cdn-icons-png.flaticon.com/512/5917/5917200.png" class="w-9"
                                         alt="ObjetivosEconomicos">
@@ -90,7 +90,7 @@
                     <span class="font-semibold">{{ session('success') }}</span>
                 </div>
             @endif
-
+ 
             @if ($errors->any())
                 <div
                     class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md shadow-md flex items-center">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             @endif
-
+ 
             <div class="flex flex-col p-4 md:gap-8 gap-4 h-full">
                 <h1 class="font-black text-gray-900 text-center text-5xl">
                     @yield('titulo')
@@ -118,12 +118,12 @@
             </div>
         </main>
     </div>
-
-
-
+ 
+ 
+ 
     @stack('js')
-
-
+ 
+ 
 </body>
-
+ 
 </html>

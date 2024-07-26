@@ -12,13 +12,13 @@ class GastoController extends Controller
 
     public function index(){
         $gastosTabla = FideGastosTb::getGastosByUsuario(2);
-        return view('crearGasto', compact('gastosTabla'));
+        return view('Gasto', compact('gastosTabla'));
     }
 
 
     public function show()
     {
-        return view('crearGasto');
+        return view('Gasto');
     }
 
 }

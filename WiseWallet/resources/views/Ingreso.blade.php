@@ -1,15 +1,15 @@
 @extends('layouts.app')
-
+ 
 @section('titulo')
     Transacciones
 @endsection
-
+ 
 @section('contenido')
     <section class="hidden sm:grid grid-cols-3 gap-6 justify-items-center">
         <div></div>
-
+ 
         <div>
-            <div class="porcentajes" style="--porcentaje: 75">
+            <div class="porcentajes" style="--porcentaje: 75;  --color:blue;">
                 <svg width="150" heigth="150">
                     <circle r="68" cx="50%" cy="50%" pathlength="100"class="bg-circle" />
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" />
@@ -17,11 +17,11 @@
                 <span>75%</span>
             </div>
         </div>
-
+ 
         <div>
-
+ 
         </div>
-
+ 
         <div class="w-full max-w-96">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-cyan-700 space-y-2">
                 <h3 class="text-3xl font-bold text-center text-white">
@@ -32,7 +32,7 @@
                 </p>
             </div>
         </div>
-
+ 
         <div class="w-full max-w-96">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-cyan-700 space-y-2">
                 <h3 class="text-3xl font-bold text-center text-white">
@@ -43,9 +43,9 @@
                 </p>
             </div>
         </div>
-
-
-
+ 
+ 
+ 
         <div class="w-full max-w-96">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-cyan-700 space-y-2">
                 <h3 class="text-3xl font-bold text-center text-white">
@@ -56,13 +56,13 @@
                 </p>
             </div>
         </div>
-
+ 
     </section>
-
-
-
+ 
+ 
+ 
     <section class="flex flex-col gap-4 mt-16">
-
+ 
         <nav class="text-center font-normal space-x-4">
             <span
                 class="rounded-full w-24 py-1 px-2 text-center font-light {{ request()->routeIs('Ingreso') ? 'bg-cyan-600 text-white shadow' : 'text-gray-900' }}">
@@ -74,13 +74,13 @@
                 /
             </span>
             <span
-                class="rounded-full w-24 py-1 px-2 text-center font-light {{ request()->routeIs('crearGasto') ? 'bg-cyan-600 text-white shadow' : 'text-gray-900' }}">
-                <a href="{{ route('crearGasto') }}">
+                class="rounded-full w-24 py-1 px-2 text-center font-light {{ request()->routeIs('Gasto') ? 'bg-cyan-600 text-white shadow' : 'text-gray-900' }}">
+                <a href="{{ route('Gasto') }}">
                     {{ __('Gasto') }}
                 </a>
             </span>
         </nav>
-
+ 
         @php
             $ingresos = [
                 [
@@ -106,10 +106,10 @@
                 ],
             ];
         @endphp
-
+ 
         <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', OpenCategoria: '', OpenCrearCategoria: '', OpenEliminarCategoria: '', OpenRegistrarIngreso: false, OpenEditarIngreso: false, OpenVerInfo: false }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
-
+ 
                 <div class="flex w-60 rounded-full bg-gray-200">
                     <input type="search" name="buscar" id="buscar" placeholder="Buscar"
                         class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none" />
@@ -118,13 +118,13 @@
                             height="20px">
                     </button>
                 </div>
-
+ 
                 <div class="ml-4">
                     <button @click="open=true" class="w-full py-2 px-4 bg-cyan-600 text-white rounded-full">
                         Aplicar Filtros
                     </button>
                 </div>
-
+ 
                 <div></div>
                 <div>
                     <button @click="OpenCategoria=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
@@ -137,9 +137,9 @@
                         Crear Ingreso
                     </button>
                 </div>
-
+ 
             </div>
-
+ 
             {{-- Filtros --}}
             {{-- <div x-show="open" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -168,8 +168,8 @@
                     </div>
                 </form>
             </div> --}}
-
-
+ 
+ 
             {{-- Lista de resultados --}}
             <div class="col-span-full">
                 <div class="divide-y divide-gray-600 w-3/4 mx-auto bg-white shadow-md rounded-lg">
@@ -203,7 +203,7 @@
                                     <span>Ver Más</span>
                                     <x-icons.ver class="!w-5 !h-5" />
                                 </a>
-                                <a href="{{route('editarIngresoFormulario',$ingresoTabla['ID_INGRESO'])}}"
+                                <a href="{{ route('editarIngresoFormulario', $ingresoTabla['ID_INGRESO']) }}"
                                     class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition">
                                     <span>Actualizar</span>
                                     <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
@@ -220,9 +220,10 @@
                     @endforeach
                 </div>
             </div>
-
-
-
+ 
+ 
+ 
+ 
             {{-- Popup Crear Ingreso --}}
             <div x-show="OpenRegistrarIngreso" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -232,8 +233,8 @@
                     <h3 class="text-lg font-semibold mb-4">Agregar Ingreso</h3>
                     <div class="mb-4">
                         <label for="NombreIngreso" class="block text-sm text-gray-700">Nombre del ingreso</label>
-                        <input type="text" id="NombreIngreso" name="NombreIngreso"
-                            value="{{ old('NombreIngreso') }}" class="border border-gray-300 rounded w-full py-2 px-4">
+                        <input type="text" id="NombreIngreso" name="NombreIngreso" value="{{ old('NombreIngreso') }}"
+                            class="border border-gray-300 rounded w-full py-2 px-4">
                         @error('NombreIngreso')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -298,11 +299,11 @@
                     </div>
                 </form>
             </div>
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
             {{-- Ver más informacion del ingreso --}}
             <div x-show="OpenVerInfo" style="display: none"
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
@@ -318,8 +319,8 @@
                         class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Cerrar</button>
                 </div>
             </div>
-
-
+ 
+ 
             <div x-show="confirmacionEliminar" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-gray-950 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
@@ -334,8 +335,8 @@
                     </div>
                 </div>
             </div>
-
-            <div x-show="OpenCategoria" x-transition
+ 
+            <div x-show="OpenCategoria" style="display: none" x-transition
                 class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
                     <p class="text-lg mb-4">Categorías:</p>
@@ -349,8 +350,8 @@
                     </div>
                 </div>
             </div>
-
-            <div x-show="OpenCrearCategoria" x-transition
+ 
+            <div x-show="OpenCrearCategoria" style="display: none" x-transition
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                     <h2 class="text-xl font-bold mb-4">Crear una nueva categoría de gasto</h2>
@@ -365,8 +366,8 @@
                         class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
                 </div>
             </div>
-
-            <div x-show="OpenEliminarCategoria" x-transition
+ 
+            <div x-show="OpenEliminarCategoria" style="display: none" x-transition
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                     <h2 class="text-xl font-bold mb-4">Eliminar una categoría de gasto</h2>
@@ -383,13 +384,13 @@
                         class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
                 </div>
             </div>
-
+ 
             {{-- Paginación de la lista --}}
             <div class="col-span-full mt-4">
                 {{-- Aquí puedes agregar los controles de paginación --}}
             </div>
-
+ 
         </section>
-
+ 
     </section>
 @endsection

@@ -1,13 +1,13 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
-
+ 
 use App\Models\FideCategoriaTransaccionTb;
 use App\Models\FideEstadoTb;
 use App\Models\FideIngresosTb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+ 
 class IngresoController extends Controller
 {
     public function index()
@@ -17,7 +17,7 @@ class IngresoController extends Controller
         $ingresosTabla = FideIngresosTb::mostrarIngresosPorUsuario(2);
         return view('Ingreso', compact('categorias', 'estados', 'ingresosTabla'));
     }
-
+ 
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -28,7 +28,7 @@ class IngresoController extends Controller
             'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
             'id_estado' => 'required|integer|exists:fide_estado_tb,ID_ESTADO',
         ]);
-
+ 
         FideIngresosTb::agregarIngreso(
             $validated['descripcion'],
             $validated['monto_ingreso'],
@@ -37,10 +37,10 @@ class IngresoController extends Controller
             $validated['id_transaccion'],
             $validated['id_estado']
         );
-
+ 
         return redirect()->route('Ingreso')->with('success', 'Ingreso creado con éxito');
     }
-
+ 
     public function edit($id)
     {
         $ingreso = FideIngresosTb::find($id);
@@ -48,7 +48,7 @@ class IngresoController extends Controller
         $estados = FideEstadoTb::getAllEstados(2);
         return view('Ingresos.editar', compact('ingreso', 'categorias', 'estados'));
     }
-
+ 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -58,9 +58,9 @@ class IngresoController extends Controller
             'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
             'id_estado' => 'required|integer|exists:fide_estado_tb,ID_ESTADO',
         ]);
-
+ 
         $id_usuario = 2;
-
+ 
         FideIngresosTb::editarIngreso(
             $id,
             $validated['descripcion'],
@@ -70,7 +70,8 @@ class IngresoController extends Controller
             $validated['id_transaccion'],
             $validated['id_estado']
         );
-
+ 
         return redirect()->route('Ingreso')->with('success', 'Ingreso actualizado con éxito');
     }
 }
+ 
