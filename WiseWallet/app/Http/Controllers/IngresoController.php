@@ -28,6 +28,8 @@ class IngresoController extends Controller
             'id_estado' => 'required|integer|exists:fide_estado_tb,ID_ESTADO',
         ]);
  
+
+    
         FideIngresosTb::agregarIngreso(
             $validated['descripcion'],
             $validated['monto_ingreso'],
