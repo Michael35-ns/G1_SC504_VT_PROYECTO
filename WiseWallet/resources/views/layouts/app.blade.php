@@ -21,7 +21,7 @@
             <span class="-mr-1 font-medium">WiseWallet</span>
         </div>
         <div>
-            <a href="#" class="usuario_img">
+            <a href="{{route ('login') }}" class="usuario_img">
                 <img src="https://cdn-icons-png.flaticon.com/512/1057/1057231.png" class="w-11" alt="Usuario">
             </a>
         </div>

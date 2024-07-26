@@ -8,7 +8,7 @@
     </div>
     <div class="container-login">
         <form id="registerForm" action="{{ url('/agregar-usuario') }}" method="POST" enctype="multipart/form-data">
-            <h1 class="text-3xl font-bold text-center text-white mb-6">Registro</h1>
+            <h1 class="text-3xl font-bold text-center text-black mb-6">Registro</h1>
             @csrf
             @if (session('mensaje'))
                 <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ session('mensaje') }}</p>

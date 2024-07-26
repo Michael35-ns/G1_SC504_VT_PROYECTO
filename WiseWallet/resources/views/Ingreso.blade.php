@@ -19,7 +19,6 @@
         </div>
  
         <div>
- 
         </div>
  
         <div class="w-full max-w-96">
@@ -221,9 +220,6 @@
                 </div>
             </div>
  
- 
- 
- 
             {{-- Popup Crear Ingreso --}}
             <div x-show="OpenRegistrarIngreso" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -300,10 +296,6 @@
                 </form>
             </div>
  
- 
- 
- 
- 
             {{-- Ver más informacion del ingreso --}}
             <div x-show="OpenVerInfo" style="display: none"
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
@@ -319,7 +311,6 @@
                         class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Cerrar</button>
                 </div>
             </div>
- 
  
             <div x-show="confirmacionEliminar" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">

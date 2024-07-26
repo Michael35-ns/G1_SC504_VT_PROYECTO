@@ -84,12 +84,12 @@ class FideIngresosTb extends Model
         $pdo = DB::getPdo();
 
         $stmt = $pdo->prepare("
-            DECLARE
-                C_INGRESOS SYS_REFCURSOR;
-            BEGIN
-                FIDE_MOSTRAR_INGRESOS_TABLA_SP(:P_ID_USUARIO, :C_INGRESOS);
-            END;
-        ");
+        DECLARE
+            C_INGRESOS SYS_REFCURSOR;
+        BEGIN
+            FIDE_MOSTRAR_INGRESOS_TABLA_SP(:P_ID_USUARIO, :C_INGRESOS);
+        END;
+    ");
 
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
         $stmt->bindParam(':C_INGRESOS', $cursor, PDO::PARAM_STMT);
@@ -101,13 +101,15 @@ class FideIngresosTb extends Model
         $result = [];
         $key = '12345678901234567890123456789012';
         while (($row = oci_fetch_assoc($cursor)) != false) {
+            $encryptedMonto = $row['MONTO_INGRESO'];
             $decryptedData = openssl_decrypt(
-                base64_decode($row['MONTO_INGRESO']),
+                base64_decode($encryptedMonto),
                 'AES-256-CBC',
                 $key,
                 0,
                 str_repeat("\0", 16)
             );
+
             $row['MONTO_INGRESO'] = (float) $decryptedData;
             $result[] = $row;
         }
@@ -116,6 +118,7 @@ class FideIngresosTb extends Model
 
         return collect($result);
     }
+
 
     public static function editarIngreso($idIngreso, $descripcionIngreso, $montoIngreso, $fechaIngreso, $idUsuario, $idTransaccion, $idEstado)
     {

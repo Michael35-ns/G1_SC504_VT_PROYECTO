@@ -6,7 +6,6 @@ use App\Models\FideCategoriaTransaccionTb;
 use App\Models\FideEstadoTb;
 use App\Models\FideIngresosTb;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
  
 class IngresoController extends Controller
 {

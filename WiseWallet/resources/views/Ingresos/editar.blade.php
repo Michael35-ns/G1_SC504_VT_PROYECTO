@@ -5,10 +5,10 @@
 @endsection
 
 @section('contenido')
-    <section class="hidden sm:grid grid-cols-3 gap-6 justify-items-center">
+    <section class="flex items-center justify-center max-h-screen">
 
         {{-- FORMULARIO DE EDICIÓN --}}
-        <div class="col-span-1 bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
             <h3 class="text-lg font-semibold mb-4">Editar Ingreso</h3>
 
             <form action="{{ route('editarIngreso', $ingreso->id_ingreso) }}" method="POST">

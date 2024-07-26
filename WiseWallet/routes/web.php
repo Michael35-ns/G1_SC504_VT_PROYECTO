@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\OracleController;
 use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\RegisterController;
@@ -17,8 +16,6 @@ Route::get('/', function () {
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register-user',[OracleController::class,'agregarUsuario']);
-
-
 
 Route::get('/login',[LoginController::class, 'index'])->name('login');
 Route::post('/login',[LoginController::class,'store']);
@@ -34,7 +31,6 @@ Route::get('/Gasto', [GastoController::class, 'index'])->name('Gasto');
 
 Route::get('/editarIngreso/{id}', [IngresoController::class, 'edit'])->name('editarIngresoFormulario');
 Route::put('/editarIngreso/{id}', [IngresoController::class, 'update'])->name('editarIngreso');
-
 
 Route::get('/crear-objetivo', [ObjetivoEconomicoController::class, 'create'])->name('crearObjetivoEconomico');
 Route::post('/agregar-objetivo', [ObjetivoEconomicoController::class, 'agregarObjetivo']);

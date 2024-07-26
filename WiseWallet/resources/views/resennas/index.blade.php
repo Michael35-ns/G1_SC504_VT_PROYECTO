@@ -26,7 +26,6 @@
                     </div>
                     <p class="text-gray-600 text-sm">{{ $resenna->fecha_creacion }}</p>
                 </div>
-                <!-- Botones de acciones -->
                 <div class="mt-4 flex gap-4">
                     <a href="{{ route('resennas.edit', $resenna->id_resenna) }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">Modificar</a>
                     <form action="{{ route('resennas.destroy', $resenna->id_resenna) }}" method="POST">
@@ -39,19 +38,13 @@
         @endforeach
     </div>
 
-    <!-- Botones al final de la página -->
     <div class="flex justify-between items-center p-4 bg-white shadow-lg mt-8">
-        <!-- Botón de Agregar Reseña (izquierda) -->
         <div class="flex-none">
             <a href="{{ route('resennas.create') }}" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600">Agregar Reseña</a>
         </div>
-        
-        <!-- Botón de Modificar (centro) -->
         <div class="flex-grow flex justify-center">
             <a href="#" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-600">Modificar</a>
         </div>
-        
-        <!-- Botón de Eliminar (derecha) -->
         <div class="flex-none">
             <form action="#" method="POST">
                 @csrf

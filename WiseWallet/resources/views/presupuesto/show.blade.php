@@ -8,9 +8,9 @@
 @vite('resources/css/presupuesto/presupuesto.show.css')
 <x-layout>
     <div class="py-6 max-w-5xl mx-auto my-0">
-        <!-- @if (isset($presupuestoId))
+        @if (isset($presupuestoId))
             <h1>Presupuesto ID: {{ $presupuestoId }}</h1>
-        @endif -->
+        @endif
         <nav class="pb-4">
             <ul class="flex font-outfit text-gray-600 font-normal">
                 @foreach ($links as $label => $link)

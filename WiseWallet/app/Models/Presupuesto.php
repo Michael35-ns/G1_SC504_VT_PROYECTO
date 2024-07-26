@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use PDO;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Presupuesto extends Model
 {
@@ -17,7 +18,7 @@ class Presupuesto extends Model
     public function readById(): Presupuesto
     {
         $results = DB::select("SELECT READ_ALL_PRESUPUESTOS_FN() AS mfrc FROM dual");
-        $presModels = App\Models\Presupuesto::hydrate($results);
+        $presModels = Presupuesto::hydrate($results);
         // $this->hydrate()->
 
         
