@@ -61,8 +61,8 @@
 
         <nav class="text-center font-normal space-x-4">
             <span
-                class="rounded-full w-24 py-1 px-2 text-center font-light {{ request()->routeIs('crearIngreso') ? 'bg-cyan-600 text-white shadow' : 'text-gray-900' }}">
-                <a href="{{ route('crearIngreso') }}">
+                class="rounded-full w-24 py-1 px-2 text-center font-light {{ request()->routeIs('Ingreso') ? 'bg-cyan-600 text-white shadow' : 'text-gray-900' }}">
+                <a href="{{ route('Ingreso') }}">
                     {{ __('Ingresos') }}
                 </a>
             </span>
@@ -108,7 +108,7 @@
             </div>
 
             {{-- Filtros --}}
-            <div x-show="aplicarFiltro" style="display: none"
+            {{-- <div x-show="aplicarFiltro" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
                     action="{{ route('buscarIngresos') }}" method="POST"
@@ -135,7 +135,7 @@
                         <button type="submit" class="py-2 px-4 bg-cyan-600 text-white rounded">Aplicar</button>
                     </div>
                 </form>
-            </div>
+            </div> --}}
 
 
             {{-- Lista de resultados --}}
