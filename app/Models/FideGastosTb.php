@@ -20,13 +20,14 @@ class FideGastosTb extends Model
         'monto_gasto',
         'descripcion_gasto',
         'fecha_gasto',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'las_update_date',
         'accion',
         'id_usuario',
         'id_transaccion',
+        'id_flujo',
         'id_estado',
     ];
 
@@ -38,6 +39,11 @@ class FideGastosTb extends Model
     public function transaccion(): BelongsTo
     {
         return $this->belongsTo(FideCategoriaTransaccionTb::class, 'id_transaccion');
+    }
+
+    public function flujo(): BelongsTo
+    {
+        return $this->belongsTo(FideFlujoTb::class, 'id_flujo');
     }
 
     public function estado(): BelongsTo

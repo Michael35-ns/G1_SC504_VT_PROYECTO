@@ -12,11 +12,14 @@ class CreateFideRolTbTable extends Migration
             $table->bigIncrements('id_rol');
             $table->string('descripcion', 50);
             $table->string('nombre_rol', 50);
-            $table->timestamp('fecha_creacion')->useCurrent();
-            $table->string('creado_por', 40);
-            $table->string('modificado_por', 100)->nullable();
-            $table->timestamp('fecha_modificacion')->nullable();
+            $table->timestamp('creation_date')->useCurrent();
+            $table->string('created_by', 100);
+            $table->string('last_update_by', 100)->nullable();
+            $table->timestamp('las_update_date')->nullable();
             $table->string('accion', 100);
+            $table->unsignedBigInteger('id_estado');
+
+            $table->foreign('id_estado')->references('id_estado')->on('fide_estado_tb');
 
             $table->primary('id_rol');
         });
@@ -27,4 +30,5 @@ class CreateFideRolTbTable extends Migration
         Schema::dropIfExists('fide_rol_tb');
     }
 }
+
 

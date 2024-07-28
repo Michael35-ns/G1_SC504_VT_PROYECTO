@@ -16,17 +16,23 @@ class FidePresupuestoTb extends Model
 
     protected $fillable = [
         'monto_total',
-        'create_at',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'las_update_date',
         'accion',
         'id_usuario',
+        'id_estado'
     ];
 
-    public function usuario():BelongsTo
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(FideUsuariosTb::class, 'id_usuario');
     }
+
+    public function estado():BelongsTo
+    {
+        return $this->belongsTo(FideEstadoTb::class, 'id_estado');
+    }
 }
+

@@ -11,10 +11,10 @@ class CreateFideEstadoTbTable extends Migration
         Schema::create('fide_estado_tb', function (Blueprint $table) {
             $table->bigIncrements('id_estado');
             $table->string('tipo_estado', 50);
-            $table->timestamp('fecha_creacion')->useCurrent();
-            $table->string('creado_por', 40);
-            $table->string('modificado_por', 100)->nullable();
-            $table->date('fecha_modificacion')->nullable();
+            $table->timestamp('creation_date')->useCurrent();
+            $table->string('created_by', 100);
+            $table->string('last_updated_by', 100)->nullable();
+            $table->timestamp('las_updated_date')->nullable();
             $table->string('accion', 100);
 
             $table->primary('id_estado');
@@ -26,3 +26,4 @@ class CreateFideEstadoTbTable extends Migration
         Schema::dropIfExists('fide_estado_tb');
     }
 }
+

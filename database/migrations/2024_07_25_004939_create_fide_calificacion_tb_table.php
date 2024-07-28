@@ -11,13 +11,15 @@ class CreateFideCalificacionTbTable extends Migration
         Schema::create('fide_calificacion_tb', function (Blueprint $table) {
             $table->bigIncrements('id_calificacion');
             $table->integer('estrellas');
-            $table->timestamp('fecha_creacion')->useCurrent();
-            $table->string('creado_por', 40);
-            $table->string('modificado_por', 100)->nullable();
-            $table->timestamp('fecha_modificacion')->nullable();
+            $table->timestamp('creation_date')->useCurrent();
+            $table->string('created_by', 100);
+            $table->string('last_update_by', 100)->nullable();
+            $table->timestamp('las_updated_date')->nullable();
             $table->string('accion', 100);
+            $table->unsignedBigInteger('id_estado');
 
             $table->primary('id_calificacion');
+            $table->foreign('id_estado')->references('id_estado')->on('fide_estado_tb');
         });
     }
 
@@ -26,3 +28,4 @@ class CreateFideCalificacionTbTable extends Migration
         Schema::dropIfExists('fide_calificacion_tb');
     }
 }
+

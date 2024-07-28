@@ -20,13 +20,14 @@ class FideIngresosTb extends Model
         'descripcion_ingreso',
         'monto_ingreso',
         'fecha_ingreso',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'las_update_date',
         'accion',
         'id_usuario',
         'id_transaccion',
+        'id_flujo',
         'id_estado',
     ];
 
@@ -43,6 +44,11 @@ class FideIngresosTb extends Model
     public function estado(): BelongsTo
     {
         return $this->belongsTo(FideEstadoTb::class, 'id_estado');
+    }
+
+    public function flujo(): BelongsTo
+    {
+        return $this->belongsTo(FideFlujoTb::class, 'id_flujo');
     }
 
     public static function agregarIngreso($descripcionIngreso, $montoIngreso, $fechaIngreso, $idUsuario, $idTransaccion, $idEstado)

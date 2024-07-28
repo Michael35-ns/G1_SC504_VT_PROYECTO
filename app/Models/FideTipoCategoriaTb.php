@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FideTipoCategoriaTb extends Model
 {
@@ -15,10 +16,17 @@ class FideTipoCategoriaTb extends Model
 
     protected $fillable = [
         'tipo_categoria',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'las_update_date',
         'accion',
+        'id_estado',
     ];
+
+    public function estado(): BelongsTo
+    {
+        return $this->belongsTo(FideEstadoTb::class, 'id_estado');
+    }
 }
+

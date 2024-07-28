@@ -19,13 +19,14 @@ class FideObjetivosFinancierosTb extends Model
         'descripcion_objetivo',
         'monto_objetivo',
         'fecha_tope',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'las_update_date',
         'accion',
         'id_gastos',
         'id_usuario',
+        'id_flujo',
         'id_estado',
         'id_transaccion',
         'id_ingreso',
@@ -40,6 +41,11 @@ class FideObjetivosFinancierosTb extends Model
     public function usuario():BelongsTo
     {
         return $this->belongsTo(FideUsuariosTb::class, 'id_usuario');
+    }
+
+    public function flujo(): BelongsTo
+    {
+        return $this->belongsTo(FideFlujoTb::class, 'id_flujo');
     }
 
     public function estado():BelongsTo

@@ -15,10 +15,17 @@ class FideCalificacionTb extends Model
 
     protected $fillable = [
         'estrellas',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'last_update_date',
         'accion',
+        'id_estado',
     ];
+
+    public function estado()
+    {
+        return $this->belongsTo(FideEstadoTb::class, 'id_estado', 'id_estado');
+    }
 }
+

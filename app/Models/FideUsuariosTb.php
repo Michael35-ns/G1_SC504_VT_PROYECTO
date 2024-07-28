@@ -22,16 +22,23 @@ class FideUsuariosTb extends Model
         'correo_electronico',
         'contrasenna',
         'foto_perfil_url',
-        'fecha_creacion',
-        'creado_por',
-        'modificado_por',
-        'fecha_modificacion',
+        'creation_date',
+        'created_by',
+        'last_update_by',
+        'las_update_date',
         'accion',
         'id_rol',
+        'id_estado',
     ];
 
-    public function rol():BelongsTo
+    public function rol(): BelongsTo
     {
         return $this->belongsTo(FideRolTb::class, 'id_rol');
     }
+
+    public function estado(): BelongsTo
+    {
+        return $this->belongsTo(FideEstadoTb::class, 'id_estado');
+    }
 }
+
