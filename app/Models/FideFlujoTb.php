@@ -34,7 +34,7 @@ class FideFlujoTb extends Model
     }
 
     //Procesos de Oracle(SP)
-    public static function getAllFlujos()
+    public static function getAllFlujos($idUsuario)
     {
         $pdo = DB::getPdo();
 
@@ -43,11 +43,12 @@ class FideFlujoTb extends Model
             DECLARE
                 CURSOR_OUT SYS_REFCURSOR;
             BEGIN
-                FIDE_ESTADO_SP(:CURSOR_OUT);
+                FIDE_FLUJO_SP(:P_ID_USUARIO, :CURSOR_OUT);
             END;
         ");
 
         // Bind de parámetros
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
         $stmt->bindParam(':CURSOR_OUT', $cursor, PDO::PARAM_STMT);
 
         // Ejecutamos la sentencia

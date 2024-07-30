@@ -50,12 +50,12 @@ class FideCategoriaTransaccionTb extends Model
 
         // Preparamos la sentencia
         $stmt = $pdo->prepare("
-            DECLARE
-                CURSOR_OUT SYS_REFCURSOR;
-            BEGIN
-                FIDE_CATEGORIA_TRANSACCION_SP(:P_ID_USUARIO, :CURSOR_OUT);
-            END;
-        ");
+        DECLARE
+            CURSOR_OUT SYS_REFCURSOR;
+        BEGIN
+            FIDE_CATEGORIA_TRANSACCION_SP(:P_ID_USUARIO, :CURSOR_OUT);
+        END;
+    ");
 
         // Bind de parámetros
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);

@@ -1,57 +1,76 @@
 @extends('layouts.app')
 
 @section('contenido')
-
-<section class="content_login flex flex-col items-center py-10">
-    <div class="contenedor-imagen mb-8">
-        <img class="imagen" src="https://economipedia.com/wp-content/uploads/Finanzas.jpg" alt="login" width="650px" height="650px" />
-    </div>
-    <div class="container-login">
-        <form id="registerForm" action="{{ url('/agregar-usuario') }}" method="POST" enctype="multipart/form-data">
-            <h1 class="text-3xl font-bold text-center text-black mb-6">Registro</h1>
-            @csrf
-            @if (session('mensaje'))
-                <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ session('mensaje') }}</p>
-            @endif
-            <div class="mb-5">
-                <label for="nombre_completo" class="mb-2 block text-white font-bold">Nombre completo:</label>
-                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required>
-                <input type="text" id="apellido1" name="apellido1" class="form-control" placeholder="Apellido1">
-                <input type="text" id="apellido2" name="apellido2" class="form-control" placeholder="Apellido2">
+    <section class="content_login flex flex-col items-center py-10">
+        <div class="relative w-full max-w-lg">
+            <div class="absolute inset-0 bg-cover bg-center rounded-lg"
+                style="background-image: url('https://economipedia.com/wp-content/uploads/Finanzas.jpg'); background-size: cover;">
             </div>
-            <div class="mb-5">
-                <label for="username" class="mb-2 block text-white font-bold">Nombre de usuario</label>
-                <input id="username" name="username" type="text" placeholder="Nombre usuario" class="form-control border p-3 w-full rounded-lg @error('username') border-red-500 @enderror" value="{{ old('username') }}" />
-                <span id="username-validacion" class="text-sm"></span>
-                @error('username')
-                    <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
-                @enderror
+            <div class="relative bg-white bg-opacity-70 p-8 rounded-lg shadow-lg">
+                <form id="registerForm" action="{{ url('/agregarUsuario') }}" method="POST" enctype="multipart/form-data">
+                    <h1 class="text-3xl font-bold text-center text-black mb-6">Registro</h1>
+                    @csrf
+                    @if (session('mensaje'))
+                        <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ session('mensaje') }}
+                        </p>
+                    @endif
+                    <div class="mb-5">
+                        <label for="nombre" class="mb-2 block text-gray-700 font-bold">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre"
+                            class="form-control w-full p-3 border border-gray-300 rounded-lg" placeholder="Nombre" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="primer_apellido" class="mb-2 block text-gray-700 font-bold">Primer Apellido:</label>
+                        <input type="text" id="primer_apellido" name="primer_apellido"
+                            class="form-control w-full p-3 border rounded-lg" placeholder="Primer Apellido"
+                            required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="segundo_apellido" class="mb-2 block text-gray-700 font-bold">Segundo Apellido:</label>
+                        <input type="text" id="segundo_apellido" name="segundo_apellido"
+                            class="form-control w-full p-3 border rounded-lg" placeholder="Segundo Apellido"
+                            required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="username" class="mb-2 block text-gray-700 font-bold">Nombre de usuario:</label>
+                        <input id="username" name="username" type="text" placeholder="Nombre usuario"
+                            class="form-control w-full p-3 border rounded-lg @error('username') border-red-500 @enderror"
+                            value="{{ old('username') }}" required>
+                        @error('username')
+                            <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="correo_electronico" class="mb-2 block text-gray-700 font-bold">Email:</label>
+                        <input id="correo_electronico" name="correo_electronico" type="email"
+                            placeholder="Tu Email de Registro"
+                            class="form-control w-full p-3 border rounded-lg @error('correo_electronico') border-red-500 @enderror"
+                            value="{{ old('correo_electronico') }}" required>
+                        @error('correo_electronico')
+                            <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="contrasenna" class="mb-2 block text-gray-700 font-bold">Contraseña:</label>
+                        <input id="contrasenna" name="contrasenna" type="password" placeholder="Password de Registro"
+                            class="form-control w-full p-3 border rounded-lg @error('contrasenna') border-red-500 @enderror"
+                            required>
+                        @error('contrasenna')
+                            <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="image" class="mb-2 block text-gray-700 font-bold">Foto de perfil:</label>
+                        <input id="image" name="image" type="file"
+                            class="form-control w-full p-3 border rounded-lg @error('image') border-red-500 @enderror">
+                        @error('image')
+                            <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <input type="submit" value="Crear Cuenta"
+                        class="bg-sky-600 hover:bg-sky-700 transition-colors cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg">
+                </form>
             </div>
-            <div class="mb-5">
-                <label for="email" class="mb-2 block text-white font-bold">Email</label>
-                <input id="email" name="email" type="email" placeholder="Tu Email de Registro" class="form-control border p-3 w-full rounded-lg @error('email') border-red-500 @enderror" value="{{ old('email') }}" />
-                <span id="email-validacion" class="text-sm"></span>
-                @error('email')
-                    <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
-                @enderror
-            </div>
-            <div class="mb-5">
-                <label for="password" class="mb-2 block text-white font-bold">Contraseña</label>
-                <input id="password" name="password" type="password" placeholder="Password de Registro" class="form-control border p-3 w-full rounded-lg @error('password') border-red-500 @enderror" />
-                @error('password')
-                    <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
-                @enderror
-            </div>
-            <div class="mb-5">
-                <label for="image" class="mb-2 block text-white font-bold">Foto de perfil</label>
-                <input id="image" name="image" type="file" class="form-control input-mediano border p-3 w-full rounded-lg @error('image') border-red-500 @enderror" />
-                @error('image')
-                    <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
-                @enderror
-            </div>
-            <input type="submit" value="Crear Cuenta" class="bg-sky-600 hover:bg-sky-700 transition-colors cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg" />
-        </form>
-    </div>
-</section>
-
+        </div>
+    </section>
 @endsection

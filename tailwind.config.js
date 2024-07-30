@@ -8,10 +8,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        outfit: ["Outfit", "sans-srif"]
-      }
+        sans: ["Montserrat", "sans-serif"],
+      },
     },
   },
+  darkMode: 'selector',
   plugins: [],
 }
-

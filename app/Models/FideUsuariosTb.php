@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FideUsuariosTb extends Model
 {
@@ -40,5 +41,31 @@ class FideUsuariosTb extends Model
     {
         return $this->belongsTo(FideEstadoTb::class, 'id_estado');
     }
-}
 
+    public static function agregarUsuario($nombre, $primerApellido, $segundoApellido, $username, $correoElectronico, $contrasenna, $fotoPerfilUrl, $idRol, $idEstado)
+    {
+
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+        BEGIN
+            FIDE_REGISTRAR_USUARIO_SP(
+                :P_NOMBRE, :P_PRIMER_APELLIDO, :P_SEGUNDO_APELLIDO, 
+                :P_USERNAME, :P_CORREO_ELECTRONICO, :P_CONTRASENNA, 
+                :P_FOTO_PERFIL_URL, :P_ID_ROL, :P_ID_ESTADO
+            );
+        END;
+    ");
+
+        $stmt->bindParam(':P_NOMBRE', $nombre);
+        $stmt->bindParam(':P_PRIMER_APELLIDO', $primerApellido);
+        $stmt->bindParam(':P_SEGUNDO_APELLIDO', $segundoApellido);
+        $stmt->bindParam(':P_USERNAME', $username);
+        $stmt->bindParam(':P_CORREO_ELECTRONICO', $correoElectronico);
+        $stmt->bindParam(':P_CONTRASENNA', $contrasenna);
+        $stmt->bindParam(':P_FOTO_PERFIL_URL', $fotoPerfilUrl);
+        $stmt->bindParam(':P_ID_ROL', $idRol);
+        $stmt->bindParam(':P_ID_ESTADO', $idEstado);
+
+        $stmt->execute();
+    }
+}
