@@ -35,7 +35,7 @@ class FideEstadoTb extends Model
             DECLARE
                 CURSOR_OUT SYS_REFCURSOR;
             BEGIN
-                FIDE_ESTADO_SP(:CURSOR_OUT);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_ESTADO_TB_MOSTRAR_SP(:CURSOR_OUT);
             END;
         ");
 

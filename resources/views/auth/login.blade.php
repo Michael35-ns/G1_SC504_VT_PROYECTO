@@ -8,32 +8,32 @@
                 alt="login" width="650px" height="650px" />
         </div>
         <div class="container-login">
-            <form action="" method="post">
+            <form action="{{route('login')}}" method="post">
                 <h1 class="text-3xl font-bold text-center text-white mb-6">Iniciar Sesión</h1>
                 @csrf
                 @if (session('mensaje'))
                     <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ session('mensaje') }}</p>
                 @endif
                 <div class="mb-5">
-                    <label for="email" class="mb-2 block text-white font-bold">
+                    <label for="correo_electronico" class="mb-2 block text-white font-bold">
                         Email
                     </label>
-                    <input id="email" name="email" type="email" placeholder="Tu Email de Registro"
-                        class="border p-3 w-full rounded-lg
-                        @error('email') border-red-500 @enderror"
-                        value="{{ old('email') }}" />
-                    @error('email')
+                    <input id="correo_electronico" name="correo_electronico" type="email" placeholder="Tu Email de Registro"
+                        class="border p-3 w-full rounded-lg text-black
+                        @error('correo_electronico') border-red-500 @enderror"
+                        value="{{ old('correo_electronico') }}" />
+                    @error('correo_electronico')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="mb-5">
-                    <label for="password" class="mb-2 block text-white font-bold">
+                    <label for="contrasenna" class="mb-2 block text-white font-bold">
                         Contraseña
                     </label>
-                    <input id="password" name="password" type="password" placeholder="Password de Registro"
-                        class="border p-3 w-full rounded-lg
-                        @error('password') border-red-500 @enderror" />
-                    @error('password')
+                    <input id="contrasenna" name="contrasenna" type="password" placeholder="Contraseña de Registro"
+                        class="border p-3 w-full rounded-lg text-black
+                        @error('contrasenna') border-red-500 @enderror" />
+                    @error('contrasenna')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                     @enderror
                 </div>

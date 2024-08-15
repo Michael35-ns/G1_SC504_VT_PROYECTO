@@ -76,4 +76,27 @@ class FideCategoriaTransaccionTb extends Model
 
         return collect($result);
     }
+
+    public static function Mostrar_Categorias_GASTOS_BY_ID_USUARIO($idUsuario)
+    {
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+            DECLARE
+                CURSOR_OUT SYS_REFCURSOR;
+            BEGIN
+                FIDE_PROYECTO_FINAL_PKG.FIDE_CATEGORIA_TRANSACCION_TB_GASTOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
+            END;
+        ");
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
+        $stmt->bindParam(':CURSOR_OUT', $cursor, PDO::PARAM_STMT);
+        $stmt->execute();
+        oci_execute($cursor, OCI_DEFAULT);
+        $result = [];
+        while (($row = oci_fetch_assoc($cursor)) != false) {
+            $result[] = $row;
+        }
+        oci_free_statement($cursor);
+        return collect($result);
+    }
+
 }

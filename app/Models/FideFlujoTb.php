@@ -43,7 +43,7 @@ class FideFlujoTb extends Model
             DECLARE
                 CURSOR_OUT SYS_REFCURSOR;
             BEGIN
-                FIDE_FLUJO_SP(:P_ID_USUARIO, :CURSOR_OUT);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_ESTADO_TB_MOSTRAR_SP(:P_ID_USUARIO, :CURSOR_OUT);
             END;
         ");
 
