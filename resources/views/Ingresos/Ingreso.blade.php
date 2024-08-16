@@ -9,12 +9,13 @@
         <div></div>
 
         <div>
-            <div class="porcentajes" style="--porcentaje: 75;  --color:blue;">
+            <div class="porcentajes"
+                style="--porcentaje: {{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%;  --color:blue;">
                 <svg width="150" heigth="150">
                     <circle r="68" cx="50%" cy="50%" pathlength="100"class="bg-circle" />
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" />
                 </svg>
-                <span>75%</span>
+                <span>{{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%</span>
             </div>
         </div>
 
@@ -38,9 +39,10 @@
                 <h3 class="text-3xl font-bold text-center text-white">
                     {{ __('Dinero restante') }}
                 </h3>
-                <p class="text-xl font-medium text-center text-white italic">
-                    ₡334.000,00
-                </p>
+                <a href="{{ route('Gasto', $obtenerDineroRestante['DINERO_RESTANTE']) }}"
+                    class=" ml-28 text-xl font-medium text-center text-white italic">
+                    ₡{{ number_format($obtenerDineroRestante['DINERO_RESTANTE'], 2, ',', '.') }}
+                </a>
             </div>
         </div>
 
@@ -49,9 +51,10 @@
                 <h3 class="text-3xl font-bold text-center text-white">
                     {{ __('Gastos Totales') }}
                 </h3>
-                <p class="text-xl font-medium text-center text-white italic">
-                    ₡756.340,00
-                </p>
+                <a href="{{ route('Gasto', $suamaGastosTotales['SUMA_TOTAL_GASTOS']) }}"
+                    class=" ml-28 text-xl font-medium text-center text-white italic">
+                    ₡{{ number_format($suamaGastosTotales['SUMA_TOTAL_GASTOS'], 2, ',', '.') }}
+                </a>
             </div>
         </div>
 
@@ -76,45 +79,17 @@
                 </a>
             </span>
         </nav>
-
-        @php
-            $ingresos = [
-                [
-                    'categoria' => 'Emprendimiento',
-                    'fecha' => '2024-07-01',
-                    'decripcion' => 'Venta de producto A',
-                    'monto' => 1500,
-                    'estado' => 'Activo',
-                ],
-                [
-                    'categoria' => 'Trabajo',
-                    'fecha' => '2024-07-01',
-                    'decripcion' => 'Servicio de consultoría',
-                    'monto' => 2000,
-                    'estado' => 'Activo',
-                ],
-                [
-                    'categoria' => 'Emprendimiento',
-                    'fecha' => '2024-07-01',
-                    'decripcion' => 'Venta de producto B',
-                    'monto' => 3000,
-                    'estado' => 'Activo',
-                ],
-            ];
-        @endphp
-
         <section x-data="{ open: false, OpenCategoria: '', OpenCrearCategoria: '', OpenEliminarCategoria: '', OpenRegistrarIngreso: false, OpenEditarIngreso: false }" class="flex flex-col gap-5 py-5 items-center justify-center">
             <div class="flex gap-4 justify-center items-center">
 
                 <div>
-                    <button @click="OpenCategoria=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
-                        Crear categoria
-                    </button>
-                </div>
-                {{-- Crear ingreso --}}
-                <div>
                     <button @click="OpenRegistrarIngreso=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
                         Crear Ingreso
+                    </button>
+                </div>
+                <div>
+                    <button @click="OpenCategoria=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
+                        Categorias
                     </button>
                 </div>
 
@@ -231,12 +206,10 @@
                         <select id="categoria" name="id_transaccion"
                             class="border border-gray-300 rounded w-full py-2 px-4">
                             @foreach ($categorias as $categoria)
-                                @if ($categoria['ID_TIPO_CATEGORIA'] == 1)
-                                    <option value="{{ $categoria['ID_TRANSACCION'] }}"
-                                        {{ old('id_transaccion') == $categoria['ID_TRANSACCION'] ? 'selected' : '' }}>
-                                        {{ $categoria['TIPO_TRANSACCION'] }}
-                                    </option>
-                                @endif
+                                <option value="{{ $categoria['ID_TRANSACCION'] }}"
+                                    {{ old('id_transaccion') == $categoria['ID_TRANSACCION'] ? 'selected' : '' }}>
+                                    {{ $categoria['TIPO_TRANSACCION'] }}
+                                </option>
                             @endforeach
                         </select>
                         @error('id_transaccion')
@@ -291,6 +264,7 @@
                 </form>
             </div>
 
+
             <div x-show="OpenCategoria" style="display: none" x-transition
                 class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
@@ -300,25 +274,29 @@
                             class="py-2 px-4 bg-blue-500 text-white rounded-lg w-24">Crear</button>
                         <button @click="OpenEliminarCategoria = true; OpenCategoria = false"
                             class="py-2 px-4 bg-red-400 text-white rounded-lg w-24">Eliminar</button>
-                        <button @click="OpenCategoria = false"
+                        <button type="button" @click="OpenCategoria = false"
                             class="py-2 px-4 bg-red-500 text-white rounded-lg w-24 hover:bg-red-600 transition">Cerrar</button>
                     </div>
                 </div>
             </div>
 
+
             <div x-show="OpenCrearCategoria" style="display: none" x-transition
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-                    <h2 class="text-xl font-bold mb-4">Crear una nueva categoría de gasto</h2>
-                    <div class="mb-4">
-                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
-                        <input type="text" id="categoria" name="categoria"
-                            class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
-                    </div>
-                    <button @click="OpenCrearCategoria = false"
-                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Agregar</button>
-                    <button @click="OpenCrearCategoria = false"
-                        class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                    <form action="{{ route('ingreso.agregarCategoria') }}" method="POST">
+                        @csrf
+                        <h2 class="text-xl font-bold mb-4">Crear una nueva categoría de gasto</h2>
+                        <div class="mb-4">
+                            <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                            <input type="text" id="categoria" name="categoria"
+                                class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                        </div>
+                        <button type="submit"
+                            class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Agregar</button>
+                        <button type="button" @click="OpenCrearCategoria = false"
+                            class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                    </form>
                 </div>
             </div>
 
@@ -326,17 +304,25 @@
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                     <h2 class="text-xl font-bold mb-4">Eliminar una categoría de gasto</h2>
-                    <div class="mb-4">
-                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
-                        <select id="categoria" name="categoria" class="border border-gray-300 rounded w-full py-2 px-4">
-                            <option value="Emprendimiento">Universidad</option>
-                            <option value="Trabajo">Fiesta</option>
-                        </select>
-                    </div>
-                    <button @click="OpenEliminarCategoria = false"
-                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Eliminar</button>
-                    <button @click="OpenEliminarCategoria = false"
-                        class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                    <form action="{{ route('ingreso.eliminarCategoria') }}" method="POST">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="id_transaccion" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                            <select id="id_transaccion" name="id_transaccion"
+                                class="border border-gray-300 rounded w-full py-2 px-4">
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{ $categoria['ID_TRANSACCION'] }}"
+                                        {{ old('id_transaccion') == $categoria['ID_TRANSACCION'] ? 'selected' : '' }}>
+                                        {{ $categoria['TIPO_TRANSACCION'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit"
+                            class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Eliminar</button>
+                        <button type="button" @click="OpenEliminarCategoria = false"
+                            class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+                    </form>
                 </div>
             </div>
 

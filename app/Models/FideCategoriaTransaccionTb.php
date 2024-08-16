@@ -76,4 +76,85 @@ class FideCategoriaTransaccionTb extends Model
 
         return collect($result);
     }
+
+    public static function Mostrar_Categorias_GASTOS_BY_ID_USUARIO($idUsuario)
+    {
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+            DECLARE
+                CURSOR_OUT SYS_REFCURSOR;
+            BEGIN
+                FIDE_CATEGORIA_TRANSACCION_TB_GASTOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
+            END;
+        ");
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
+        $stmt->bindParam(':CURSOR_OUT', $cursor, PDO::PARAM_STMT);
+        $stmt->execute();
+        oci_execute($cursor, OCI_DEFAULT);
+        $result = [];
+        while (($row = oci_fetch_assoc($cursor)) != false) {
+            $result[] = $row;
+        }
+        oci_free_statement($cursor);
+        return collect($result);
+    }
+
+
+    public static function Mostrar_Categorias_INGRESOS_BY_ID_USUARIO($idUsuario)
+    {
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+            DECLARE
+                CURSOR_OUT SYS_REFCURSOR;
+            BEGIN
+                FIDE_CATEGORIA_TRANSACCION_TB_INGRESOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
+            END;
+        ");
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
+        $stmt->bindParam(':CURSOR_OUT', $cursor, PDO::PARAM_STMT);
+        $stmt->execute();
+        oci_execute($cursor, OCI_DEFAULT);
+        $result = [];
+        while (($row = oci_fetch_assoc($cursor)) != false) {
+            $result[] = $row;
+        }
+        oci_free_statement($cursor);
+        return collect($result);
+    }
+
+
+    public static function agregarCategoria($TIPO_TRANSACCION, $ID_TIPO_CATEGORIA, $ID_USUARIO, $ID_ESTADO)
+    {
+        $pdo = DB::getPdo();
+
+        $stmt = $pdo->prepare("
+            BEGIN
+                FIDE_CATEGORIA_TRANSACCION_TB_CREAR_CATEGORIA_SP(
+                    :P_TIPO_TRANSACCION,
+                    :P_ID_TIPO_CATEGORIA,
+                    :P_ID_USUARIO,
+                    :P_ID_ESTADO
+                );
+            END;
+        ");
+        $stmt->bindParam(':P_TIPO_TRANSACCION', $TIPO_TRANSACCION);
+        $stmt->bindParam(':P_ID_TIPO_CATEGORIA', $ID_TIPO_CATEGORIA);
+        $stmt->bindParam(':P_ID_USUARIO', $ID_USUARIO);
+        $stmt->bindParam(':P_ID_ESTADO', $ID_ESTADO);
+        $stmt->execute();
+    }
+
+
+    public static function eliminarCategoria($ID_TRANSACCION)
+    {
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+            DECLARE
+                BEGIN
+                    FIDE_CATEGORIA_TRANSACCION_TB_ELIMINAR_CATEGORIA_SP(:P_ID_TRANSACCION);
+                END;
+        ");
+        $stmt->bindParam(':P_ID_TRANSACCION', $ID_TRANSACCION, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }

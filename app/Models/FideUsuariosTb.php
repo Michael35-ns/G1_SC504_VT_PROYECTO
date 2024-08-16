@@ -48,7 +48,7 @@ class FideUsuariosTb extends Model
         $pdo = DB::getPdo();
         $stmt = $pdo->prepare("
         BEGIN
-            FIDE_REGISTRAR_USUARIO_SP(
+            FIDE_USUARIOS_TB_REGISTRAR_USUARIO_SP(
                 :P_NOMBRE, :P_PRIMER_APELLIDO, :P_SEGUNDO_APELLIDO, 
                 :P_USERNAME, :P_CORREO_ELECTRONICO, :P_CONTRASENNA, 
                 :P_FOTO_PERFIL_URL, :P_ID_ROL, :P_ID_ESTADO
@@ -68,4 +68,8 @@ class FideUsuariosTb extends Model
 
         $stmt->execute();
     }
+
+
+
+    
 }

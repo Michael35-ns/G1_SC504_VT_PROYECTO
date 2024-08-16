@@ -7,7 +7,7 @@
                 style="background-image: url('https://economipedia.com/wp-content/uploads/Finanzas.jpg'); background-size: cover;">
             </div>
             <div class="relative bg-white bg-opacity-70 p-8 rounded-lg shadow-lg">
-                <form id="registerForm" action="{{ url('/agregarUsuario') }}" method="POST" enctype="multipart/form-data">
+                <form id="registerForm" action="{{ route('agregarUsuario') }}" method="POST" enctype="multipart/form-data">
                     <h1 class="text-3xl font-bold text-center text-black mb-6">Registro</h1>
                     @csrf
                     @if (session('mensaje'))
@@ -22,14 +22,12 @@
                     <div class="mb-5">
                         <label for="primer_apellido" class="mb-2 block text-gray-700 font-bold">Primer Apellido:</label>
                         <input type="text" id="primer_apellido" name="primer_apellido"
-                            class="form-control w-full p-3 border rounded-lg" placeholder="Primer Apellido"
-                            required>
+                            class="form-control w-full p-3 border rounded-lg" placeholder="Primer Apellido" required>
                     </div>
                     <div class="mb-5">
                         <label for="segundo_apellido" class="mb-2 block text-gray-700 font-bold">Segundo Apellido:</label>
                         <input type="text" id="segundo_apellido" name="segundo_apellido"
-                            class="form-control w-full p-3 border rounded-lg" placeholder="Segundo Apellido"
-                            required>
+                            class="form-control w-full p-3 border rounded-lg" placeholder="Segundo Apellido" required>
                     </div>
                     <div class="mb-5">
                         <label for="username" class="mb-2 block text-gray-700 font-bold">Nombre de usuario:</label>

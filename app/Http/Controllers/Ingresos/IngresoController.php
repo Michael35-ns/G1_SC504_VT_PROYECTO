@@ -1,25 +1,35 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ingresos;
 
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\FideFlujoTb;
 use App\Models\FideEstadoTb;
-use Illuminate\Http\Request;
 use App\Models\FideIngresosTb;
 use App\Models\FideCategoriaTransaccionTb;
+use App\Models\FideGastosTb;
 
 class IngresoController extends Controller
 {
+    protected $id_usuario;
+
+    public function __construct(Request $request)
+    {
+        $this->id_usuario = $request->session()->get('Id_Usuario');
+        if (!$this->id_usuario) {
+            return redirect()->route('login')->with('mensaje', 'Por favor inicie sesión.');
+        }
+    }
+
     public function index(Request $request)
     {
-        // Recuperar los parámetros de filtro desde la solicitud
+        // Ya no necesitas obtener $id_usuario aquí porque está en $this->id_usuario
         $fechaInicio = $request->input('fecha_inicial', '1900-01-01');
         $fechaFin = $request->input('fecha_final', '2050-01-01');
         $montoMin = $request->input('monto_min', 0);
         $montoMax = $request->input('monto_max', 100000000000);
 
-        // Validar los parámetros
         $validated = $request->validate([
             'fecha_inicial' => 'nullable|date',
             'fecha_final' => 'nullable|date',
@@ -27,18 +37,19 @@ class IngresoController extends Controller
             'monto_max' => 'nullable|numeric',
         ]);
 
-        // Obtener los datos
-        $categorias = FideCategoriaTransaccionTb::SP_ALL_BY_ID(2);
-        $flujos = FideFlujoTb::getAllFlujos(2);
-        $ingresosTabla = FideIngresosTb::mostrarIngresosPorUsuario(2, $fechaInicio, $fechaFin, $montoMin, $montoMax);
+        $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_INGRESOS_BY_ID_USUARIO($this->id_usuario);
+        $flujos = FideFlujoTb::getAllFlujos($this->id_usuario);
+        $ingresosTabla = FideIngresosTb::mostrarIngresosPorUsuario($this->id_usuario, $fechaInicio, $fechaFin, $montoMin, $montoMax);
         $estados = FideEstadoTb::getAllEstados();
-        $resultado = FideIngresosTb::valoresFuncionesActivas(2);
+        $resultado = FideIngresosTb::valoresFuncionesActivas($this->id_usuario);
 
-        
-        // Pasar los datos a la vista
-        return view('Ingreso', compact('categorias', 'flujos', 'ingresosTabla', 'estados', 'resultado', 'fechaInicio', 'fechaFin', 'montoMin', 'montoMax'));
+        $suamaGastosTotales = FideGastosTb::suamaGastosTotales($this->id_usuario);
+        $suamaIngresosTotales = FideIngresosTb::valoresFuncionesActivas($this->id_usuario);
+        $obtenerDineroRestante = FideGastosTb::obtenerDineroRestante($this->id_usuario);
+        $porcentajeGastado = FideGastosTb::porcentajeGastado($this->id_usuario);
+
+        return view('Ingresos.Ingreso', compact('categorias', 'flujos', 'ingresosTabla', 'estados', 'resultado', 'fechaInicio', 'fechaFin', 'montoMin', 'montoMax', 'obtenerDineroRestante', 'suamaGastosTotales', 'porcentajeGastado'));
     }
-
 
     public function mostrarIngreso($id)
     {
@@ -71,7 +82,7 @@ class IngresoController extends Controller
             $validated['descripcion'],
             $validated['monto_ingreso'],
             $validated['fecha_ingreso'],
-            2,
+            $this->id_usuario,
             $validated['id_transaccion'],
             $validated['id_flujo'],
             1
@@ -83,8 +94,8 @@ class IngresoController extends Controller
     public function edit($id)
     {
         $ingreso = FideIngresosTb::encontrarIngresoPorID($id);
-        $categorias = FideCategoriaTransaccionTb::SP_ALL_BY_ID(2);
-        $flujos = FideFlujoTb::getAllFlujos(2);
+        $categorias = FideCategoriaTransaccionTb::SP_ALL_BY_ID($this->id_usuario);
+        $flujos = FideFlujoTb::getAllFlujos($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados();
         return view('Ingresos.editar', compact('ingreso', 'categorias', 'flujos', 'estados'));
     }
@@ -110,5 +121,28 @@ class IngresoController extends Controller
         );
 
         return redirect()->route('Ingreso')->with('success', 'Ingreso actualizado con éxito');
+    }
+
+    public function crearCategoriaIngreso(Request $request)
+    {
+        $validated = $request->validate([
+            'categoria' => 'required|string|max:1000'
+        ]);
+        FideCategoriaTransaccionTb::agregarCategoria(
+            $validated['categoria'],
+            1,
+            $this->id_usuario,
+            1
+        );
+        return redirect()->route('Ingreso')->with('success', 'Categoria creada con éxito');
+    }
+
+    public function eliminarCategoria(Request $request)
+    {
+        $validated = $request->validate([
+            'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
+        ]);
+        FideCategoriaTransaccionTb::eliminarCategoria($validated['id_transaccion']);
+        return redirect()->route('Ingreso')->with('success', 'Categoria eliminada con éxito');
     }
 }
