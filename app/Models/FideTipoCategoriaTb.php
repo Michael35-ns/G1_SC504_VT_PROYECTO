@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use PDO;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FideTipoCategoriaTb extends Model
 {
@@ -16,17 +17,43 @@ class FideTipoCategoriaTb extends Model
 
     protected $fillable = [
         'tipo_categoria',
-        'creation_date',
-        'created_by',
-        'last_update_by',
-        'las_update_date',
+        'fecha_creacion',
+        'creado_por',
+        'modificado_por',
+        'fecha_modificacion',
         'accion',
         'id_estado',
     ];
 
-    public function estado(): BelongsTo
+    public static function getAllCategories()
     {
-        return $this->belongsTo(FideEstadoTb::class, 'id_estado');
+        $pdo = DB::getPdo();
+
+        // Preparamos la sentencia
+        $stmt = $pdo->prepare("
+            DECLARE
+                CURSOR_OUT SYS_REFCURSOR;
+            BEGIN
+                FIDE_TIPO_CATEGORIA_SP(:CURSOR_OUT);
+            END;
+        ");
+
+        // Bind de parámetros
+        $stmt->bindParam(':CURSOR_OUT', $cursor, PDO::PARAM_STMT);
+
+        // Ejecutamos la sentencia
+        $stmt->execute();
+
+        // Recuperamos los datos del cursor
+        oci_execute($cursor, OCI_DEFAULT);
+
+        $result = [];
+        while (($row = oci_fetch_assoc($cursor)) != false) {
+            $result[] = $row;
+        }
+
+        oci_free_statement($cursor);
+
+        return collect($result);
     }
 }
-

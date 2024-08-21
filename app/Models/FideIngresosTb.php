@@ -118,7 +118,35 @@ class FideIngresosTb extends Model
 
         return collect($result);
     }
+    public static function mostrarIngresosPorUsuarios($idUsuario)
+    {
+        $pdo = DB::getPdo();
 
+        $stmt = $pdo->prepare("
+        DECLARE
+            C_INGRESOS SYS_REFCURSOR;
+        BEGIN
+            FIDE_MOSTRAR_INGRESOS_TABLA_SPS(:P_ID_USUARIO, :C_INGRESOS);
+        END;
+    ");
+
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
+        $stmt->bindParam(':C_INGRESOS', $cursor, PDO::PARAM_STMT);
+
+        $stmt->execute();
+
+        oci_execute($cursor, OCI_DEFAULT);
+
+        $result = [];
+        while (($row = oci_fetch_assoc($cursor)) != false) {
+            $row['MONTO_INGRESO'] = (float) $row['MONTO_INGRESO'];
+            $result[] = $row;
+        }
+
+        oci_free_statement($cursor);
+
+        return collect($result);
+    }
     public static function mostrarIngresosPorUsuario($idUsuario, $fechaInicial, $fechaFinal, $montoMin, $montoMax)
     {
         $pdo = DB::getPdo();

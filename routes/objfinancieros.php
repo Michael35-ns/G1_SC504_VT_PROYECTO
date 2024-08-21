@@ -4,7 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObjetivoEconomicoController;
 use App\Http\Controllers\PresupuestoController;
 
-Route::get('/crear-objetivo', [ObjetivoEconomicoController::class, 'create'])->name('crearObjetivoEconomico');
-Route::post('/agregar-objetivo', [ObjetivoEconomicoController::class, 'agregarObjetivo']);
+Route::get('/crearObjetivo', [ObjetivoEconomicoController::class, 'create'])->name('crearObjetivoEconomico');
+Route::post('/agregarObjetivos', [ObjetivoEconomicoController::class, 'agregarObjetivo'])->name('agregarObjetivos');
+Route::get('/editarObjetivo/{id}', [ObjetivoEconomicoController::class, 'edit'])->name('editarObjetivoEconomico');
+Route::put('/editarObjetivo/{id}', [ObjetivoEconomicoController::class, 'update'])->name('editarObjetivo');
 Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])->name('objetivoEconomico');
-Route::resource('presupuestos', PresupuestoController::class)->only(['index', 'show']);
+Route::get('objetivo/cambiar-estado/{id}', [ObjetivoEconomicoController::class, 'cambiarEstado'])->name('cambiarEstadoObjetivo');
+Route::get('/buscarObjetivos', [ObjetivoEconomicoController::class, 'buscar'])->name('buscarObjetivos');
+
+
+

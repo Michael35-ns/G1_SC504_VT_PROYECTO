@@ -4,6 +4,7 @@ use App\Http\Controllers\Gastos\GastoController;
 use Illuminate\Support\Facades\Route;
 
 
+
 Route::get('/Gasto', [GastoController::class, 'index'])->name('Gasto');
 Route::post('/registrarGastos', [GastoController::class, 'store'])->name('registrarGastos');
 Route::get('/verMas/{id}', [GastoController::class, 'VerMasInfo'])->name('gastoVerMasInfo');

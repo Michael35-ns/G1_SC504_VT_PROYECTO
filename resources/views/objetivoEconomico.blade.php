@@ -8,20 +8,20 @@
     <section class="hidden sm:grid grid-cols-3 gap-6 justify-items-center">
         <div></div>
 
-        <div>
-            <div class="porcentajes" style="--porcentaje: 50; --color: forestgreen">
-                <svg width="150" heigth="150">
-                    <circle r="68" cx="50%" cy="50%" pathlength="100"class="bg-circle" />
-                    <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" />
+        <div x-data="{ porcentaje: {{$porcentaje}}, color: 'forestgreen' }" class="flex items-center justify-center">
+            <div class="porcentajes" :style="`--porcentaje: {{$porcentaje}}; --color: ${color}`">
+                <svg width="150" height="150">
+                    <circle r="68" cx="50%" cy="50%" pathlength="100" class="bg-circle" stroke="lightgray" stroke-width="12" fill="none" />
+                    <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" :style="`stroke-dasharray: ${porcentaje} 100`" stroke="forestgreen" stroke-width="12" fill="none" />
                 </svg>
-                <span>50%</span>
+                <span>{{$porcentaje}}%</span>
             </div>
         </div>
 
         <div class="w-full max-w-80">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-gray-400 space-y-2">
                 <h2 class="text-3xl font-medium text-center text-white">
-                    2
+                    {{ $totalObjetivos }}
                 </h2>
                 <h4 class="text-xl font-bold text-center text-white">
                     {{ __('Total de Objetivos') }}
@@ -32,10 +32,10 @@
         <div class="w-full max-w-96">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-gray-400 space-y-2">
                 <h3 class="text-3xl font-bold text-center text-white">
-                    {{ __('Objetivos Cumplidos') }}
+                    {{ __('Objetivos Activos') }}
                 </h3>
                 <p class="text-xl font-medium text-center text-white">
-                    1
+                    {{ $objetivosActivos }}
                 </p>
             </div>
         </div>
@@ -45,159 +45,104 @@
         <div class="w-full max-w-80">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-gray-400 space-y-2">
                 <h3 class="text-3xl font-bold text-center text-white">
-                    {{ __('Objetivos Fallidos') }}
+                    {{ __('Objetivos Inactivos') }}
                 </h3>
                 <p class="text-xl font-medium text-center text-white italic">
-                    0
+                    {{ $objetivosInactivos }}
                 </p>
             </div>
         </div>
     </section>
 
-    <section class="flex flex-col gap-4">
-
-        <section x-data="{ open: false, filtro: '', search: '', confirmacionEliminar: '', nuevo_objetivo: '' }" class="flex flex-col gap-5 py-5">
-            <div class="flex gap-4 justify-center items-center">
-                <div class="flex w-60 rounded-full bg-gray-200">
-                    <input type="search" name="buscar" id="buscar" placeholder="Buscar"
-                        class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none" />
-                    <button class="m-2 rounded px-4 py-2">
-                        <img src="https://cdn-icons-png.flaticon.com/256/25/25313.png" alt="lupa" width="20px"
-                            height="20px">
-                    </button>
-                </div>
-                <div class="ml-4">
-                    <button @click="open=true"
-                        class="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 transition text-gray-900 flex items-center rounded-full">
-                        Aplicar Filtros <img src="https://cdn-icons-png.flaticon.com/512/151/151861.png" alt=""
-                            width="15px" height="15px" class="ml-2">
-                    </button>
-                </div>
-
-                <div></div>
-                <a href="{{ route('crearObjetivoEconomico') }}" class="block">
-                    <button @click="nuevo_objetivo=true"
-                        class="w-full py-2 px-4 text-gray-900 flex items-center bg-blue-300 rounded-full hover:bg-blue-400 transition">
-                        Agregar un objetivo
-                        <img src="https://cdn-icons-png.flaticon.com/512/6711/6711415.png"
-                            alt="" width="25px" height="25px" class="ml-2">
-                    </button>
-                </a>
-                
-
+    @if(session('status') === 'success')
+        <div class="flex items-center justify-center">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shadow-lg max-w-sm w-full">
+                <span class="block sm:inline">El estado del objetivo se ha cambiado con éxito.</span>
             </div>
-            <div x-show="open" style="display: none"
-                class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                <form x-on:submit.prevent="document.getElementById('searchForm').submit()" id="searchForm"
-                    action="{{ route('buscarIngresos') }}" method="POST"
-                    class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                    @csrf
-                    <h3 class="text-lg font-semibold mb-4">Aplicar Filtros</h3>
-                    <div class="mb-4">
-                        <label for="search" class="block text-sm font-medium text-gray-700">Buscar</label>
-                        <input type="text" id="search" name="search" x-model="search"
-                            class="border border-gray-300 rounded w-full py-2 px-4">
-                    </div>
-                    <div class="mb-4">
-                        <label for="filtro" class="block text-sm font-medium text-gray-700">Filtrar por</label>
-                        <select id="filtro" name="filtro" x-model="filtro"
-                            class="border border-gray-300 rounded w-full py-2 px-4">
-                            <option value="">Filtrar por...</option>
-                            <option value="fecha">Fecha</option>
-                            <option value="monto">Monto</option>
-                        </select>
-                    </div>
-                    <div class="flex justify-end space-x-4">
-                        <button type="button" @click="open = false" class="py-2 px-4 bg-gray-300 rounded">Cancelar</button>
-                        <button type="submit" class="py-2 px-4 bg-cyan-600 text-white rounded">Aplicar</button>
-                    </div>
-                </form>
+        </div>
+    @elseif(session('status') === 'error')
+        <div class="flex items-center justify-center">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative shadow-lg max-w-sm w-full">
+                <span class="block sm:inline">Error al cambiar el estado del objetivo: {{ session('message') }}</span>
             </div>
+        </div>
+    @endif
 
+    <section x-data="{ open: false, search: '', confirmacionEliminar: '', nuevo_objetivo: '' }" class="flex flex-col gap-5 py-5">
+        <div class="flex gap-4 justify-center items-center">
+            <form action="{{ route('buscarObjetivos') }}" method="GET" class="flex w-60 rounded-full bg-gray-200">
+                <input type="search" name="buscar" id="buscar" placeholder="Buscar"
+                    class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none" />
+                <button type="submit" class="m-2 rounded px-4 py-2">
+                    <img src="https://cdn-icons-png.flaticon.com/256/25/25313.png" alt="lupa" width="20px" height="20px">
+                </button>
+            </form>
+            <div></div>
+            <a href="{{ route('crearObjetivoEconomico') }}" class="block">
+                <button @click="nuevo_objetivo=true"
+                    class="w-full py-2 px-4 text-gray-900 flex items-center bg-blue-300 rounded-full hover:bg-blue-400 transition">
+                    Agregar un objetivo
+                    <img src="https://cdn-icons-png.flaticon.com/512/6711/6711415.png"
+                        alt="" width="25px" height="25px" class="ml-2">
+                </button>
+            </a>
+        </div>
 
-            <div class="col-span-full">
-                <div class="divide-y divide-gray-600 w-3/4 mx-auto bg-white shadow-md rounded-lg">
-                    @foreach ($objetivos as $objetivo)
-                        <div class="py-4 px-4 flex justify-between items-center">
-                            <div class="flex-1">
-                                <div class="px-3 py-1 text-left text-xs font-medium text-black uppercase tracking-wider">
-                                    Objectivo: <span
-                                        class="font-bold text-gray-700">{{ $objetivo['nombre_objetivo'] }}</span>
-                                </div>
-                                <div
-                                class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Descripción: <span
-                                    class="font-normal text-gray-700">{{ $objetivo['descripcion_objetivo'] }}</span>
+        <div class="col-span-full">
+            <div class="divide-y divide-gray-600 w-3/4 mx-auto bg-white shadow-md rounded-lg">
+                @forelse ($objetivos as $objetivo)
+                    <div class="py-4 px-4 flex justify-between items-center">
+                        <div class="flex-1">
+                            <div class="px-3 py-1 text-left text-xs font-medium text-black uppercase tracking-wider">
+                                Objetivo: <span class="font-bold text-gray-700">{{ $objetivo['NOMBRE_OBJETIVO'] }}</span>
                             </div>
-                                <div
-                                    class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fecha Tope: <span
-                                        class="font-normal text-gray-700">{{ $objetivo['fecha_tope'] }}</span>
-                                </div>
-                                <div
-                                    class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Monto: <span class="font-normal text-gray-700">{{ $objetivo['monto_objetivo'] }}</span>
-                                </div>
-
+                            <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Descripción: <span class="font-normal text-gray-700">{{ $objetivo['DESCRIPCION_OBJETIVO'] }}</span>
                             </div>
-                            <div class="flex space-x-2">
-                                <div class="flex flex-col space-y-2">
-                                    <a href="#"
-                                        class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition">
-                                        <span>Ver Más Info</span>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/151/151861.png" alt=""
-                                            width="15px" height="15px" class="ml-2">
-                                    </a>
-                                    <a href="#"
-                                        class="flex items-center bg-green-400 text-white px-3 py-1 rounded-full hover:bg-green-600 transition">
-                                        <span>En Progreso</span>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/4909/4909732.png" alt=""
-                                            width="20px" height="20px" class="ml-2">
-                                    </a>
-                                </div>
-                                <div class="flex flex-col space-y-2">
-                                    <a href="#"
-                                        class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition">
-                                        <span>Actualizar</span>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
-                                            width="20px" height="20px" class="ml-2">
-                                    </a>
-                                    <button @click="confirmacionEliminar=true"
-                                        class="flex items-center bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition">
-                                        <span>Eliminar</span>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt=""
-                                            width="20px" height="20px" class="ml-2">
-                                    </button>
-                                </div>
+                            <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Fecha Tope: <span class="font-normal text-gray-700">{{ $objetivo['FECHA_TOPE'] }}</span>
+                            </div>
+                            <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Monto: <span class="font-normal text-gray-700">{{ $objetivo['MONTO_OBJETIVO'] }}</span>
+                            </div>
+                            <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Estado: <span class="font-normal text-gray-700">{{ $objetivo['ID_ESTADO'] == 1 ? 'Inactivo' : 'Activo' }}</span>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            </div>
+                        <div class="flex space-x-2">
+                            <div class="flex flex-col space-y-2">
 
-
-
-            <div x-show="confirmacionEliminar" style="display: none"
-                class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                <div class="bg-gray-950 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3817/3817209.png" alt="confirmación" width="60px"
-                        height="60px" class="mx-auto mb-4">
-                    <p class="text-lg mb-4">¿Estás seguro que quieres eliminar este ingreso?</p>
-                    <div class="flex justify-center space-x-4">
-                        <button @click="confirmacionEliminar = false"
-                            class="py-2 px-4 bg-blue-500 text-white rounded-lg w-24">No</button>
-                        <button @click="confirmacionEliminar = false"
-                            class="py-2 px-4 bg-red-500 text-white rounded-lg w-24">Eliminar</button>
+                                <a href="#"
+                                    class="flex items-center bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600 transition">
+                                    <span>En Progreso</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/512/4909/4909732.png" alt=""
+                                        width="20px" height="20px" class="ml-2">
+                                </a>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <a href="{{ route('editarObjetivoEconomico', ['id' => $objetivo['ID_OBJETIVO']]) }}"
+                                    class="flex items-center bg-blue-300 text-white px-3 py-1 rounded-full hover:bg-gray-600 transition">
+                                    <span>Actualizar</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
+                                        width="20px" height="20px" class="ml-2">
+                                </a>
+                                <a href="{{ route('cambiarEstadoObjetivo', ['id' => $objetivo['ID_OBJETIVO']]) }}"
+                                    class="flex items-center {{ $objetivo['ID_ESTADO'] == 1 ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }} text-white px-3 py-1 rounded-full transition">
+                                    <span>{{ $objetivo['ID_ESTADO'] == 1 ? 'Inactivar' : 'Activar' }}</span>
+                                    <img src="{{ $objetivo['ID_ESTADO'] == 1 ? 'https://cdn-icons-png.flaticon.com/512/1214/1214428.png' : 'https://cdn-icons-png.flaticon.com/512/148/148766.png' }}" alt=""
+                                        width="20px" height="20px" class="ml-2">
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @empty
+                    <div class="py-4 px-4 text-center">
+                        <p class="text-gray-500">No se encontraron objetivos que coincidan con tu búsqueda.</p>
+                    </div>
+                @endforelse
             </div>
-
-
-            <div class="col-span-full mt-4">
-
+        </div>
             </div>
-
-        </section>
-
+        </div>
     </section>
 @endsection
