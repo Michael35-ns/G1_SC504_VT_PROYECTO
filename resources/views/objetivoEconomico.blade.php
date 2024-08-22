@@ -113,7 +113,7 @@
                         <div class="flex space-x-2">
                             <div class="flex flex-col space-y-2">
 
-                                <a href="#"
+                                <a href="{{ route('verObjetivo', ['id' => $objetivo['ID_OBJETIVO']]) }}"
                                     class="flex items-center bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600 transition">
                                     <span>En Progreso</span>
                                     <img src="https://cdn-icons-png.flaticon.com/512/4909/4909732.png" alt=""

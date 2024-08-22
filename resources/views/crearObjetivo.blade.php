@@ -41,36 +41,34 @@
                     @php
                         $found = false;
                     @endphp
-                
-                    @foreach ($gastos as $gasto)
-                        @if($gasto['ID_TIPO_CATEGORIA'] == 3)
-                            @php
-                                $found = true;
-                            @endphp
-                            <select id="gasto" name="ID_GASTO"
-                                class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
+                    <select id="gasto" name="ID_GASTO"
+                        class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
+                        @foreach ($gastos as $gasto)
+                            @if($gasto['ID_TIPO_CATEGORIA'] == 3)
+                                @php
+                                    $found = true;
+                                @endphp
                                 <option value="{{ $gasto['ID_GASTO'] }}"
                                     {{ old('ID_GASTO') == $gasto['ID_GASTO'] ? 'selected' : '' }}>
-                                    {{ $gasto['TIPO_TRANSACCION'] }}
+                                    {{ $gasto['DESCRIPCION_GASTO'] }}
                                 </option>
-                            </select>
-                        @endif
-                    @endforeach
-                
+                            @endif
+                        @endforeach
+                    </select>
                     @if(!$found)
                         <p class="text-red-500 text-md text-center mt-1">No se encontraron gastos con la categoria Objetivos Financieros</p>
                         <div style="text-align: center;">
                             <a href="{{ route('Gasto') }}" 
-                               class="inline-block bg-green-600 hover:bg-green-8    00 text-white font-bold py-2 px-2 rounded">
+                               class="inline-block bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-2 rounded">
                                Agregar Gasto
                             </a>
                         </div>
                     @endif
-                
                     @error('ID_GASTO')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                
 
                 <div class="mb-4">
                     <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Flujo</label>

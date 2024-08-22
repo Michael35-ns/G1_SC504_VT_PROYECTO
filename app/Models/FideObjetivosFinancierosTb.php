@@ -85,6 +85,31 @@ class FideObjetivosFinancierosTb extends Model
         return collect($result);
     }
 
+    public static function mostrarObjetivosId($idUsuario,$idObjetivo)
+    {
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+            DECLARE
+                C_OBJETIVOS SYS_REFCURSOR;
+            BEGIN
+                FIDE_PROYECTO_FINAL_PKG.FIDE_MOSTRAR_OBJETIVOS_X_ID_OBJETIVO_TABLA_SP(:P_ID_USUARIO, :C_OBJETIVOS, :P_ID_OBJETIVO);
+            END;
+        ");
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
+        $stmt->bindParam(':C_OBJETIVOS', $cursor, PDO::PARAM_STMT);
+        $stmt->bindParam(':P_ID_OBJETIVO', $idObjetivo);
+        $stmt->execute();
+        oci_execute($cursor, OCI_DEFAULT);
+        $result = [];
+        $key = '12345678901234567890123456789012';
+        while (($row = oci_fetch_assoc($cursor)) != false) {
+            $result[] = $row;
+        }
+        oci_free_statement($cursor);
+        return collect($result);
+    }
+
+
     public static function buscarObjetivos($nombreObjetivo, $idUsuario)
     {
         $pdo = DB::getPdo();
@@ -126,7 +151,6 @@ class FideObjetivosFinancierosTb extends Model
         $idFlujo,
         $idEstado,
         $idTransaccion,
-        $idTipoCategoria,
         $idIngreso,
         $idObjetivo
     ) {
@@ -142,7 +166,6 @@ class FideObjetivosFinancierosTb extends Model
             P_ID_FLUJO NUMBER;
             p_id_estado NUMBER;
             p_id_transaccion NUMBER;
-            P_ID_TIPO_CATEGORIA NUMBER;
             p_id_ingreso NUMBER;
             p_id_objetivo NUMBER;
         BEGIN
@@ -156,12 +179,12 @@ class FideObjetivosFinancierosTb extends Model
                 :P_ID_FLUJO,
                 :p_id_estado,
                 :p_id_transaccion,
-                :P_ID_TIPO_CATEGORIA,
                 :p_id_ingreso,
                 :p_id_objetivo
             );
         END;
     ");
+    
         $stmt->bindParam(':P_NOMBRE_OBJETIVO', $nombreObjetivo);
         $stmt->bindParam(':P_DESCRIPCION_OBJETIVO', $descripcionObjetivo);
         $stmt->bindParam(':p_MONTO_OBJETIVO', $montoObjetivo);
@@ -171,13 +194,12 @@ class FideObjetivosFinancierosTb extends Model
         $stmt->bindParam(':P_ID_FLUJO', $idFlujo);
         $stmt->bindParam(':p_id_estado', $idEstado);
         $stmt->bindParam(':p_id_transaccion', $idTransaccion);
-        $stmt->bindParam(':P_ID_TIPO_CATEGORIA', $idTipoCategoria);
         $stmt->bindParam(':p_id_ingreso', $idIngreso);
-        $stmt->bindParam(':p_id_presupuesto', $idPresupuesto);
         $stmt->bindParam(':p_id_objetivo', $idObjetivo);
-
+    
         $stmt->execute();
     }
+    
 
     public static function contarObjetivos($idUsuario)
     {

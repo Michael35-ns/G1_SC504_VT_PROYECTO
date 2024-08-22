@@ -10,6 +10,6 @@ Route::put('/editarObjetivo/{id}', [ObjetivoEconomicoController::class, 'update'
 Route::get('/objetivoEconomico', [ObjetivoEconomicoController::class, 'index'])->name('objetivoEconomico');
 Route::get('objetivo/cambiar-estado/{id}', [ObjetivoEconomicoController::class, 'cambiarEstado'])->name('cambiarEstadoObjetivo');
 Route::get('/buscarObjetivos', [ObjetivoEconomicoController::class, 'buscar'])->name('buscarObjetivos');
-
+Route::get('/verObjetivo/{id}', [ObjetivoEconomicoController::class, 'view'])->name('verObjetivo');
 
 

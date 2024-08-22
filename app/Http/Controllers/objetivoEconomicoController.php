@@ -127,7 +127,6 @@ class ObjetivoEconomicoController extends Controller
             'monto_objetivo' => 'required|numeric',
             'fecha_tope' => 'required|date',
             'ID_GASTO' => 'required|integer',
-            'ID_TIPO_CATEGORIA' => 'required|integer',
             'ID_FLUJO' => 'required|integer',
             'id_estado' => 'required|integer',
             'ID_TRANSACCION' => 'required|integer',
@@ -144,7 +143,6 @@ class ObjetivoEconomicoController extends Controller
             $validated['ID_FLUJO'],
             $validated['id_estado'],
             $validated['ID_TRANSACCION'],
-            $validated['ID_TIPO_CATEGORIA'],
             $validated['ID_INGRESO'],
             $id
         );
@@ -190,4 +188,13 @@ class ObjetivoEconomicoController extends Controller
         $objetivo = FideObjetivosFinancierosTb::mostrarObjetivosPorUsuario( $this->id_usuario);
         return view('objetivoEconomico', compact('objetivos', 'porcentaje', 'totalObjetivos', 'objetivosActivos', 'objetivosInactivos',));
     }
+
+
+public function view($id)
+{
+    $objetivos = FideObjetivosFinancierosTb::mostrarObjetivosId($this->id_usuario,$id);
+    return view('verObjetivo', [
+        'objetivos' => $objetivos
+    ]);
+}
 }
