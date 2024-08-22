@@ -145,12 +145,10 @@ class FideObjetivosFinancierosTb extends Model
         $nombreObjetivo,
         $descripcionObjetivo,
         $montoObjetivo,
-        $fechaTope,
         $idGasto,
         $idUsuario,
         $idFlujo,
         $idEstado,
-        $idTransaccion,
         $idIngreso,
         $idObjetivo
     ) {
@@ -165,7 +163,6 @@ class FideObjetivosFinancierosTb extends Model
             p_id_usuario NUMBER;
             P_ID_FLUJO NUMBER;
             p_id_estado NUMBER;
-            p_id_transaccion NUMBER;
             p_id_ingreso NUMBER;
             p_id_objetivo NUMBER;
         BEGIN
@@ -173,12 +170,10 @@ class FideObjetivosFinancierosTb extends Model
                 :P_NOMBRE_OBJETIVO,
                 :P_DESCRIPCION_OBJETIVO,
                 :p_MONTO_OBJETIVO,
-                :P_FECHA_TOPE,
                 :p_id_gastos,
                 :p_id_usuario,
                 :P_ID_FLUJO,
                 :p_id_estado,
-                :p_id_transaccion,
                 :p_id_ingreso,
                 :p_id_objetivo
             );
@@ -188,12 +183,10 @@ class FideObjetivosFinancierosTb extends Model
         $stmt->bindParam(':P_NOMBRE_OBJETIVO', $nombreObjetivo);
         $stmt->bindParam(':P_DESCRIPCION_OBJETIVO', $descripcionObjetivo);
         $stmt->bindParam(':p_MONTO_OBJETIVO', $montoObjetivo);
-        $stmt->bindParam(':P_FECHA_TOPE', $fechaTope);
         $stmt->bindParam(':p_id_gastos', $idGasto);
         $stmt->bindParam(':p_id_usuario', $idUsuario);
         $stmt->bindParam(':P_ID_FLUJO', $idFlujo);
         $stmt->bindParam(':p_id_estado', $idEstado);
-        $stmt->bindParam(':p_id_transaccion', $idTransaccion);
         $stmt->bindParam(':p_id_ingreso', $idIngreso);
         $stmt->bindParam(':p_id_objetivo', $idObjetivo);
     

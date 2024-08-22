@@ -101,13 +101,7 @@
                                 Descripción: <span class="font-normal text-gray-700">{{ $objetivo['DESCRIPCION_OBJETIVO'] }}</span>
                             </div>
                             <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Fecha Tope: <span class="font-normal text-gray-700">{{ $objetivo['FECHA_TOPE'] }}</span>
-                            </div>
-                            <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Monto: <span class="font-normal text-gray-700">{{ $objetivo['MONTO_OBJETIVO'] }}</span>
-                            </div>
-                            <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Estado: <span class="font-normal text-gray-700">{{ $objetivo['ID_ESTADO'] == 1 ? 'Inactivo' : 'Activo' }}</span>
                             </div>
                         </div>
                         <div class="flex space-x-2">

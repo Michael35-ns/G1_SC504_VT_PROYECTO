@@ -30,12 +30,6 @@
                     <input type="number" id="monto_objetivo" name="monto_objetivo"
                            class="border border-gray-300 rounded w-full py-2 px-4" required />
                 </div>
-
-                <div>
-                    <label for="fecha_tope" class="block text-sm font-medium text-gray-700">Fecha Tope</label>
-                    <input type="date" id="fecha_tope" name="fecha_tope"
-                           class="border border-gray-300 rounded w-full py-2 px-4" required />
-                </div>
                 <div class="mb-4">
                     <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Tipo de Gasto</label>
                     @php
@@ -98,22 +92,6 @@
                         @endforeach
                     </select>
                     @error('ID_ESTADO')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            
-                <div class="mb-4">
-                    <label for="transaccion" class="block text-sm font-medium text-gray-700">Categoría</label>
-                    <select id="transaccion" name="ID_TRANSACCION"
-                        class="border border-gray-300 rounded w-full py-2 px-4">
-                        @foreach ($transaccions as $transaccion)
-                            <option value="{{ $transaccion['ID_TRANSACCION'] }}"
-                                {{ old('ID_TRANSACCION') == $transaccion['ID_TRANSACCION'] ? 'selected' : '' }}>
-                                {{ $transaccion['TIPO_TRANSACCION'] }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('ID_TRANSACCION')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

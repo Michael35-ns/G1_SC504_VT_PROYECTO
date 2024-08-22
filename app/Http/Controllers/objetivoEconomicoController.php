@@ -51,7 +51,6 @@ class ObjetivoEconomicoController extends Controller
         $pNombreObjetivo = $request->input('nombre_objetivo');
         $pDescripcionObjetivo = $request->input('descripcion_objetivo');
         $pMontoObjetivo = $request->input('monto_objetivo');
-        $pFechaTope = $request->input('fecha_tope');
         $pIdGasto = $request->input('ID_GASTO');
         $pIdFlujo = $request->input('ID_FLUJO');
         $pIdEstado = $request->input('ID_ESTADO');
@@ -65,18 +64,16 @@ class ObjetivoEconomicoController extends Controller
             'p_nombre_objetivo' => $pNombreObjetivo,
             'p_descripcion_objetivo' => $pDescripcionObjetivo,
             'p_monto_objetivo' => $pMontoObjetivo,
-            'p_fecha_tope' => $pFechaTope,
             'p_id_gasto' => $pIdGasto,
             'p_id_flujo' => $pIdFlujo,
             'p_id_usuario' => $pIdUsuario,
             'p_id_estado' => $pIdEstado,
-            'p_id_transaccion' => $pIdTransaccion,
             'p_id_ingreso' => $pIdIngreso,
         ];
 
         DB::statement('BEGIN FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_AGREGAR_OBJETIVOS_SP(
-            :p_nombre_objetivo, :p_descripcion_objetivo, :p_monto_objetivo, :p_fecha_tope,
-            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado,:p_id_transaccion, :p_id_ingreso
+            :p_nombre_objetivo, :p_descripcion_objetivo, :p_monto_objetivo,
+            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado, :p_id_ingreso
         ); END;', $bindings);
 
         DB::commit();
@@ -125,7 +122,6 @@ class ObjetivoEconomicoController extends Controller
             'nombre_objetivo' => 'required|string|max:1000',
             'descripcion_objetivo' => 'required|string',
             'monto_objetivo' => 'required|numeric',
-            'fecha_tope' => 'required|date',
             'ID_GASTO' => 'required|integer',
             'ID_FLUJO' => 'required|integer',
             'id_estado' => 'required|integer',
@@ -137,12 +133,10 @@ class ObjetivoEconomicoController extends Controller
             $validated['nombre_objetivo'],
             $validated['descripcion_objetivo'],
             $validated['monto_objetivo'],
-            $validated['fecha_tope'],
             $validated['ID_GASTO'],
             $this->id_usuario,
             $validated['ID_FLUJO'],
             $validated['id_estado'],
-            $validated['ID_TRANSACCION'],
             $validated['ID_INGRESO'],
             $id
         );

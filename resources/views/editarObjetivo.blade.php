@@ -34,13 +34,6 @@
                     <input type="number" id="monto_objetivo" value="{{ old('monto_objetivo', $objetivo->monto_objetivo) }}" name="monto_objetivo"
                            class="border border-gray-300 rounded w-full py-2 px-4" required />
                 </div>
-
-                <div>
-                    <label for="fecha_tope" class="block text-sm font-medium text-gray-700">Fecha Tope</label>
-                    <input type="date" id="fecha_tope" value="{{ old('fecha_tope', $objetivo->fecha_tope) }}" name="fecha_tope"
-                           class="border border-gray-300 rounded w-full py-2 px-4" required />
-                </div>
-
                 <div class="mb-4">
                     <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Gasto</label>
                     <select id="gasto" name="ID_GASTO"

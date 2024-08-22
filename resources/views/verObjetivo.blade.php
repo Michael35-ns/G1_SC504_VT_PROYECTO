@@ -8,7 +8,7 @@
     {{-- Ver más informacion del ingreso --}}
     <div class="fixed inset-0 flex items-center justify-center ml-20">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-            <h2 class="text-2xl font-bold mb-6 text-gray-900">Detalles del Ingreso</h2>
+            <h2 class="text-2xl font-bold mb-6 text-gray-900">Detalles del Objetivo</h2>
             <div class="space-y-4">
                 @foreach ($objetivos as $objetivo)
                     <div class="flex justify-between items-center border-b pb-2">

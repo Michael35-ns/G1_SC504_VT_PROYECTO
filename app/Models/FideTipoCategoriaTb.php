@@ -34,7 +34,7 @@ class FideTipoCategoriaTb extends Model
             DECLARE
                 CURSOR_OUT SYS_REFCURSOR;
             BEGIN
-                FIDE_TIPO_CATEGORIA_SP(:CURSOR_OUT);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_TIPO_CATEGORIA_SP(:CURSOR_OUT);
             END;
         ");
 
