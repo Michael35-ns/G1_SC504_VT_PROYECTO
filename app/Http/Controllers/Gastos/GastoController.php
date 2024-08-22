@@ -131,11 +131,15 @@ class GastoController extends Controller
     public function crearCategoriaGasto(Request $request)
     {
         $validated = $request->validate([
-            'categoria' => 'required|string|max:1000'
+            'categoria' => 'required|string|max:1000',
+            'tipo_categoria' => 'required|string'
         ]);
+    
+        // Determinar el valor basado en la opción seleccionada
+        $tipoCategoria = $request->input('tipo_categoria') === 'gasto' ? 2 : 3;
         FideCategoriaTransaccionTb::agregarCategoria(
             $validated['categoria'],
-            2,
+            $tipoCategoria,
             $this->id_usuario,
             1
         );

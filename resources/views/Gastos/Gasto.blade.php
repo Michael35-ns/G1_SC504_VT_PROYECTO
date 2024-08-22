@@ -292,6 +292,14 @@
                             <input type="text" id="categoria" name="categoria"
                                 class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
                         </div>
+                        <div class="mb-4">
+                            <label for="tipo_categoria" class="block text-sm font-medium text-gray-700">Tipo de Categoría:</label>
+                            <select id="tipo_categoria" name="tipo_categoria"
+                                class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                                <option value="gasto">Gasto</option>
+                                <option value="objetivo">Objetivo Económico</option>
+                            </select>
+                        </div>
                         <button type="submit"
                             class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Agregar</button>
                         <button type="button" @click="OpenCrearCategoria = false"

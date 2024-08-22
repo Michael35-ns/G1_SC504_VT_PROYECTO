@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObjetivoEconomicoController;
-use App\Http\Controllers\PresupuestoController;
 
 Route::get('/crearObjetivo', [ObjetivoEconomicoController::class, 'create'])->name('crearObjetivoEconomico');
 Route::post('/agregarObjetivos', [ObjetivoEconomicoController::class, 'agregarObjetivo'])->name('agregarObjetivos');
