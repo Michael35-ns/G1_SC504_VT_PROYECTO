@@ -23,7 +23,7 @@ class LoginController extends Controller
         $correo_electronico = $validatedData['correo_electronico'];
         $contrasenna = $validatedData['contrasenna'];
         $pdo = DB::getPdo();
-        $stmt = $pdo->prepare('BEGIN FIDE_USUARIOS_TB_LOGIN_SP(:correo_electronico, :contrasenna, :id_usuario, :username); END;');
+        $stmt = $pdo->prepare('BEGIN FIDE_PROYECTO_FINAL_PKG.FIDE_USUARIOS_TB_LOGIN_SP(:correo_electronico, :contrasenna, :id_usuario, :username); END;');
         $stmt->bindParam(':correo_electronico', $correo_electronico, PDO::PARAM_STR);
         $stmt->bindParam(':contrasenna', $contrasenna, PDO::PARAM_STR);
         $id_usuario = null;

@@ -62,7 +62,7 @@ class FideGastosTb extends Model
             DECLARE
                 C_GASTOS SYS_REFCURSOR;
             BEGIN
-                FIDE_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :C_GASTOS);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :C_GASTOS);
             END;
         ");
 
@@ -104,7 +104,7 @@ class FideGastosTb extends Model
             DECLARE
                 C_GASTOS SYS_REFCURSOR;
             BEGIN
-                FIDE_GASTOS_TB_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :P_FECHA_INICIAL, :P_FECHA_FINAL, :P_MONTO_MINIMO, :P_MONTO_MAXIMO, :C_GASTOS);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :P_FECHA_INICIAL, :P_FECHA_FINAL, :P_MONTO_MINIMO, :P_MONTO_MAXIMO, :C_GASTOS);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
@@ -140,7 +140,7 @@ class FideGastosTb extends Model
                 P_ID_TRANSACCION NUMBER;
                 P_ID_ESTADO NUMBER;
             BEGIN
-                FIDE_GASTOS_TB_AGREGAR_GASTO_TB_SP(
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_AGREGAR_GASTO_TB_SP(
                     :P_MONTO_GASTO,
                     :P_DESCRIPCION_GASTO,
                     :P_FECHA_GASTO,
@@ -171,7 +171,7 @@ class FideGastosTb extends Model
         DECLARE
             C_GASTOS SYS_REFCURSOR;
         BEGIN
-            FIDE_GASTOS_TB_ENCONTRAR_GASTO_SP(:P_ID_GASTO, :C_GASTOS);
+            FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_ENCONTRAR_GASTO_SP(:P_ID_GASTO, :C_GASTOS);
         END;
     ");
 
@@ -203,7 +203,7 @@ class FideGastosTb extends Model
 
         $stmt = $pdo->prepare("
             BEGIN
-                FIDE_GASTOS_TB_EDITAR_GASTO_SP(
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_EDITAR_GASTO_SP(
                     P_ID_GASTO => :P_ID_GASTO,
                     P_DESCRIPCION_GASTO => :P_DESCRIPCION_GASTO,
                     P_MONTO_GASTO => :P_MONTO_GASTO,
@@ -234,7 +234,7 @@ class FideGastosTb extends Model
         $stmt = $pdo->prepare("
             DECLARE
                 BEGIN
-                    FIDE_GASTOS_TB_ELIMINAR_GASTO_SP(:P_ID_GASTO);
+                    FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_ELIMINAR_GASTO_SP(:P_ID_GASTO);
                 END;
         ");
         $stmt->bindParam(':P_ID_GASTO', $id_gasto, PDO::PARAM_INT);
@@ -248,7 +248,7 @@ class FideGastosTb extends Model
             DECLARE
                 C_OPERACIONES SYS_REFCURSOR;
             BEGIN
-                FIDE_GASTOS_TB_TOTAL_GASTOS_SP(:P_ID_USUARIO, :C_OPERACIONES);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_TOTAL_GASTOS_SP(:P_ID_USUARIO, :C_OPERACIONES);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
@@ -272,7 +272,7 @@ class FideGastosTb extends Model
             DECLARE
                 C_OPERACIONES SYS_REFCURSOR;
             BEGIN
-                FIDE_GASTOS_TB_Y_FIDE_INGRESOS_TB_OBTENER_DINERO_RESTANTE_SP(:P_ID_USUARIO, :C_OPERACIONES);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_Y_FIDE_INGRESOS_TB_OBTENER_DINERO_RESTANTE_SP(:P_ID_USUARIO, :C_OPERACIONES);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
@@ -296,7 +296,7 @@ class FideGastosTb extends Model
             DECLARE
                 C_OPERACIONES SYS_REFCURSOR;
             BEGIN
-                FIDE_GASTOS_TB_Y_FIDE_INGRESOS_TB_PORCENTAJE_DINERO_GASTADO_SP(:P_ID_USUARIO, :C_OPERACIONES);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_Y_FIDE_INGRESOS_TB_PORCENTAJE_DINERO_GASTADO_SP(:P_ID_USUARIO, :C_OPERACIONES);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);

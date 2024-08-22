@@ -94,7 +94,7 @@ class IngresoController extends Controller
     public function edit($id)
     {
         $ingreso = FideIngresosTb::encontrarIngresoPorID($id);
-        $categorias = FideCategoriaTransaccionTb::SP_ALL_BY_ID($this->id_usuario);
+        $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_INGRESOS_BY_ID_USUARIO($this->id_usuario);
         $flujos = FideFlujoTb::getAllFlujos($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados();
         return view('Ingresos.editar', compact('ingreso', 'categorias', 'flujos', 'estados'));

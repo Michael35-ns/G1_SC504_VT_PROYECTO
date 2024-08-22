@@ -66,7 +66,7 @@ class FideIngresosTb extends Model
                 P_ID_FLUJO NUMBER;
                 P_ID_ESTADO NUMBER;
             BEGIN
-                FIDE_AGREGAR_INGRESOS_TB_SP(
+                FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_AGREGAR_INGRESO_SP(
                     :P_DESCRIPCION_INGRESO,
                     :P_MONTO_INGRESO,
                     :P_FECHA_INGRESO,
@@ -97,7 +97,7 @@ class FideIngresosTb extends Model
         DECLARE
             C_OPERACIONES SYS_REFCURSOR;
         BEGIN
-            FIDE_OBTENER_VALORES_ACTIVOS_SP(:P_ID_USUARIO, :C_OPERACIONES);
+            FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_OBTENER_VALORES_ACTIVOS_SP(:P_ID_USUARIO, :C_OPERACIONES);
         END;
     ");
 
@@ -126,7 +126,7 @@ class FideIngresosTb extends Model
         DECLARE
             C_INGRESOS SYS_REFCURSOR;
         BEGIN
-            FIDE_MOSTRAR_INGRESOS_TABLA_SPS(:P_ID_USUARIO, :C_INGRESOS);
+            FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_MOSTRAR_INGRESOS_TABLA_SP(:P_ID_USUARIO, :C_INGRESOS);
         END;
     ");
 
@@ -147,6 +147,7 @@ class FideIngresosTb extends Model
 
         return collect($result);
     }
+
     public static function mostrarIngresosPorUsuario($idUsuario, $fechaInicial, $fechaFinal, $montoMin, $montoMax)
     {
         $pdo = DB::getPdo();
@@ -155,7 +156,7 @@ class FideIngresosTb extends Model
         DECLARE
             C_INGRESOS SYS_REFCURSOR;
         BEGIN
-            FIDE_MOSTRAR_INGRESOS_TABLA_SP(:P_ID_USUARIO, :P_FECHA_INICIAL, :P_FECHA_FINAL, :P_MONTO_MINIMO, :P_MONTO_MAXIMO, :C_INGRESOS);
+            FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_MOSTRAR_INGRESOS_TABLA_SP(:P_ID_USUARIO, :P_FECHA_INICIAL, :P_FECHA_FINAL, :P_MONTO_MINIMO, :P_MONTO_MAXIMO, :C_INGRESOS);
         END;
     ");
 
@@ -188,7 +189,7 @@ class FideIngresosTb extends Model
         $stmt = $pdo->prepare("
             DECLARE
                 BEGIN
-                    FIDE_BORRAR_INGRESO_SP(:P_ID_INGRESO);
+                    FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_BORRAR_INGRESO_SP(:P_ID_INGRESO);
                 END;
         ");
 
@@ -211,7 +212,7 @@ class FideIngresosTb extends Model
         P_ID_FLUJO NUMBER;
         P_ID_ESTADO NUMBER;
     BEGIN
-        FIDE_EDITAR_INGRESO_SP(
+        FIDE_PROYECTO_FINAL_PKG.FIDE_INGREOS_TB_EDITAR_INGRESO_SP(
             P_ID_INGRESO => :P_ID_INGRESO,
             P_DESCRIPCION_INGRESO => :P_DESCRIPCION_INGRESO,
             P_MONTO_INGRESO => :P_MONTO_INGRESO,
@@ -242,7 +243,7 @@ class FideIngresosTb extends Model
         DECLARE
             C_INGRESOS SYS_REFCURSOR;
         BEGIN
-            FIDE_ENCONTRAR_INGRESO_SP(:P_ID_INGRESO, :C_INGRESOS);
+            FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_ENCONTRAR_INGRESO_SP(:P_ID_INGRESO, :C_INGRESOS);
         END;
     ");
 

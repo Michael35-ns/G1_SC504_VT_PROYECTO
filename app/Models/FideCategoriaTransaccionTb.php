@@ -44,39 +44,6 @@ class FideCategoriaTransaccionTb extends Model
     }
 
     //Procesos de Oracle(SP)
-    public static function SP_ALL_BY_ID($idUsuario)
-    {
-        $pdo = DB::getPdo();
-
-        // Preparamos la sentencia
-        $stmt = $pdo->prepare("
-        DECLARE
-            CURSOR_OUT SYS_REFCURSOR;
-        BEGIN
-            FIDE_CATEGORIA_TRANSACCION_SP(:P_ID_USUARIO, :CURSOR_OUT);
-        END;
-    ");
-
-        // Bind de parámetros
-        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
-        $stmt->bindParam(':CURSOR_OUT', $cursor, PDO::PARAM_STMT);
-
-        // Ejecutamos la sentencia
-        $stmt->execute();
-
-        // Recuperamos los datos del cursor
-        oci_execute($cursor, OCI_DEFAULT);
-
-        $result = [];
-        while (($row = oci_fetch_assoc($cursor)) != false) {
-            $result[] = $row;
-        }
-
-        oci_free_statement($cursor);
-
-        return collect($result);
-    }
-
     public static function Mostrar_Categorias_GASTOS_BY_ID_USUARIO($idUsuario)
     {
         $pdo = DB::getPdo();
@@ -84,7 +51,7 @@ class FideCategoriaTransaccionTb extends Model
             DECLARE
                 CURSOR_OUT SYS_REFCURSOR;
             BEGIN
-                FIDE_CATEGORIA_TRANSACCION_TB_GASTOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_CATEGORIA_TRANSACCION_TB_GASTOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
@@ -107,7 +74,7 @@ class FideCategoriaTransaccionTb extends Model
             DECLARE
                 CURSOR_OUT SYS_REFCURSOR;
             BEGIN
-                FIDE_CATEGORIA_TRANSACCION_TB_INGRESOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_CATEGORIA_TRANSACCION_TB_INGRESOS_SP(:P_ID_USUARIO, :CURSOR_OUT);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
@@ -129,7 +96,7 @@ class FideCategoriaTransaccionTb extends Model
 
         $stmt = $pdo->prepare("
             BEGIN
-                FIDE_CATEGORIA_TRANSACCION_TB_CREAR_CATEGORIA_SP(
+                FIDE_PROYECTO_FINAL_PKG.FIDE_CATEGORIA_TRANSACCION_TB_CREAR_CATEGORIA_SP(
                     :P_TIPO_TRANSACCION,
                     :P_ID_TIPO_CATEGORIA,
                     :P_ID_USUARIO,
@@ -151,7 +118,7 @@ class FideCategoriaTransaccionTb extends Model
         $stmt = $pdo->prepare("
             DECLARE
                 BEGIN
-                    FIDE_CATEGORIA_TRANSACCION_TB_ELIMINAR_CATEGORIA_SP(:P_ID_TRANSACCION);
+                    FIDE_PROYECTO_FINAL_PKG.FIDE_CATEGORIA_TRANSACCION_TB_ELIMINAR_CATEGORIA_SP(:P_ID_TRANSACCION);
                 END;
         ");
         $stmt->bindParam(':P_ID_TRANSACCION', $ID_TRANSACCION, PDO::PARAM_INT);
