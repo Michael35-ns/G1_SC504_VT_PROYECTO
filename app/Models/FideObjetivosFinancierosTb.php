@@ -186,7 +186,7 @@ class FideObjetivosFinancierosTb extends Model
             DECLARE
                 v_total NUMBER;
             BEGIN
-                v_total := FIDE_OBJETIVOS_TB_CONTAR_OBJETIVOS_FUNC(:idUsuario);
+                v_total := FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_TB_CONTAR_OBJETIVOS_FUNC(:idUsuario);
                 :result := v_total;
             END;
         ");
@@ -203,7 +203,7 @@ class FideObjetivosFinancierosTb extends Model
             DECLARE
                 v_total NUMBER;
             BEGIN
-                v_total := FIDE_OBJETIVOS_TB_CONTAR_OBJETIVOS_ACTIVOS_FUNC(:idUsuario);
+                v_total := FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_TB_CONTAR_OBJETIVOS_ACTIVOS_FUNC(:idUsuario);
                 :result := v_total;
             END;
         ");
@@ -220,7 +220,7 @@ class FideObjetivosFinancierosTb extends Model
             DECLARE
                 v_total NUMBER;
             BEGIN
-                v_total := FIDE_OBJETIVOS_TB_CONTAR_OBJETIVOS_INACTIVOS_FUNC(:idUsuario);
+                v_total := FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_TB_CONTAR_OBJETIVOS_INACTIVOS_FUNC(:idUsuario);
                 :result := v_total;
             END;
         ");
@@ -231,20 +231,24 @@ class FideObjetivosFinancierosTb extends Model
     }
     
 
-    public static function calcPorcentaje($idUsuario)
+public static function calcPorcentaje($idUsuario)
     {
         $pdo = DB::getPdo();
         $stmt = $pdo->prepare("
-            DECLARE
-                v_porcentaje NUMBER;
             BEGIN
-                v_porcentaje := FIDE_OBJETIVOS_FINANCIEROS_CALC_PORCENTAJE_FUNC(:idUsuario);
-                :result := v_porcentaje;
+                :result := FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_CALC_PORCENTAJE_FUNC(:idUsuario);
             END;
         ");
         $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
-        $stmt->bindParam(':result', $result, PDO::PARAM_STR | PDO::PARAM_INPUT_OUTPUT, 32); // Cambié PDO::PARAM_INT a PDO::PARAM_STR para manejar decimales correctamente
+        
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(':result', $result, PDO::PARAM_INT | PDO::PARAM_INPUT_OUTPUT, 32);
         $stmt->execute();
         return $result;
-    }
+    } 
+
+    
+
+    
+    
 }    

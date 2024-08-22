@@ -56,7 +56,6 @@ class ObjetivoEconomicoController extends Controller
         $pIdFlujo = $request->input('ID_FLUJO');
         $pIdEstado = $request->input('ID_ESTADO');
         $pIdTransaccion = $request->input('ID_TRANSACCION');
-        $pIdCategoria = $request->input('ID_TIPO_CATEGORIA');
         $pIdIngreso = $request->input('ID_INGRESO');
         $pIdUsuario = $this->id_usuario;
 
@@ -72,18 +71,17 @@ class ObjetivoEconomicoController extends Controller
             'p_id_usuario' => $pIdUsuario,
             'p_id_estado' => $pIdEstado,
             'p_id_transaccion' => $pIdTransaccion,
-            'p_id_tipo_categoria' => $pIdCategoria,
             'p_id_ingreso' => $pIdIngreso,
         ];
 
         DB::statement('BEGIN FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_AGREGAR_OBJETIVOS_SP(
             :p_nombre_objetivo, :p_descripcion_objetivo, :p_monto_objetivo, :p_fecha_tope,
-            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado,:p_id_transaccion,:p_id_tipo_categoria, :p_id_ingreso,
+            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado,:p_id_transaccion, :p_id_ingreso
         ); END;', $bindings);
 
         DB::commit();
         $objetivos = FideObjetivosFinancierosTb::mostrarObjetivosPorUsuario($this->id_usuario);
-        $categorias = FideCategoriaTransaccionTb::SP_ALL_BY_ID($this->id_usuario);
+        $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
         $totalObjetivos = FideObjetivosFinancierosTb::contarObjetivos( $this->id_usuario);
         $objetivosActivos = FideObjetivosFinancierosTb::contarObjetivosActivos($this->id_usuario);
         $objetivosInactivos = FideObjetivosFinancierosTb::contarObjetivosInactivos( $this->id_usuario);
@@ -159,7 +157,7 @@ class ObjetivoEconomicoController extends Controller
         $totalObjetivos = FideObjetivosFinancierosTb::contarObjetivos( $this->id_usuario);
         $objetivosActivos = FideObjetivosFinancierosTb::contarObjetivosActivos($this->id_usuario);
         $objetivosInactivos = FideObjetivosFinancierosTb::contarObjetivosInactivos( $this->id_usuario);
-        $porcentaje = round(FideObjetivosFinancierosTb::calcPorcentaje( $this->id_usuario), 2);
+        $porcentaje = FideObjetivosFinancierosTb::calcPorcentaje( $this->id_usuario);
         $objetivos = FideObjetivosFinancierosTb::mostrarObjetivosPorUsuario($this->id_usuario);
 
         return view('objetivoEconomico', [

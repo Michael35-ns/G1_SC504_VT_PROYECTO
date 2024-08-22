@@ -71,24 +71,6 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                
-                
-                
-                <div class="mb-4">
-                    <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Categoria</label>
-                    <select id="gasto" name="ID_TIPO_CATEGORIA"
-                        class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
-                        @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria['ID_TIPO_CATEGORIA'] }}"
-                                {{ old('ID_TIPO_CATEGORIA') == $categoria['ID_TIPO_CATEGORIA'] ? 'selected' : '' }}>
-                                {{ $categoria['TIPO_CATEGORIA'] }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('ID_TIPO_CATEGORIA')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
 
                 <div class="mb-4">
                     <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Flujo</label>

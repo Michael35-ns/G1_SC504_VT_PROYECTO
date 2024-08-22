@@ -9,14 +9,15 @@
         <div></div>
 
         <div x-data="{ porcentaje: {{$porcentaje}}, color: 'forestgreen' }" class="flex items-center justify-center">
-            <div class="porcentajes" :style="`--porcentaje: {{$porcentaje}}; --color: ${color}`">
+            <div class="porcentajes" :style="`--porcentaje: ${porcentaje}; --color: ${color}`">
                 <svg width="150" height="150">
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="bg-circle" stroke="lightgray" stroke-width="12" fill="none" />
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" :style="`stroke-dasharray: ${porcentaje} 100`" stroke="forestgreen" stroke-width="12" fill="none" />
                 </svg>
-                <span>{{$porcentaje}}%</span>
+                <span x-text="`${porcentaje}%`"></span>
             </div>
         </div>
+        
 
         <div class="w-full max-w-80">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-gray-400 space-y-2">
