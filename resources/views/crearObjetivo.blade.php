@@ -36,27 +36,44 @@
                     <input type="date" id="fecha_tope" name="fecha_tope"
                            class="border border-gray-300 rounded w-full py-2 px-4" required />
                 </div>
-
                 <div class="mb-4">
-                    <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Gasto</label>
-                    <select id="gasto" name="ID_GASTO"
-                        class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
-                        @foreach ($gastos as $gasto)
-                            <option value="{{ $gasto['ID_GASTO'] }}"
-                                {{ old('ID_GASTO') == $gasto['ID_GASTO'] ? 'selected' : '' }}>
-                                {{ $gasto['DESCRIPCION_GASTO'] }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Tipo de Gasto</label>
+                    @php
+                        $found = false;
+                    @endphp
+                
+                    @foreach ($gastos as $gasto)
+                        @if($gasto['ID_TIPO_CATEGORIA'] == 3)
+                            @php
+                                $found = true;
+                            @endphp
+                            <select id="gasto" name="ID_GASTO"
+                                class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
+                                <option value="{{ $gasto['ID_GASTO'] }}"
+                                    {{ old('ID_GASTO') == $gasto['ID_GASTO'] ? 'selected' : '' }}>
+                                    {{ $gasto['TIPO_TRANSACCION'] }}
+                                </option>
+                            </select>
+                        @endif
+                    @endforeach
+                
+                    @if(!$found)
+                        <p class="text-red-500 text-md text-center mt-1">No se encontraron gastos con la categoria Objetivos Financieros</p>
+                        <div style="text-align: center;">
+                            <a href="{{ route('Gasto') }}" 
+                               class="inline-block bg-green-600 hover:bg-green-8    00 text-white font-bold py-2 px-2 rounded">
+                               Agregar Gasto
+                            </a>
+                        </div>
+                    @endif
+                
                     @error('ID_GASTO')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <div>
-                    <label for="nombre_objetivo" class="block text-sm font-medium text-gray-700">Nombre del Gasto</label>
-                    <input type="text" id="nombre_objetivo" name="nombre_objetivo"
-                           class="border border-gray-300 rounded w-full py-2 px-4" required />
-                </div>
+                
+                
+                
                 <div class="mb-4">
                     <label class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Categoria</label>
                     <select id="gasto" name="ID_TIPO_CATEGORIA"
@@ -137,24 +154,8 @@
                 </div>
                 
 
-
-                <div class="mb-4">
-                    <label for="presupuesto" class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Presupuesto</label>
-                    <select id="presupuesto" name="ID_PRESUPUESTO" class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
-                        @foreach ($presupuestos as $presupuesto)
-                            <option value="{{ $presupuesto['ID_PRESUPUESTO'] }}"
-                                {{ old('ID_PRESUPUESTO') == $presupuesto['ID_PRESUPUESTO'] ? 'selected' : '' }}>
-                                {{ $presupuesto['MONTO_TOTAL'] }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('ID_PRESUPUESTO')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <div class="flex justify-end space-x-4">
-                    <a href="{{ url('/objetivoEconomico') }}">
+                    <a href="{{ route('objetivoEconomico') }}">
                         <button type="button" class="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition">Cancelar</button>
                     </a>
                     <button type="submit" class=" py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition">Procesar</button>

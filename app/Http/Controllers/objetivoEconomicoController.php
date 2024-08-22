@@ -29,9 +29,9 @@ class ObjetivoEconomicoController extends Controller
     }
     public function create()
     {
-        $presupuestos = FidePresupuestoTb::GetPresupuesto($this->id_usuario);
+
         $gastos = FideGastosTb::getGastosByUsuarios($this->id_usuario);
-        $transaccions = FideCategoriaTransaccionTb::SP_ALL_BY_ID($this->id_usuario);
+        $transaccions = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados($this->id_usuario);
         $categorias = FideTipoCategoriaTb::getAllCategories();
         $ingresos = FideIngresosTb::mostrarIngresosPorUsuarios($this->id_usuario);
@@ -40,7 +40,6 @@ class ObjetivoEconomicoController extends Controller
             'transaccions',
             'estados',
             'gastos',
-            'presupuestos',
             'ingresos',
             'categorias',
             'flujos'
@@ -59,7 +58,6 @@ class ObjetivoEconomicoController extends Controller
         $pIdTransaccion = $request->input('ID_TRANSACCION');
         $pIdCategoria = $request->input('ID_TIPO_CATEGORIA');
         $pIdIngreso = $request->input('ID_INGRESO');
-        $pIdPresupuesto = $request->input('ID_PRESUPUESTO');
         $pIdUsuario = $this->id_usuario;
 
         DB::beginTransaction();
@@ -76,12 +74,11 @@ class ObjetivoEconomicoController extends Controller
             'p_id_transaccion' => $pIdTransaccion,
             'p_id_tipo_categoria' => $pIdCategoria,
             'p_id_ingreso' => $pIdIngreso,
-            'p_id_presupuesto' => $pIdPresupuesto,
         ];
 
-        DB::statement('BEGIN OBJETIVOS_FINANCIEROS_AGREGAR_OBJETIVOS_SP(
+        DB::statement('BEGIN FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_AGREGAR_OBJETIVOS_SP(
             :p_nombre_objetivo, :p_descripcion_objetivo, :p_monto_objetivo, :p_fecha_tope,
-            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado,:p_id_transaccion,:p_id_tipo_categoria, :p_id_ingreso, :p_id_presupuesto
+            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado,:p_id_transaccion,:p_id_tipo_categoria, :p_id_ingreso,
         ); END;', $bindings);
 
         DB::commit();
@@ -99,16 +96,15 @@ class ObjetivoEconomicoController extends Controller
             'objetivos' => $objetivos,
             'porcentaje' => $porcentaje,
             'ingresos' => $ingresos
-
         ]);
     }
 
     public function edit($id)
     {
         $objetivo = FideObjetivosFinancierosTb::find($id);
-        $presupuestos = FidePresupuestoTb::GetPresupuesto($this->id_usuario);
+
         $gastos = FideGastosTb::getGastosByUsuarios($this->id_usuario);
-        $transaccions = FideCategoriaTransaccionTb::SP_ALL_BY_ID($this->id_usuario);
+        $transaccions = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados($this->id_usuario);
         $categorias = FideTipoCategoriaTb::getAllCategories();
         $ingresos = FideIngresosTb::mostrarIngresosPorUsuarioS($this->id_usuario);
@@ -118,7 +114,6 @@ class ObjetivoEconomicoController extends Controller
             'transaccions',
             'estados',
             'gastos',
-            'presupuestos',
             'objetivo',
             'categorias',
             'flujos',
@@ -138,12 +133,8 @@ class ObjetivoEconomicoController extends Controller
             'ID_FLUJO' => 'required|integer',
             'id_estado' => 'required|integer',
             'ID_TRANSACCION' => 'required|integer',
-            'ID_PRESUPUESTO' => 'required|integer',
             'ID_INGRESO' => 'required|integer',
         ]);
-
-        $id_usuario = 2;
-
 
         FideObjetivosFinancierosTb::editarObjetivo(
             $validated['nombre_objetivo'],
@@ -151,13 +142,12 @@ class ObjetivoEconomicoController extends Controller
             $validated['monto_objetivo'],
             $validated['fecha_tope'],
             $validated['ID_GASTO'],
-            $id_usuario,
+            $this->id_usuario,
             $validated['ID_FLUJO'],
             $validated['id_estado'],
             $validated['ID_TRANSACCION'],
             $validated['ID_TIPO_CATEGORIA'],
             $validated['ID_INGRESO'],
-            $validated['ID_PRESUPUESTO'],
             $id
         );
 
@@ -184,11 +174,10 @@ class ObjetivoEconomicoController extends Controller
     public function cambiarEstado($id)
     {
         try {
-            DB::statement('CALL FIDE_OBJETIVOS_FINANCIEROS_CAMBIAR_ESTADO_SP(:id)', ['id' => $id]);
+            DB::statement('CALL FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_CAMBIAR_ESTADO_SP(:id)', ['id' => $id]);
 
             return redirect()->back()->with('status', 'success');
         } catch (\Exception $e) {
-            // Manejo de errores
             return redirect()->back()->with('status', 'error')->with('message', $e->getMessage());
         }
     }

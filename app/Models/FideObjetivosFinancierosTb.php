@@ -61,10 +61,6 @@ class FideObjetivosFinancierosTb extends Model
         return $this->belongsTo(FideIngresosTb::class, 'id_ingreso');
     }
 
-    public function presupuesto(): BelongsTo
-    {
-        return $this->belongsTo(FidePresupuestoTb::class, 'id_presupuesto');
-    }
 
     public static function mostrarObjetivosPorUsuario($idUsuario)
     {
@@ -73,7 +69,7 @@ class FideObjetivosFinancierosTb extends Model
             DECLARE
                 C_OBJETIVOS SYS_REFCURSOR;
             BEGIN
-                FIDE_MOSTRAR_OBJETIVOS_TABLA_SP(:P_ID_USUARIO, :C_OBJETIVOS);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_MOSTRAR_OBJETIVOS_TABLA_SP(:P_ID_USUARIO, :C_OBJETIVOS);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
@@ -132,7 +128,6 @@ class FideObjetivosFinancierosTb extends Model
         $idTransaccion,
         $idTipoCategoria,
         $idIngreso,
-        $idPresupuesto,
         $idObjetivo
     ) {
         $pdo = DB::getPdo();
@@ -149,10 +144,9 @@ class FideObjetivosFinancierosTb extends Model
             p_id_transaccion NUMBER;
             P_ID_TIPO_CATEGORIA NUMBER;
             p_id_ingreso NUMBER;
-            p_id_presupuesto NUMBER;
             p_id_objetivo NUMBER;
         BEGIN
-            OBJETIVOS_FINANCIEROS_EDITAR_SP(
+            FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_EDITAR_SP(
                 :P_NOMBRE_OBJETIVO,
                 :P_DESCRIPCION_OBJETIVO,
                 :p_MONTO_OBJETIVO,
@@ -164,7 +158,6 @@ class FideObjetivosFinancierosTb extends Model
                 :p_id_transaccion,
                 :P_ID_TIPO_CATEGORIA,
                 :p_id_ingreso,
-                :p_id_presupuesto,
                 :p_id_objetivo
             );
         END;
