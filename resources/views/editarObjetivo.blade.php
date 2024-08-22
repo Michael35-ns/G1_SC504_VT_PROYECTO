@@ -120,22 +120,6 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-
-                
-                <div class="mb-4">
-                    <label for="presupuesto" class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Presupuesto</label>
-                    <select id="presupuesto" name="ID_PRESUPUESTO" class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
-                        @foreach ($presupuestos as $presupuesto)
-                            <option value="{{ $presupuesto['ID_PRESUPUESTO'] }}"
-                                {{ old('ID_PRESUPUESTO',$objetivo->id_presupuesto) == $presupuesto['ID_PRESUPUESTO'] ? 'selected' : '' }}>
-                                {{ $presupuesto['MONTO_TOTAL'] }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('ID_PRESUPUESTO')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
                 <div class="mb-4">
                     <label for="ingreso" class="block text-sm mb-1 font-medium border-gray-300 text-gray-700">Ingreso</label>
                     <select id="ingreso" name="ID_INGRESO" class="w-full p-2 rounded bg-slate-400 text-white border-gray-300 py-2 px-4">
@@ -151,7 +135,7 @@
                     @enderror
                 </div>
                 <div class="flex justify-end space-x-4">
-                    <a href="{{ url('/objetivoEconomico') }}">
+                    <a href="{{ route('objetivoEconomico') }}">
                         <button type="button" class="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition">Cancelar</button>
                     </a>
                     <button type="submit" class=" py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition">Procesar</button>
