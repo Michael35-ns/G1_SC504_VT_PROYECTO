@@ -114,8 +114,8 @@
                             <div class="flex flex-col space-y-2">
 
                                 <a href="{{ route('verObjetivo', ['id' => $objetivo['ID_OBJETIVO']]) }}"
-                                    class="flex items-center bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600 transition">
-                                    <span>En Progreso</span>
+                                    class="flex items-center bg-purple-600 text-white px-3 py-1 rounded-full hover:bg-purple-400 transition">
+                                    <span>Ver más</span>
                                     <img src="https://cdn-icons-png.flaticon.com/512/4909/4909732.png" alt=""
                                         width="20px" height="20px" class="ml-2">
                                 </a>
@@ -130,7 +130,7 @@
                                 <a href="{{ route('cambiarEstadoObjetivo', ['id' => $objetivo['ID_OBJETIVO']]) }}"
                                     class="flex items-center {{ $objetivo['ID_ESTADO'] == 1 ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }} text-white px-3 py-1 rounded-full transition">
                                     <span>{{ $objetivo['ID_ESTADO'] == 1 ? 'Inactivar' : 'Activar' }}</span>
-                                    <img src="{{ $objetivo['ID_ESTADO'] == 1 ? 'https://cdn-icons-png.flaticon.com/512/1214/1214428.png' : 'https://cdn-icons-png.flaticon.com/512/148/148766.png' }}" alt=""
+                                    <img src="{{ $objetivo['ID_ESTADO'] == 1 ? 'https://cdn-icons-png.flaticon.com/512/1214/1214428.png' : 'https://cdn-icons-png.flaticon.com/128/14090/14090371.png' }}" alt=""
                                         width="20px" height="20px" class="ml-2">
                                 </a>
                             </div>

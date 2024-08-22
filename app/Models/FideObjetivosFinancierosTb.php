@@ -268,9 +268,5 @@ public static function calcPorcentaje($idUsuario)
         $stmt->execute();
         return $result;
     } 
-
-    
-
-    
     
 }    

@@ -2,58 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FideResennasTb;
 use App\Models\Resenna;
 use Illuminate\Http\Request;
 
-// class ResennaController extends Controller
-// {
-//     public function index()
-//     {
-//         $resennas = Resenna::all();
+class ResennaController extends Controller
+{
+    protected $id_usuario;
 
-//         return view('resennas.index', compact('resennas'));
-//     }
+    public function __construct(Request $request)
+    {
+        $this->id_usuario = $request->session()->get('Id_Usuario');
+        if (!$this->id_usuario) {
+            return redirect()->route('login')->with('mensaje', 'Por favor inicie sesión.');
+        }
+    }
 
-//     public function create()
-//     {
-//         return view('resennas.create');
-//     }
+    public function index()
+    {
+        $resenas = FideResennasTb::obtenerTodasResennas();
+        $id_usuario = $this->id_usuario;
 
-//     public function store(Request $request)
-//     {
-//         $validated = $request->validate([
-//             'detalle' => 'required|string|max:200',
-//             'descripcion' => 'required|string|max:800',
-//             'usuario_reg' => 'required|string|max:40',
-//             'accion' => 'required|string|max:100',
-//             'id_usuario' => 'required|integer',
-//             'id_calificacion' => 'required|integer',
-//         ]);
+        $resenasCollection = collect($resenas);
 
-//         $resenna = Resenna::create([
-//             'detalle' => $validated['detalle'],
-//             'descripcion' => $validated['descripcion'],
-//             'usuario_reg' => $validated['usuario_reg'],
-//             'accion' => $validated['accion'],
-//             'id_usuario' => $validated['id_usuario'],
-//             'id_calificacion' => $validated['id_calificacion'],
-//         ]);
+        $resenasPorUsuario = $resenasCollection->filter(function ($resena) use ($id_usuario) {
+            return $resena['ID_USUARIO'] == $id_usuario;
+        });
 
-//         return redirect()->route('resennas.index')->with([
-//             'success' => 'Reseña creada con éxito.',
-//             'resenna' => $resenna
-//         ]);
-//     }
+        $resenasOtras = $resenasCollection->filter(function ($resena) use ($id_usuario) {
+            return $resena['ID_USUARIO'] != $id_usuario;
+        });
 
-//     public function show($idResenna)
-//     {
+        $resenasOrdenadas = $resenasPorUsuario->concat($resenasOtras);
 
-//         $resenna = Resenna::find($idResenna);
+        return view('resennas.Resena', compact('resenasOrdenadas', 'id_usuario'));
+    }
 
-//         if (!$resenna) {
-//             return redirect()->route('resennas.index')->with('error', 'Reseña no encontrada.');
-//         }
+    public function create()
+    {
+        return view('resennas.create');
+    }
 
-//         return view('resennas.show', compact('resenna'));
-//     }
-// }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'detalle' => 'required|string|max:200',
+            'descripcion' => 'required|string|max:800',
+            'rating' => 'required|numeric|min:0|max:5'
+        ]);
+
+        FideResennasTb::agregarResenna(
+            $validated['detalle'],
+            $validated['descripcion'],
+            $this->id_usuario,
+            $validated['rating']
+        );
+
+        return redirect()->route('resena')->with('success', 'Reseña creada exitosamente.');
+    }
+
+    public function confirmarEliminacion($id)
+    {
+
+        $resenna = FideResennasTb::encontrarResennaPorID($id);
+
+        if ($resenna) {
+            return view('resennas.delete', ['resenna' => $resenna]);
+        }
+
+        return redirect()->route('resena')->with('error', 'Reseña no encontrada.');
+    }
+
+    public function eliminar(Request $request, $id)
+    {
+        $resenna = FideResennasTb::encontrarResennaPorID($id);
+
+        if ($resenna) {
+            FideResennasTb::eliminarResenna($id);
+
+            return redirect()->route('resena')->with('success', 'Reseña eliminada correctamente.');
+        }
+
+        return redirect()->route('resena')->with('error', 'Reseña no encontrada.');
+    }
+}

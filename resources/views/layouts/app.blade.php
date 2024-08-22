@@ -67,7 +67,7 @@
                                     </a>
                                 </li>
                                 <li class="min-w-max">
-                                    <a href="#"
+                                   <a href="{{ route('resena') }}"
                                         class="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-gray-800 transition-all duration-300">
                                         <img src="https://cdn-icons-png.flaticon.com/512/2990/2990468.png"
                                             class="w-9" alt="Reseñas">
