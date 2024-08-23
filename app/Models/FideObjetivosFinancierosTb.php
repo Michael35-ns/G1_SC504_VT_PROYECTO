@@ -104,7 +104,6 @@ class FideObjetivosFinancierosTb extends Model
         $stmt->execute();
         oci_execute($cursor, OCI_DEFAULT);
         $result = [];
-        $key = '12345678901234567890123456789012';
         while (($row = oci_fetch_assoc($cursor)) != false) {
             $result[] = $row;
         }
@@ -128,7 +127,6 @@ class FideObjetivosFinancierosTb extends Model
         $stmt->execute();
         oci_execute($cursor, OCI_DEFAULT);
         $result = [];
-        $key = '12345678901234567890123456789012';
         while (($row = oci_fetch_assoc($cursor)) != false) {
             $result[] = $row;
         }

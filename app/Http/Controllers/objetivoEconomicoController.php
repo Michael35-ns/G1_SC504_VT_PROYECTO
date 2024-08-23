@@ -6,14 +6,9 @@ use App\Models\FideCategoriaTransaccionTb;
 use App\Models\FideObjetivosFinancierosTb;
 use Illuminate\Http\Request;
 use App\Models\FideEstadoTb;
-use App\Models\FideGastosTb;
 use App\Models\FideIngresosTb;
-use App\Models\FidePresupuestoTb;
-use App\Models\FideTipoCategoriaTb;
 use App\Models\FideFlujoTb;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use App\Models\Objetivo;
 
 class ObjetivoEconomicoController extends Controller
 {
@@ -65,34 +60,27 @@ class ObjetivoEconomicoController extends Controller
         $objetivosActivos = FideObjetivosFinancierosTb::contarObjetivosActivos($this->id_usuario);
         $objetivosInactivos = FideObjetivosFinancierosTb::contarObjetivosInactivos($this->id_usuario);
         $porcentaje = FideObjetivosFinancierosTb::calcPorcentaje($this->id_usuario);
-        $ingresos = FideIngresosTb::mostrarIngresosPorUsuarios($this->id_usuario);
 
         return view('objetivoEconomico', compact('objetivos'), [
             'totalObjetivos' => $totalObjetivos,
             'objetivosActivos' => $objetivosActivos,
             'objetivosInactivos' => $objetivosInactivos,
-            'porcentaje' => $porcentaje,
-            'ingresos' => $ingresos
+            'porcentaje' => $porcentaje
         ]);
     }
 
     public function edit($id)
     {
         $objetivo = FideObjetivosFinancierosTb::find($id);
-
-        $gastos = FideGastosTb::getGastosByUsuarios($this->id_usuario);
         $transaccions = FideCategoriaTransaccionTb::Mostrar_Categorias_OBJETIVOS_BY_ID_USUARIO($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados($this->id_usuario);
-        $ingresos = FideIngresosTb::mostrarIngresosPorUsuarioS($this->id_usuario);
         $flujos = FideFlujoTb::getAllFlujos($this->id_usuario);
 
         return view('editarObjetivo', compact(
             'transaccions',
             'estados',
-            'gastos',
             'objetivo',
-            'flujos',
-            'ingresos'
+            'flujos'
         ));
     }
 
