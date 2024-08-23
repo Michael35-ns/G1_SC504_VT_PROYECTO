@@ -52,7 +52,7 @@ class FideIngresosTb extends Model
         return $this->belongsTo(FideFlujoTb::class, 'id_flujo');
     }
 
-    public static function agregarIngreso($descripcionIngreso, $montoIngreso, $fechaIngreso, $idUsuario, $idTransaccion, $idFlujo, $idEstado)
+    public static function agregarIngreso($descripcionIngreso, $montoIngreso, $fechaIngreso, $idUsuario, $idTransaccion, $idFlujo)
     {
         $pdo = DB::getPdo();
 
@@ -64,7 +64,6 @@ class FideIngresosTb extends Model
                 P_ID_USUARIO NUMBER;
                 P_ID_TRANSACCION NUMBER;
                 P_ID_FLUJO NUMBER;
-                P_ID_ESTADO NUMBER;
             BEGIN
                 FIDE_PROYECTO_FINAL_PKG.FIDE_INGRESOS_TB_AGREGAR_INGRESO_SP(
                     :P_DESCRIPCION_INGRESO,
@@ -72,8 +71,7 @@ class FideIngresosTb extends Model
                     :P_FECHA_INGRESO,
                     :P_ID_USUARIO,
                     :P_ID_TRANSACCION,
-                    :P_ID_FLUJO,
-                    :P_ID_ESTADO
+                    :P_ID_FLUJO
                 );
             END;
         ");
@@ -84,7 +82,6 @@ class FideIngresosTb extends Model
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
         $stmt->bindParam(':P_ID_TRANSACCION', $idTransaccion);
         $stmt->bindParam(':p_ID_FLUJO', $idFlujo);
-        $stmt->bindParam(':P_ID_ESTADO', $idEstado);
 
         $stmt->execute();
     }
@@ -198,7 +195,7 @@ class FideIngresosTb extends Model
         $stmt->execute();
     }
 
-    public static function editarIngreso($idIngreso, $descripcionIngreso, $montoIngreso, $fechaIngreso, $idTransaccion, $idFlujo, $idEstado)
+    public static function editarIngreso($idIngreso, $descripcionIngreso, $montoIngreso, $fechaIngreso, $idTransaccion, $idFlujo)
     {
         $pdo = DB::getPdo();
 
@@ -210,7 +207,6 @@ class FideIngresosTb extends Model
         P_FECHA_INGRESO DATE;
         P_ID_TRANSACCION NUMBER;
         P_ID_FLUJO NUMBER;
-        P_ID_ESTADO NUMBER;
     BEGIN
         FIDE_PROYECTO_FINAL_PKG.FIDE_INGREOS_TB_EDITAR_INGRESO_SP(
             P_ID_INGRESO => :P_ID_INGRESO,
@@ -218,8 +214,7 @@ class FideIngresosTb extends Model
             P_MONTO_INGRESO => :P_MONTO_INGRESO,
             P_FECHA_INGRESO => :P_FECHA_INGRESO,
             P_ID_TRANSACCION => :P_ID_TRANSACCION,
-            P_ID_FLUJO => :P_ID_FLUJO,
-            P_ID_ESTADO => :P_ID_ESTADO
+            P_ID_FLUJO => :P_ID_FLUJO
         );
     END;
     ");
@@ -230,7 +225,6 @@ class FideIngresosTb extends Model
         $stmt->bindParam(':P_FECHA_INGRESO', $fechaIngreso);
         $stmt->bindParam(':P_ID_TRANSACCION', $idTransaccion, PDO::PARAM_INT);
         $stmt->bindParam(':P_ID_FLUJO', $idFlujo, PDO::PARAM_INT);
-        $stmt->bindParam(':P_ID_ESTADO', $idEstado, PDO::PARAM_INT);
 
         $stmt->execute();
     }

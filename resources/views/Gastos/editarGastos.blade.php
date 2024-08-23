@@ -76,20 +76,6 @@
 
         <section x-data="{ OpenEditarGasto: true }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
-                <div class="flex w-60 rounded-full bg-gray-200">
-                    <input type="search" name="buscar" id="buscar" placeholder="Buscar"
-                        class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none" />
-                    <button class="m-2 rounded px-4 py-2">
-                        <img src="https://cdn-icons-png.flaticon.com/256/25/25313.png" alt="lupa" width="20px"
-                            height="20px">
-                    </button>
-                </div>
-
-                <div class="ml-4">
-                    <button class="w-full py-2 px-4 bg-cyan-600 text-white rounded-full">
-                        Aplicar Filtros
-                    </button>
-                </div>
                 <div>
                     <button class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
                         Crear categoria

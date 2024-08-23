@@ -28,10 +28,10 @@ class GastoController extends Controller
     {
 
         // Recuperar los parámetros de filtro desde la solicitud
-        $fechaInicio = $request->input('fecha_inicial', '1900-01-01');
-        $fechaFin = $request->input('fecha_final', '2050-01-01');
-        $montoMin = $request->input('monto_min', 0);
-        $montoMax = $request->input('monto_max', 100000000000);
+        $fecha_inicial = $request->input('fecha_inicial', '1900-01-01');
+        $fecha_final = $request->input('fecha_final', '2050-01-01');
+        $monto_Min = $request->input('monto_min', 0);
+        $monto_Max = $request->input('monto_max', 100000000000);
 
         // Validar los parámetros
         $validated = $request->validate([
@@ -43,7 +43,7 @@ class GastoController extends Controller
 
         $flujos = FideFlujoTb::getAllFlujos(1);
         $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
-        $gastosTabla = FideGastosTb::getGastosByUsuario($this->id_usuario, $fechaInicio, $fechaFin, $montoMin, $montoMax);
+        $gastosTabla = FideGastosTb::getGastosByUsuario($this->id_usuario, $fecha_inicial, $fecha_final, $monto_Min, $monto_Max);
         $suamaGastosTotales = FideGastosTb::suamaGastosTotales($this->id_usuario);
 
         $suamaIngresosTotales = FideIngresosTb::valoresFuncionesActivas($this->id_usuario);
@@ -64,17 +64,40 @@ class GastoController extends Controller
             'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
             'id_flujo' => 'required|integer|exists:fide_flujo_tb,ID_FLUJO',
         ]);
+        $resultado = FideGastosTb::validadrMontoGasto($this->id_usuario, $validated['monto_gasto']);
+        if ($resultado == 1) {
+            FideGastosTb::agregarGasto(
+                $validated['monto_gasto'],
+                $validated['descripcion'],
+                $validated['fecha_gasto'],
+                $this->id_usuario,
+                $validated['id_flujo'],
+                $validated['id_transaccion']
+            );
+            return redirect()->route('Gasto')->with('success', 'Gasto creado con éxito');
+        } else {
+            session()->flash('validated', $validated);
+            return redirect()->back()->with('confirmacion', 'Este gasto supera tus ingresos actuales. ¿Deseas proceder?');
+        }
+    }
+
+
+    public function confirmar(Request $request)
+    {
+        $validated = $request->all();
+
         FideGastosTb::agregarGasto(
             $validated['monto_gasto'],
             $validated['descripcion'],
             $validated['fecha_gasto'],
             $this->id_usuario,
             $validated['id_flujo'],
-            $validated['id_transaccion'],
-            1
+            $validated['id_transaccion']
         );
+
         return redirect()->route('Gasto')->with('success', 'Gasto creado con éxito');
     }
+
 
 
     //Ver mas info del gasto
@@ -111,8 +134,7 @@ class GastoController extends Controller
             $validated['monto_gasto'],
             $validated['fecha_gasto'],
             $validated['id_transaccion'],
-            $validated['id_flujo'],
-            1
+            $validated['id_flujo']
         );
 
         return redirect()->route('Gasto')->with('success', 'Gasto actualizado con éxito');

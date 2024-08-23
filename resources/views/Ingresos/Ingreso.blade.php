@@ -141,55 +141,47 @@
                 </div>
                 <div class="divide-y divide-gray-600 mx-auto bg-white shadow-md rounded-lg w-full">
                     @foreach ($ingresosTabla as $ingresoTabla)
-                        @if ($ingresoTabla['ID_ESTADO'] == 1)
-                            <div class="py-4 px-4 flex justify-between items-center">
-                                <div class="flex-1">
-                                    <div
-                                        class="px-3 py-1 text-left text-xs font-medium text-black uppercase tracking-wider">
-                                        Categoría: <span
-                                            class="font-bold text-gray-700">{{ $ingresoTabla['TIPO_TRANSACCION'] }}</span>
-                                    </div>
-                                    <div
-                                        class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Fecha: <span class="font-normal text-gray-700">
-                                            {{ $ingresoTabla['FECHA_INGRESO'] }}
-                                        </span>
-                                    </div>
-                                    <div
-                                        class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Descripción: <span
-                                            class="font-normal text-gray-700">{{ $ingresoTabla['DESCRIPCION_INGRESO'] }}</span>
-                                    </div>
-                                    <div
-                                        class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Monto: <span
-                                            class="font-normal text-gray-700">{{ $ingresoTabla['MONTO_INGRESO'] }}</span>
-                                    </div>
-                                    <div
-                                        class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Frecuencia: <span
-                                            class="font-normal text-gray-700">{{ $ingresoTabla['NOMBRE_ESTADO'] }}</span>
-                                    </div>
-                                    <div
-                                        class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Estado: <span
-                                            class="font-normal text-gray-700">{{ $ingresoTabla['TIPO_ESTADO'] }}</span>
-                                    </div>
+                        <div class="py-4 px-4 flex justify-between items-center">
+                            <div class="flex-1">
+                                <div class="px-3 py-1 text-left text-xs font-medium text-black uppercase tracking-wider">
+                                    Categoría: <span
+                                        class="font-bold text-gray-700">{{ $ingresoTabla['TIPO_TRANSACCION'] }}</span>
                                 </div>
-                                <div class="flex space-x-2">
-                                    <a href="{{ route('editarIngresoFormulario', $ingresoTabla['ID_INGRESO']) }}"
-                                        class="flex items-center bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition">
-                                        <span>Actualizar</span>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
-                                            width="20px" height="20px" class="ml-2">
-                                    </a>
-                                    <a href="{{ route('verMasForm', $ingresoTabla['ID_INGRESO']) }}"
-                                        class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition gap-2">
-                                        <span>...</span>
-                                    </a>
+                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Fecha: <span class="font-normal text-gray-700">
+                                        {{ $ingresoTabla['FECHA_INGRESO'] }}
+                                    </span>
+                                </div>
+                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Descripción: <span
+                                        class="font-normal text-gray-700">{{ $ingresoTabla['DESCRIPCION_INGRESO'] }}</span>
+                                </div>
+                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Monto: <span
+                                        class="font-normal text-gray-700">{{ $ingresoTabla['MONTO_INGRESO'] }}</span>
+                                </div>
+                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Frecuencia: <span
+                                        class="font-normal text-gray-700">{{ $ingresoTabla['NOMBRE_ESTADO'] }}</span>
+                                </div>
+                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Estado: <span
+                                        class="font-normal text-gray-700">{{ $ingresoTabla['TIPO_ESTADO'] }}</span>
                                 </div>
                             </div>
-                        @endif
+                            <div class="flex space-x-2">
+                                <a href="{{ route('editarIngresoFormulario', $ingresoTabla['ID_INGRESO']) }}"
+                                    class="flex items-center bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition">
+                                    <span>Actualizar</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827933.png" alt=""
+                                        width="20px" height="20px" class="ml-2">
+                                </a>
+                                <a href="{{ route('verMasForm', $ingresoTabla['ID_INGRESO']) }}"
+                                    class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition gap-2">
+                                    <span>...</span>
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -291,6 +283,15 @@
                             <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría:</label>
                             <input type="text" id="categoria" name="categoria"
                                 class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                        </div>
+                        <div class="mb-4">
+                            <label for="tipo_categoria" class="block text-sm font-medium text-gray-700">Tipo de
+                                Categoría:</label>
+                            <select id="tipo_categoria" name="tipo_categoria"
+                                class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
+                                <option value="ingreso">Ingreso</option>
+                                <option value="objetivo">Objetivo Económico</option>
+                            </select>
                         </div>
                         <button type="submit"
                             class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Agregar</button>

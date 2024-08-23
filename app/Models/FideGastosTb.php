@@ -126,7 +126,7 @@ class FideGastosTb extends Model
         return collect($result);
     }
 
-    public static function agregarGasto($montoGasto, $descripcionGasto, $fechaGasto, $idUsuario, $idFlujo, $idTransaccion, $idEstado)
+    public static function agregarGasto($montoGasto, $descripcionGasto, $fechaGasto, $idUsuario, $idFlujo, $idTransaccion)
     {
         $pdo = DB::getPdo();
 
@@ -146,8 +146,7 @@ class FideGastosTb extends Model
                     :P_FECHA_GASTO,
                     :P_ID_USUARIO,
                     :P_ID_FLUJO,
-                    :P_ID_TRANSACCION,
-                    :P_ID_ESTADO
+                    :P_ID_TRANSACCION
                 );
             END;
         ");
@@ -157,10 +156,30 @@ class FideGastosTb extends Model
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
         $stmt->bindParam(':p_ID_FLUJO', $idFlujo);
         $stmt->bindParam(':P_ID_TRANSACCION', $idTransaccion);
-        $stmt->bindParam(':P_ID_ESTADO', $idEstado);
         $stmt->execute();
     }
 
+    public static function validadrMontoGasto($idUsuario, $montoGasto){
+        $pdo = DB::getPdo();
+
+        $stmt = $pdo->prepare("
+            DECLARE
+                P_RESULTADO NUMBER;
+            BEGIN
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_VERIFICAR_GASTO_VS_INGRESOS_SP(
+                    :P_ID_USUARIO,
+                    :P_MONTO_GASTO,
+                    :P_RESULTADO
+                );
+            END;
+        ");
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
+        $stmt->bindParam(':P_MONTO_GASTO', $montoGasto);
+        $pResultado = null;
+        $stmt->bindParam(':P_RESULTADO', $pResultado, PDO::PARAM_INT | PDO::PARAM_INPUT_OUTPUT, 32);
+        $stmt->execute();
+        return $pResultado;
+    }
 
     //Para recuperar el id y tambien imprimir lo de mas info
     public static function encontrarGastoPorID($ID_GASTO)
@@ -197,7 +216,8 @@ class FideGastosTb extends Model
         return collect($result);
     }
 
-    public static function editarGasto($id_gasto, $descripcion_gasto, $monto_gasto, $fecha_gasto, $id_flujo, $id_transaccion, $id_estado)
+
+    public static function editarGasto($id_gasto, $descripcion_gasto, $monto_gasto, $fecha_gasto, $id_flujo, $id_transaccion)
     {
         $pdo = DB::getPdo();
 
@@ -209,8 +229,7 @@ class FideGastosTb extends Model
                     P_MONTO_GASTO => :P_MONTO_GASTO,
                     P_FECHA_GASTO => :P_FECHA_GASTO,
                     P_ID_FLUJO => :P_ID_FLUJO,
-                    P_ID_TRANSACCION => :P_ID_TRANSACCION,
-                    P_ID_ESTADO => :P_ID_ESTADO
+                    P_ID_TRANSACCION => :P_ID_TRANSACCION
                 );
             END;
         ");
@@ -221,11 +240,9 @@ class FideGastosTb extends Model
         $stmt->bindParam(':P_FECHA_GASTO', $fecha_gasto);
         $stmt->bindParam(':P_ID_FLUJO', $id_flujo, PDO::PARAM_INT);
         $stmt->bindParam(':P_ID_TRANSACCION', $id_transaccion, PDO::PARAM_INT);
-        $stmt->bindParam(':P_ID_ESTADO', $id_estado, PDO::PARAM_INT);
 
         $stmt->execute();
     }
-
 
 
     public static function eliminarGasto($id_gasto)
@@ -240,6 +257,7 @@ class FideGastosTb extends Model
         $stmt->bindParam(':P_ID_GASTO', $id_gasto, PDO::PARAM_INT);
         $stmt->execute();
     }
+
 
     public static function suamaGastosTotales($idUsuario)
     {

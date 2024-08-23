@@ -84,8 +84,7 @@ class IngresoController extends Controller
             $validated['fecha_ingreso'],
             $this->id_usuario,
             $validated['id_transaccion'],
-            $validated['id_flujo'],
-            1
+            $validated['id_flujo']
         );
 
         return redirect()->route('Ingreso')->with('success', 'Ingreso creado con éxito');
@@ -117,7 +116,6 @@ class IngresoController extends Controller
             $validated['fecha_ingreso'],
             $validated['id_transaccion'],
             $validated['id_flujo'],
-            1
         );
 
         return redirect()->route('Ingreso')->with('success', 'Ingreso actualizado con éxito');
@@ -126,11 +124,13 @@ class IngresoController extends Controller
     public function crearCategoriaIngreso(Request $request)
     {
         $validated = $request->validate([
-            'categoria' => 'required|string|max:1000'
+            'categoria' => 'required|string|max:1000',
+            'tipo_categoria' => 'required|string'
         ]);
+        $tipoCategoria = $request->input('tipo_categoria') === 'ingreso' ? 1 : 3;
         FideCategoriaTransaccionTb::agregarCategoria(
             $validated['categoria'],
-            1,
+            $tipoCategoria,
             $this->id_usuario,
             1
         );

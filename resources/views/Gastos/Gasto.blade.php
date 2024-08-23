@@ -8,6 +8,16 @@
     <section class="hidden sm:grid grid-cols-3 gap-6 justify-items-center">
         <div></div>
 
+        <!-- <div x-data="{ porcentaje: {{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}, color: 'forestgreen' }" class="flex items-center justify-center">
+                                <div class="porcentajes" :style="`--porcentaje: {{ $porcentajeGastado }}; --color: ${color}`">
+                                    <svg width="150" height="150">
+                                        <circle r="68" cx="50%" cy="50%" pathlength="100" class="bg-circle" stroke="lightgray" stroke-width="12" fill="none" />
+                                        <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" :style="`stroke-dasharray: ${porcentajeGastado} 100`" stroke="forestgreen" stroke-width="12" fill="none" />
+                                    </svg>
+                                    <span>{{ $porcentajeGastado }}%</span>
+                                </div>
+                            </div> -->
+
         <div>
             <div class="porcentajes"
                 style="--porcentaje: {{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%;  --color:blue;">
@@ -86,21 +96,6 @@
 
         <section x-data="{ aplicarFiltro: '', filtro: '', search: '', confirmacionEliminar: '', OpenCategoria: '', OpenCrearCategoria: '', OpenEliminarCategoria: '', OpenRegistrarGasto: '', OpenEditarGasto: '', OpenVerInfo: '' }" class="flex flex-col gap-5 py-5">
             <div class="flex gap-4 justify-center items-center">
-
-                <div class="flex w-60 rounded-full bg-gray-200">
-                    <input type="search" name="buscar" id="buscar" placeholder="Buscar"
-                        class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none" />
-                    <button class="m-2 rounded px-4 py-2">
-                        <img src="https://cdn-icons-png.flaticon.com/256/25/25313.png" alt="lupa" width="20px"
-                            height="20px">
-                    </button>
-                </div>
-
-                <div class="ml-4">
-                    <button @click="aplicarFiltro=true" class="w-full py-2 px-4 bg-cyan-600 text-white rounded-full">
-                        Aplicar Filtros
-                    </button>
-                </div>
                 <div>
                     <button @click="OpenCategoria=true" class="w-full py-2 px-4 bg-cyan-400 text-white rounded-full">
                         Categorias
@@ -114,6 +109,7 @@
 
             </div>
 
+<!--
             {{-- Filtros --}}
             <div x-show="aplicarFiltro" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -142,7 +138,7 @@
                     </div>
                 </form>
             </div>
-
+        -->
 
             {{-- Lista de resultados --}}
             <div class="col-span-full">
@@ -154,15 +150,23 @@
                                     Categoria: <span
                                         class="font-bold text-gray-700">{{ $gastoTabla['TIPO_TRANSACCION'] }}</span>
                                 </div>
-                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <div
+                                    class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Fecha: <span class="font-normal text-gray-700">{{ $gastoTabla['FECHA_GASTO'] }}</span>
                                 </div>
-                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <div
+                                    class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Monto: <span class="font-normal text-gray-700">{{ $gastoTabla['MONTO_GASTO'] }}</span>
                                 </div>
-                                <div class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <div
+                                    class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Tipo de gasto: <span
                                         class="font-normal text-gray-700">{{ $gastoTabla['NOMBRE_ESTADO'] }}</span>
+                                </div>
+                                <div
+                                    class="px-3 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Estado: <span
+                                        class="font-normal text-gray-700">{{ $gastoTabla['TIPO_ESTADO'] }}</span>
                                 </div>
                             </div>
                             <div class="flex space-x-2">
@@ -266,6 +270,47 @@
             </div>
 
 
+            @if (session('confirmacion'))
+                <div id="confirmationModal"
+                    class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                    <div class="bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-lg">
+                        <h2 class="text-xl text-white text-center font-bold mb-4">Confirmación de Gasto</h2>
+                        <p class="mb-6 text-white">{{ session('confirmacion') }}</p>
+                        <div class="flex justify-end space-x-4">
+                            <button id="cancelButton"
+                                class="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">Cancelar</button>
+                            <button id="proceedButton"
+                                class="py-2 px-4 bg-red-600 text-white rounded hover:bg-red-700 transition duration-300">Proceder
+                                con el gasto</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.getElementById('cancelButton').addEventListener('click', function() {
+                        document.getElementById('confirmationModal').remove();
+                    });
+                    document.getElementById('proceedButton').addEventListener('click', function() {
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = "{{ route('gastos.confirmar') }}";
+                        @foreach (session('validated') as $key => $value)
+                            var input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = "{{ $key }}";
+                            input.value = "{{ $value }}";
+                            form.appendChild(input);
+                        @endforeach
+                        var csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = "{{ csrf_token() }}";
+                        form.appendChild(csrfInput);
+                        document.body.appendChild(form);
+                        form.submit();
+                    });
+                </script>
+            @endif
+
             <div x-show="OpenCategoria" style="display: none" x-transition
                 class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
@@ -293,7 +338,8 @@
                                 class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
                         </div>
                         <div class="mb-4">
-                            <label for="tipo_categoria" class="block text-sm font-medium text-gray-700">Tipo de Categoría:</label>
+                            <label for="tipo_categoria" class="block text-sm font-medium text-gray-700">Tipo de
+                                Categoría:</label>
                             <select id="tipo_categoria" name="tipo_categoria"
                                 class="border border-gray-300 rounded w-full py-2 px-4 text-gray-800">
                                 <option value="gasto">Gasto</option>
