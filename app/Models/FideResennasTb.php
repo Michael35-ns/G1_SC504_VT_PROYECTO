@@ -39,26 +39,6 @@ class FideResennasTb extends Model
         return $this->belongsTo(FideEstadoTb::class, 'id_estado');
     }
 
-    public static function mostrarResennas()
-    {
-        $pdo = DB::getPdo();
-
-        $stmt = $pdo->prepare("
-        SELECT *
-        FIDE_PROYECTO_FINAL_PKG.FROM FIDE_RESENNA_TB_RESUMEN_RAITINGS_V
-    ");
-
-        $stmt->execute();
-
-        $result = [];
-        while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
-            $result[] = $row;
-        }
-
-        // dd($result); 
-        return collect($result);
-    }
-
     public static function obtenerTodasResennas()
     {
         $pdo = DB::getPdo();
@@ -157,4 +137,5 @@ class FideResennasTb extends Model
 
         $stmt->execute();
     }
+
 }

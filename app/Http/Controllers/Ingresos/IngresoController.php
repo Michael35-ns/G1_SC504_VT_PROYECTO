@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Ingresos;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\FideFlujoTb;
 use App\Models\FideEstadoTb;
-use App\Models\FideIngresosTb;
-use App\Models\FideCategoriaTransaccionTb;
 use App\Models\FideGastosTb;
+use Illuminate\Http\Request;
+use App\Models\FideIngresosTb;
+use App\Models\UltimosIngresosTb;
+use App\Http\Controllers\Controller;
+use App\Models\FideCategoriaTransaccionTb;
 
 class IngresoController extends Controller
 {
@@ -48,8 +49,11 @@ class IngresoController extends Controller
         $obtenerDineroRestante = FideGastosTb::obtenerDineroRestante($this->id_usuario);
         $porcentajeGastado = FideGastosTb::porcentajeGastado($this->id_usuario);
 
-        return view('Ingresos.Ingreso', compact('categorias', 'flujos', 'ingresosTabla', 'estados', 'resultado', 'fechaInicio', 'fechaFin', 'montoMin', 'montoMax', 'obtenerDineroRestante', 'suamaGastosTotales', 'porcentajeGastado'));
+        $ultimosIngresos = UltimosIngresosTb::obtenerUltimosIngresosPorUsuario($this->id_usuario);
+
+        return view('Ingresos.Ingreso', compact('categorias', 'flujos', 'ingresosTabla', 'estados', 'resultado', 'fechaInicio', 'fechaFin', 'montoMin', 'montoMax', 'obtenerDineroRestante', 'suamaGastosTotales', 'porcentajeGastado', 'ultimosIngresos'));
     }
+
 
     public function mostrarIngreso($id)
     {

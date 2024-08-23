@@ -7,31 +7,18 @@
 @section('contenido')
     <section class="hidden sm:grid grid-cols-3 gap-6 justify-items-center">
         <div></div>
-
-        <!-- <div x-data="{ porcentaje: {{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}, color: 'forestgreen' }" class="flex items-center justify-center">
-                                <div class="porcentajes" :style="`--porcentaje: {{ $porcentajeGastado }}; --color: ${color}`">
-                                    <svg width="150" height="150">
-                                        <circle r="68" cx="50%" cy="50%" pathlength="100" class="bg-circle" stroke="lightgray" stroke-width="12" fill="none" />
-                                        <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" :style="`stroke-dasharray: ${porcentajeGastado} 100`" stroke="forestgreen" stroke-width="12" fill="none" />
-                                    </svg>
-                                    <span>{{ $porcentajeGastado }}%</span>
-                                </div>
-                            </div> -->
-
         <div>
             <div class="porcentajes"
-                style="--porcentaje: {{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%;  --color:blue;">
+                style="--porcentaje: {{ $porcentajeGastado}};  --color:blue;">
                 <svg width="150" heigth="150">
                     <circle r="68" cx="50%" cy="50%" pathlength="100"class="bg-circle" />
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" />
                 </svg>
-                <span>{{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%</span>
+                <span>{{ $porcentajeGastado}}%</span>
             </div>
         </div>
 
-        <div>
-
-        </div>
+        <div></div>
 
         <div class="w-full max-w-96">
             <div class="w-full border-2 px-4 py-2 rounded-md shadow-md bg-cyan-700 space-y-2">
@@ -109,7 +96,6 @@
 
             </div>
 
-<!--
             {{-- Filtros --}}
             <div x-show="aplicarFiltro" style="display: none"
                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -138,7 +124,7 @@
                     </div>
                 </form>
             </div>
-        -->
+      
 
             {{-- Lista de resultados --}}
             <div class="col-span-full">
@@ -381,6 +367,39 @@
             </div>
 
         </section>
+        <div class="max-w-7xl mx-auto p-8 bg-gray-900 rounded-lg shadow-lg mt-8">
+            <h2 class="text-2xl font-bold text-gray-100 mb-4">
+                💸 Últimos 7 Gastos 💸
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-gray-800 border border-gray-700 rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-700 text-gray-300">
+                            <th class="py-3 px-6 border-b">Descripción</th>
+                            <th class="py-3 px-6 border-b">Fecha</th>
+                            <th class="py-3 px-6 border-b">Tipo de Transacción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($ultimosGastos as $gasto)
+                            <tr class="text-gray-200">
+                                <td class="py-3 px-6 border-b border-gray-700">{{ $gasto->descripcion_gasto }}</td>
+                                <td class="py-3 px-6 border-b border-gray-700">
+                                    {{ \Carbon\Carbon::parse($gasto->FECHA_GASTO)->format('d/m/Y') }}
+                                </td>
+                                <td class="py-3 px-6 border-b border-gray-700">{{ $gasto->tipo_transaccion }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="py-3 px-6 text-center text-gray-400">
+                                    No hay gastos recientes para mostrar.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     </section>
 @endsection

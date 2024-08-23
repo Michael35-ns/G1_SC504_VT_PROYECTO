@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\FideGastosTb;
 use App\Models\FideFlujoTb;
-use App\Models\FideCategoriaTransaccionTb;
+use App\Models\FideGastosTb;
+use Illuminate\Http\Request;
 use App\Models\FideIngresosTb;
+use App\Models\UltimosGastosTb;
+use App\Http\Controllers\Controller;
+use App\Models\FideCategoriaTransaccionTb;
 
 
 class GastoController extends Controller
@@ -51,7 +52,9 @@ class GastoController extends Controller
         $obtenerDineroRestante = FideGastosTb::obtenerDineroRestante($this->id_usuario);
         $porcentajeGastado = FideGastosTb::porcentajeGastado($this->id_usuario);
 
-        return view('Gastos.Gasto', compact('flujos', 'categorias', 'gastosTabla', 'suamaGastosTotales', 'suamaIngresosTotales', 'obtenerDineroRestante', 'porcentajeGastado'));
+        $ultimosGastos =  UltimosGastosTb::obtenerUltimosGastosPorUsuario($this->id_usuario);
+
+        return view('Gastos.Gasto', compact('flujos', 'categorias', 'gastosTabla', 'suamaGastosTotales', 'suamaIngresosTotales', 'obtenerDineroRestante', 'porcentajeGastado', 'ultimosGastos'));
     }
 
     //Agregar un gasto
@@ -130,8 +133,8 @@ class GastoController extends Controller
 
         FideGastosTb::editarGasto(
             $id,
-            $validated['descripcion'],
             $validated['monto_gasto'],
+            $validated['descripcion'],
             $validated['fecha_gasto'],
             $validated['id_transaccion'],
             $validated['id_flujo']

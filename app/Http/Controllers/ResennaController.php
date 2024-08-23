@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FideResennasTb;
-use App\Models\Resenna;
 use Illuminate\Http\Request;
+use App\Models\FideResennasTb;
+use App\Models\ResumenRatingTb;
 
 class ResennaController extends Controller
 {
@@ -34,7 +34,7 @@ class ResennaController extends Controller
         });
 
         $resenasOrdenadas = $resenasPorUsuario->concat($resenasOtras);
-
+        
         return view('resennas.Resena', compact('resenasOrdenadas', 'id_usuario'));
     }
 
@@ -85,4 +85,5 @@ class ResennaController extends Controller
 
         return redirect()->route('resena')->with('error', 'Reseña no encontrada.');
     }
+
 }

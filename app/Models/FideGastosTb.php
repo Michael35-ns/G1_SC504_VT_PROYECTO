@@ -217,26 +217,25 @@ class FideGastosTb extends Model
     }
 
 
-    public static function editarGasto($id_gasto, $descripcion_gasto, $monto_gasto, $fecha_gasto, $id_flujo, $id_transaccion)
+    public static function editarGasto($id_gasto, $monto_gasto, $descripcion_gasto, $fecha_gasto, $id_flujo, $id_transaccion)
     {
         $pdo = DB::getPdo();
-
         $stmt = $pdo->prepare("
             BEGIN
                 FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_EDITAR_GASTO_SP(
-                    P_ID_GASTO => :P_ID_GASTO,
-                    P_DESCRIPCION_GASTO => :P_DESCRIPCION_GASTO,
-                    P_MONTO_GASTO => :P_MONTO_GASTO,
-                    P_FECHA_GASTO => :P_FECHA_GASTO,
-                    P_ID_FLUJO => :P_ID_FLUJO,
-                    P_ID_TRANSACCION => :P_ID_TRANSACCION
+                    :P_ID_GASTO,
+                    :P_MONTO_GASTO,
+                    :P_DESCRIPCION_GASTO,           
+                    :P_FECHA_GASTO,
+                    :P_ID_FLUJO,
+                    :P_ID_TRANSACCION
                 );
             END;
         ");
 
         $stmt->bindParam(':P_ID_GASTO', $id_gasto, PDO::PARAM_INT);
-        $stmt->bindParam(':P_DESCRIPCION_GASTO', $descripcion_gasto, PDO::PARAM_STR);
         $stmt->bindParam(':P_MONTO_GASTO', $monto_gasto, PDO::PARAM_STR);
+        $stmt->bindParam(':P_DESCRIPCION_GASTO', $descripcion_gasto, PDO::PARAM_STR);
         $stmt->bindParam(':P_FECHA_GASTO', $fecha_gasto);
         $stmt->bindParam(':P_ID_FLUJO', $id_flujo, PDO::PARAM_INT);
         $stmt->bindParam(':P_ID_TRANSACCION', $id_transaccion, PDO::PARAM_INT);
@@ -311,22 +310,30 @@ class FideGastosTb extends Model
     {
         $pdo = DB::getPdo();
         $stmt = $pdo->prepare("
-            DECLARE
-                C_OPERACIONES SYS_REFCURSOR;
             BEGIN
-                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_Y_FIDE_INGRESOS_TB_PORCENTAJE_DINERO_GASTADO_SP(:P_ID_USUARIO, :C_OPERACIONES);
+                :result := FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_Y_FIDE_INGRESOS_TB_PORCENTAJE_DINERO_GASTADO_FN(:P_ID_USUARIO);
             END;
         ");
-        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
-        $stmt->bindParam(':C_OPERACIONES', $cursor, PDO::PARAM_STMT);
+        $stmt->bindParam(':P_ID_USUARIO', $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(':result', $result, PDO::PARAM_INT | PDO::PARAM_INPUT_OUTPUT, 32);
         $stmt->execute();
-        oci_execute($cursor, OCI_DEFAULT);
-        $result = [];
-        while (($row = oci_fetch_assoc($cursor)) !== false) {
-            $row['PORCENTAJE_GASTADO'] = number_format((float) $row['PORCENTAJE_GASTADO'], 2);
-            $result = $row;
-        }
-        oci_free_statement($cursor);
-        return collect($result);
+        return $result;
     }
+
+    public static function calcPorcentaje($idUsuario)
+    {
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("
+            BEGIN
+                :result := FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_CALC_PORCENTAJE_FUNC(:idUsuario);
+            END;
+        ");
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(':result', $result, PDO::PARAM_INT | PDO::PARAM_INPUT_OUTPUT, 32);
+        $stmt->execute();
+        return $result;
+    } 
+
 }

@@ -10,12 +10,12 @@
 
         <div>
             <div class="porcentajes"
-                style="--porcentaje: {{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%;  --color:blue;">
+                style="--porcentaje: {{ $porcentajeGastado}};  --color:blue;">
                 <svg width="150" heigth="150">
                     <circle r="68" cx="50%" cy="50%" pathlength="100"class="bg-circle" />
                     <circle r="68" cx="50%" cy="50%" pathlength="100" class="progress-circle" />
                 </svg>
-                <span>{{ $porcentajeGastado->get('PORCENTAJE_GASTADO') }}%</span>
+                <span>{{ $porcentajeGastado}}%</span>
             </div>
         </div>
 
@@ -326,13 +326,39 @@
                     </form>
                 </div>
             </div>
-
-            {{-- Paginación de la lista --}}
-            <div class="col-span-full mt-4">
-                {{-- Aquí puedes agregar los controles de paginación --}}
-            </div>
-
         </section>
+        <div class="max-w-7xl mx-auto p-8 bg-gray-900 rounded-lg shadow-lg mt-8">
+            <h2 class="text-2xl font-bold text-gray-100 mb-4">
+                💰 Últimos 7 Ingresos
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-gray-800 border border-gray-700 rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-700 text-gray-300">
+                            <th class="py-3 px-6 border-b">Descripción</th>
+                            <th class="py-3 px-6 border-b">Fecha</th>
+                            <th class="py-3 px-6 border-b">Tipo de Transacción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($ultimosIngresos as $ingreso)
+                            <tr class="text-gray-200">
+                                <td class="py-3 px-6 border-b border-gray-700">{{ $ingreso->descripcion_ingreso }}</td>
+                                <td class="py-3 px-6 border-b border-gray-700">
+                                    {{ \Carbon\Carbon::parse($ingreso->fecha_ingreso)->format('d/m/Y') }}</td>
+                                <td class="py-3 px-6 border-b border-gray-700">{{ $ingreso->tipo_transaccion }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="py-3 px-6 text-center text-gray-400">
+                                    No hay ingresos recientes para mostrar.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     </section>
 @endsection
