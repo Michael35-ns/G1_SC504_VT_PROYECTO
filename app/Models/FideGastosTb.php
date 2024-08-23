@@ -276,7 +276,7 @@ class FideGastosTb extends Model
         $stmt->bindParam(':result', $result, PDO::PARAM_STR | PDO::PARAM_INPUT_OUTPUT, 128);
         $stmt->execute();
 
-        return round((float)$result, 3);
+        return round((float)$result, 2);
     }
 
     public static function calcPorcentaje($idUsuario)

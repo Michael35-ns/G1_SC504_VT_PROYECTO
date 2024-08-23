@@ -122,6 +122,7 @@ class ObjetivoEconomicoController extends Controller
             'nombre_objetivo' => 'required|string|max:1000',
             'descripcion_objetivo' => 'required|string',
             'monto_objetivo' => 'required|numeric',
+            'fecha_tope' => 'required|date',
             'ID_FLUJO' => 'required|integer',
             'id_estado' => 'required|integer',
         ]);
@@ -130,6 +131,7 @@ class ObjetivoEconomicoController extends Controller
             $validated['nombre_objetivo'],
             $validated['descripcion_objetivo'],
             $validated['monto_objetivo'],
+            $validated['fecha_tope'],
             $this->id_usuario,
             $validated['ID_FLUJO'],
             $validated['id_estado'],

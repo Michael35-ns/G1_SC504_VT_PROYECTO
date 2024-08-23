@@ -162,33 +162,26 @@ class FideObjetivosFinancierosTb extends Model
 
     }
     
-    
-    
     public static function editarObjetivo(
         $nombreObjetivo,
         $descripcionObjetivo,
         $montoObjetivo,
+        $fecha_tope,
         $idUsuario,
         $idFlujo,
         $idEstado,
         $idObjetivo
     ) {
         $pdo = DB::getPdo();
+        $date = new DateTime($fecha_tope);
+        $datestr = $date->format('Y-m-d H:i:s'); 
         $stmt = $pdo->prepare("
-        DECLARE
-            P_NOMBRE_OBJETIVO VARCHAR2(255);
-            P_DESCRIPCION_OBJETIVO VARCHAR2(255);
-            p_MONTO_OBJETIVO NUMBER;
-            P_FECHA_TOPE DATE;
-            p_id_usuario NUMBER;
-            P_ID_FLUJO NUMBER;
-            p_id_estado NUMBER;
-            p_id_objetivo NUMBER;
         BEGIN
             FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_EDITAR_SP(
                 :P_NOMBRE_OBJETIVO,
                 :P_DESCRIPCION_OBJETIVO,
                 :p_MONTO_OBJETIVO,
+                :P_FECHA_TOPE,
                 :p_id_usuario,
                 :P_ID_FLUJO,
                 :p_id_estado,
@@ -200,6 +193,7 @@ class FideObjetivosFinancierosTb extends Model
         $stmt->bindParam(':P_NOMBRE_OBJETIVO', $nombreObjetivo);
         $stmt->bindParam(':P_DESCRIPCION_OBJETIVO', $descripcionObjetivo);
         $stmt->bindParam(':p_MONTO_OBJETIVO', $montoObjetivo);
+        $stmt->bindParam(':P_FECHA_TOPE', $datestr, PDO::PARAM_STR);
         $stmt->bindParam(':p_id_usuario', $idUsuario);
         $stmt->bindParam(':P_ID_FLUJO', $idFlujo);
         $stmt->bindParam(':p_id_estado', $idEstado);
