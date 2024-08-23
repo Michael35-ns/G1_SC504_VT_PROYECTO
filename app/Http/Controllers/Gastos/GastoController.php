@@ -27,15 +27,6 @@ class GastoController extends Controller
 
     public function index(Request $request)
     {
-
-        // Validar los parámetros
-        $validated = $request->validate([
-            'fecha_inicial' => 'nullable|date',
-            'fecha_final' => 'nullable|date',
-            'monto_min' => 'nullable|numeric',
-            'monto_max' => 'nullable|numeric',
-        ]);
-
         $flujos = FideFlujoTb::getAllFlujos(1);
         $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
         $gastosTabla = FideGastosTb::getGastosByUsuario($this->id_usuario);
