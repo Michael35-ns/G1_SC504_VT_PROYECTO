@@ -82,14 +82,6 @@
                                         <span class="group-hover:text-gray-300">Objetivos Económicos</span>
                                     </a>
                                 </li>
-                                <li class="min-w-max">
-                                    <a href="#"
-                                        class="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-gray-800 transition-all duration-300">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/4703/4703578.png"
-                                            class="w-9" alt="Presupuestos">
-                                        <span class="group-hover:text-gray-300">Presupuestos</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>

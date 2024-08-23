@@ -70,6 +70,9 @@
                             @endif
                         @endforeach
                     </select>
+
+                    <input type="hidden" id="id_estado" name="id_estado" value="{{ old('id_estado', $ingreso['ID_ESTADO']) }}">
+
                     @error('id_flujo')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\FideEstadoTb;
 use App\Models\FideIngresosTb;
 use App\Models\FideFlujoTb;
+use App\Models\FideGastosTb;
 use Illuminate\Support\Facades\DB;
 
 class ObjetivoEconomicoController extends Controller
@@ -60,6 +61,37 @@ class ObjetivoEconomicoController extends Controller
         $objetivosActivos = FideObjetivosFinancierosTb::contarObjetivosActivos($this->id_usuario);
         $objetivosInactivos = FideObjetivosFinancierosTb::contarObjetivosInactivos($this->id_usuario);
         $porcentaje = FideObjetivosFinancierosTb::calcPorcentaje($this->id_usuario);
+
+
+        $arrayIngresosPorActualizar = FideIngresosTb::where('id_transaccion', $pIdTransaccion)->get();
+        $arrayGastosPorActualizar = FideGastosTb::where('id_transaccion', $pIdTransaccion)->get();
+        
+        foreach($arrayIngresosPorActualizar as $ingreso){
+            $dataDepurada = FideIngresosTb::encontrarIngresoPorID($ingreso->id_ingreso);
+            FideIngresosTb::editarIngreso(
+                $ingreso->id_ingreso,
+                $dataDepurada['DESCRIPCION_INGRESO'],
+                $dataDepurada['MONTO_INGRESO'],
+                $dataDepurada['FECHA_INGRESO'],
+                $dataDepurada['ID_TRANSACCION'],
+                $dataDepurada['ID_FLUJO'],
+                1
+            );
+        }
+        
+        foreach($arrayGastosPorActualizar as $gasto){
+            $dataDepurada = FideGastosTb::encontrarGastoPorID($gasto->id_gasto);
+            FideGastosTb::editarGasto(
+                $gasto->id_gasto,
+                $dataDepurada['MONTO_GASTO'],
+                $dataDepurada['DESCRIPCION_GASTO'],
+                $dataDepurada['FECHA_GASTO'],
+                $dataDepurada['ID_FLUJO'],
+                $dataDepurada['ID_TRANSACCION'],
+                1
+            );
+        }
+
 
         return view('objetivoEconomico', compact('objetivos'), [
             'totalObjetivos' => $totalObjetivos,

@@ -110,7 +110,8 @@ class IngresoController extends Controller
             'monto_ingreso' => 'required|numeric',
             'fecha_ingreso' => 'required|date',
             'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
-            'id_flujo' => 'required|integer|exists:fide_flujo_tb,ID_FLUJO'
+            'id_flujo' => 'required|integer|exists:fide_flujo_tb,ID_FLUJO',
+            'id_estado' => 'required'
         ]);
 
         FideIngresosTb::editarIngreso(
@@ -120,6 +121,7 @@ class IngresoController extends Controller
             $validated['fecha_ingreso'],
             $validated['id_transaccion'],
             $validated['id_flujo'],
+            $validated['id_estado']
         );
 
         return redirect()->route('Ingreso')->with('success', 'Ingreso actualizado con éxito');

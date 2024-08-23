@@ -1,39 +1,38 @@
 @extends('layouts.app')
 
 @section('titulo')
-    😁 ¡Bienvenido, Tenemos noticias para ti! 😁
+    🎉 ¡Proyecto Completado, Descubre lo Nuevo! 🎉
 @endsection
 
 @section('contenido')
     <div class="max-w-7xl mx-auto p-8">
-        <!-- Noticia sobre el módulo de ingresos y gastos -->
+        <!-- Noticia sobre el estado final del proyecto -->
         <div class="bg-green-200 rounded-lg shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                🚀 ¡Nuevas Funcionalidades en Gestión Financiera! 🚀
+                🚀 ¡Lanzamiento de la Versión Final del Proyecto! 🚀
             </h2>
             <h3 class="text-xl font-semibold text-gray-700 mb-2">
-                Módulo de Ingresos y Gastos Ahora Disponible
+                Módulos de Gastos, Ingresos, Reseñas y Objetivos Económicos Implementados
             </h3>
             <p class="text-gray-600 mb-4">
                 <strong>Fecha:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y') }}
             </p>
             <p class="text-gray-700 mb-4">
-                Nos complace anunciar el lanzamiento de nuestro nuevo módulo de gestión de ingresos y gastos. Este módulo
-                está diseñado para que puedas registrar y gestionar tus finanzas de manera efectiva y segura. Ahora podrás
-                organizar tus gastos y controlar tus ingresos con herramientas avanzadas que incluyen:
+                Nos complace anunciar que hemos alcanzado la versión final de nuestro proyecto. Ahora contamos con
+                un conjunto completo de módulos que te permitirán gestionar tus finanzas de manera integral. Con la
+                implementación de los módulos de Gastos, Ingresos, Reseñas y Objetivos Económicos, estarás preparado
+                para tener un control total sobre tu economía personal.
             </p>
             <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li>Categorías personalizables para una gestión más organizada.</li>
-                <li>Filtros avanzados para visualizar y analizar tus datos financieros.</li>
-                <li>Opciones para agregar descripciones detalladas a tus transacciones.</li>
-                <li>Capacidad para eliminar registros obsoletos o incorrectos.</li>
-                <li>Encriptación de datos para una seguridad mejorada.</li>
+                <li>Gestión avanzada de gastos y seguimiento detallado de tus finanzas.</li>
+                <li>Registro y análisis de ingresos con opciones personalizables.</li>
+                <li>Reseñas para compartir y recibir opiniones sobre servicios.</li>
+                <li>Establecimiento y seguimiento de objetivos económicos a corto y largo plazo.</li>
             </ul>
             <p class="text-gray-700 mb-4">
-                Este módulo no solo mejora la forma en que gestionas tus finanzas, sino que también asegura que tus datos
-                estén protegidos con los más altos estándares de seguridad. Te invitamos a explorar estas nuevas
-                funcionalidades y
-                empezar a gestionar tus finanzas de manera más eficiente.
+                Este conjunto de herramientas te brinda todo lo necesario para mantener tus finanzas organizadas y
+                alcanzar tus metas financieras. Explora estas funcionalidades y maximiza el potencial de tu gestión
+                económica.
             </p>
 
             <div x-data="{ open: false }">
@@ -43,17 +42,15 @@
                 </button>
                 <div x-show="open" x-transition class="mt-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
                     <p class="text-gray-700">
-                        El nuevo módulo de ingresos y gastos está diseñado para ofrecerte una experiencia completa y
-                        personalizada en la gestión de tus finanzas. Con esta actualización, tendrás acceso a herramientas
-                        que
-                        te permitirán ajustar y personalizar tu categorización, realizar un seguimiento detallado de tus
-                        ingresos y gastos, y mantener tu información segura y privada.
+                        Con esta versión final, nos hemos asegurado de que cada módulo funcione de manera integrada
+                        y eficiente, ofreciéndote una experiencia de usuario completa y satisfactoria. Desde la gestión
+                        de tus gastos e ingresos hasta la planificación de tus objetivos económicos, nuestra plataforma
+                        está diseñada para ayudarte a tomar decisiones financieras informadas y estratégicas.
                     </p>
                     <p class="text-gray-700 mt-2">
-                        Apreciamos tu continuo apoyo y esperamos que encuentres útil esta nueva funcionalidad. Si tienes
-                        alguna
-                        pregunta o necesitas asistencia, nuestro equipo está aquí para ayudarte. ¡Explora, personaliza y
-                        mejora tu gestión financiera hoy mismo!
+                        Agradecemos tu confianza en nuestro proyecto y esperamos que disfrutes de todas las mejoras
+                        y funcionalidades que hemos implementado. Si tienes alguna pregunta o sugerencia, nuestro equipo
+                        está siempre disponible para asistirte. ¡Es el momento de tomar el control total de tus finanzas!
                     </p>
                 </div>
             </div>
@@ -62,26 +59,22 @@
         <div class="max-w-7xl mx-auto p-8">
             <div class="bg-gray-200 rounded-lg shadow-lg p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                    ¡Grandes Noticias!
+                    ¡Actualización Final!
                 </h2>
                 <h3 class="text-xl font-semibold text-gray-700 mb-2">
-                    Nuevo Módulo de Seguridad Implementado
+                    Proyecto Completado con Éxito
                 </h3>
                 <p class="text-gray-600 mb-4">
                     <strong>Fecha:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y') }}
                 </p>
                 <p class="text-gray-700 mb-4">
-                    Nos complace anunciar que hemos implementado un nuevo módulo de seguridad en nuestra plataforma. Ahora,
-                    podrás disfrutar de nuevas funcionalidades como el inicio de sesión y registro en nuestro sistema. Esta
-                    actualización no solo mejora la seguridad general, sino que también facilita el acceso a todos nuestros
-                    usuarios, tanto nuevos como antiguos.
+                    Nos enorgullece compartir que hemos finalizado la implementación del proyecto, incluyendo
+                    todos los módulos clave: Gastos, Ingresos, Reseñas y Objetivos Económicos. Ahora, podrás
+                    gestionar y controlar tus finanzas con una plataforma robusta y segura.
                 </p>
                 <p class="text-gray-700 mb-4">
-                    Si eres un usuario antiguo, ¡te invitamos a explorar estas nuevas funciones y actualizar tu perfil! Para
-                    los
-                    nuevos usuarios, este es el momento perfecto para registrarte y comenzar a disfrutar de todas las
-                    ventajas
-                    que nuestra plataforma ofrece.
+                    Este logro es solo el comienzo de una experiencia financiera más organizada y eficiente.
+                    ¡Explora estas nuevas funcionalidades y comienza a mejorar tu economía personal hoy mismo!
                 </p>
 
                 <div x-data="{ open: false }">
@@ -91,18 +84,15 @@
                     </button>
                     <div x-show="open" x-transition class="mt-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
                         <p class="text-gray-700">
-                            Hemos trabajado arduamente para asegurar que la transición sea lo más fluida posible. El nuevo
-                            módulo está diseñado para ser intuitivo y fácil de usar. Además, hemos integrado funcionalidades
-                            que
-                            permiten una mayor personalización y control de tu cuenta. Si tienes alguna pregunta o necesitas
-                            asistencia, nuestro equipo de soporte está aquí para ayudarte.
+                            Con la finalización de estos módulos, hemos puesto a tu disposición un conjunto de
+                            herramientas que transformarán la forma en que gestionas tu dinero. Desde la planificación
+                            de tus objetivos hasta la ejecución diaria de tus finanzas, nuestra plataforma está diseñada
+                            para brindarte un soporte completo y continuo.
                         </p>
                         <p class="text-gray-700 mt-2">
-                            Gracias por ser parte de nuestra comunidad. Estamos emocionados de compartir estas mejoras
-                            contigo y
-                            esperamos que disfrutes de una experiencia aún mejor con nuestro software. Mantente al tanto de
-                            más
-                            actualizaciones y novedades en el futuro.
+                            Gracias por ser parte de esta emocionante jornada. Estamos seguros de que estas
+                            funcionalidades te ayudarán a alcanzar nuevas alturas en tu gestión financiera.
+                            ¡Disfruta de la versión final de nuestro proyecto!
                         </p>
                     </div>
                 </div>

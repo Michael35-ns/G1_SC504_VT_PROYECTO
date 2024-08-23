@@ -17,6 +17,8 @@ class FideGastosTb extends Model
 
     protected $primaryKey = 'id_gasto';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'monto_gasto',
         'descripcion_gasto',
@@ -170,7 +172,7 @@ class FideGastosTb extends Model
 
 
 
-    public static function editarGasto($id_gasto, $monto_gasto, $descripcion_gasto, $fecha_gasto, $id_flujo, $id_transaccion)
+    public static function editarGasto($id_gasto, $monto_gasto, $descripcion_gasto, $fecha_gasto, $id_flujo, $id_transaccion, $id_estado = 1)
     {
         $pdo = DB::getPdo();
         $date = new DateTime($fecha_gasto);
@@ -183,7 +185,8 @@ class FideGastosTb extends Model
                 :P_DESCRIPCION_GASTO,           
                 :P_FECHA_GASTO,
                 :P_ID_FLUJO,
-                :P_ID_TRANSACCION
+                :P_ID_TRANSACCION,
+                :P_ID_ESTADO
             );
         END;
     ");
@@ -193,7 +196,7 @@ class FideGastosTb extends Model
         $stmt->bindParam(':P_FECHA_GASTO', $datestr, PDO::PARAM_STR); 
         $stmt->bindParam(':P_ID_FLUJO', $id_flujo, PDO::PARAM_INT);
         $stmt->bindParam(':P_ID_TRANSACCION', $id_transaccion, PDO::PARAM_INT);
-
+        $stmt->bindParam(':P_ID_ESTADO', $id_estado, PDO::PARAM_INT);
         $stmt->execute();
     }
 

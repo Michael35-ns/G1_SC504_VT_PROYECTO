@@ -69,6 +69,9 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <input type="hidden" id="id_estado" name="id_estado" value="{{ old('id_estado', $gasto['ID_ESTADO']) }}">
+
                 <div class="flex justify-end space-x-4">
                     <a href="{{ route('Gasto') }}" class="py-2 px-4 bg-red-500  text-white rounded">Cancelar</a>
                     <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded">Actualizar</button>

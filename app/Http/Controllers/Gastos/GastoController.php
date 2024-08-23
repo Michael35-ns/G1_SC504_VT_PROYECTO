@@ -122,7 +122,8 @@ class GastoController extends Controller
             'monto_gasto' => 'required|numeric',
             'fecha_gasto' => 'required|date',
             'id_flujo' => 'required|integer|exists:fide_flujo_tb,ID_FLUJO',
-            'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION'
+            'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
+            'id_estado' => 'required|integer'
         ]);
 
         FideGastosTb::editarGasto(
@@ -131,7 +132,8 @@ class GastoController extends Controller
             $validated['descripcion'],
             $validated['fecha_gasto'],
             $validated['id_flujo'],
-            $validated['id_transaccion']
+            $validated['id_transaccion'],
+            $validated['id_estado']
         );
 
         return redirect()->route('Gasto')->with('success', 'Gasto actualizado con éxito');
