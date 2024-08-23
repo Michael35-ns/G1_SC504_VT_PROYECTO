@@ -52,66 +52,17 @@ class FideGastosTb extends Model
         return $this->belongsTo(FideEstadoTb::class, 'id_estado');
     }
 
-
-    public static function getGastosByUsuarios($idUsuario)
-    {
-        $pdo = DB::getPdo();
-
-        // Preparamos la sentencia
-        $stmt = $pdo->prepare("
-            DECLARE
-                C_GASTOS SYS_REFCURSOR;
-            BEGIN
-                FIDE_PROYECTO_FINAL_PKG.FIDE_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :C_GASTOS);
-            END;
-        ");
-
-        // Bind de parámetros
-        $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
-        $stmt->bindParam(':C_GASTOS', $cursor, PDO::PARAM_STMT);
-
-        // Ejecutamos la sentencia
-        $stmt->execute();
-
-        // Recuperamos los datos del cursor
-        oci_execute($cursor, OCI_DEFAULT);
-
-        $result = [];
-        $key = '12345678901234567890123456789012';
-        while (($row = oci_fetch_assoc($cursor)) != false) {
-            // Decrypt MONTO_GASTO
-            $decryptedData = openssl_decrypt(
-                base64_decode($row['MONTO_GASTO']),
-                'AES-256-CBC',
-                $key,
-                0,
-                str_repeat("\0", 16)
-            );
-            $row['MONTO_GASTO'] = (float) $decryptedData;
-            $result[] = $row;
-        }
-
-        oci_free_statement($cursor);
-
-        return collect($result);
-    }
-
-
-    public static function getGastosByUsuario($idUsuario, $fechaInicial, $fechaFinal, $montoMin, $montoMax)
+    public static function getGastosByUsuario($idUsuario)
     {
         $pdo = DB::getPdo();
         $stmt = $pdo->prepare("
             DECLARE
                 C_GASTOS SYS_REFCURSOR;
             BEGIN
-                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :P_FECHA_INICIAL, :P_FECHA_FINAL, :P_MONTO_MINIMO, :P_MONTO_MAXIMO, :C_GASTOS);
+                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_MOSTRAR_GASTOS_TABLA_SP(:P_ID_USUARIO, :C_GASTOS);
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario);
-        $stmt->bindParam(':P_FECHA_INICIAL', $fechaInicial);
-        $stmt->bindParam(':P_FECHA_FINAL', $fechaFinal);
-        $stmt->bindParam(':P_MONTO_MINIMO', $montoMin);
-        $stmt->bindParam(':P_MONTO_MAXIMO', $montoMax);
         $stmt->bindParam(':C_GASTOS', $cursor, PDO::PARAM_STMT);
 
         $stmt->execute();
@@ -122,6 +73,7 @@ class FideGastosTb extends Model
         while (($row = oci_fetch_assoc($cursor)) != false) {
             $result[] = $row;
         }
+ 
         oci_free_statement($cursor);
         return collect($result);
     }
@@ -217,26 +169,28 @@ class FideGastosTb extends Model
     }
 
 
+
     public static function editarGasto($id_gasto, $monto_gasto, $descripcion_gasto, $fecha_gasto, $id_flujo, $id_transaccion)
     {
         $pdo = DB::getPdo();
+        $date = new DateTime($fecha_gasto);
+        $datestr = $date->format('Y-m-d H:i:s'); 
         $stmt = $pdo->prepare("
-            BEGIN
-                FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_EDITAR_GASTO_SP(
-                    :P_ID_GASTO,
-                    :P_MONTO_GASTO,
-                    :P_DESCRIPCION_GASTO,           
-                    :P_FECHA_GASTO,
-                    :P_ID_FLUJO,
-                    :P_ID_TRANSACCION
-                );
-            END;
-        ");
-
+        BEGIN
+            FIDE_PROYECTO_FINAL_PKG.FIDE_GASTOS_TB_EDITAR_GASTO_SP(
+                :P_ID_GASTO,
+                :P_MONTO_GASTO,
+                :P_DESCRIPCION_GASTO,           
+                :P_FECHA_GASTO,
+                :P_ID_FLUJO,
+                :P_ID_TRANSACCION
+            );
+        END;
+    ");
         $stmt->bindParam(':P_ID_GASTO', $id_gasto, PDO::PARAM_INT);
         $stmt->bindParam(':P_MONTO_GASTO', $monto_gasto, PDO::PARAM_STR);
         $stmt->bindParam(':P_DESCRIPCION_GASTO', $descripcion_gasto, PDO::PARAM_STR);
-        $stmt->bindParam(':P_FECHA_GASTO', $fecha_gasto);
+        $stmt->bindParam(':P_FECHA_GASTO', $datestr, PDO::PARAM_STR); 
         $stmt->bindParam(':P_ID_FLUJO', $id_flujo, PDO::PARAM_INT);
         $stmt->bindParam(':P_ID_TRANSACCION', $id_transaccion, PDO::PARAM_INT);
 
@@ -244,6 +198,7 @@ class FideGastosTb extends Model
     }
 
 
+    
     public static function eliminarGasto($id_gasto)
     {
         $pdo = DB::getPdo();
@@ -315,9 +270,10 @@ class FideGastosTb extends Model
             END;
         ");
         $stmt->bindParam(':P_ID_USUARIO', $idUsuario, PDO::PARAM_INT);
-        $stmt->bindParam(':result', $result, PDO::PARAM_INT | PDO::PARAM_INPUT_OUTPUT, 32);
+        $stmt->bindParam(':result', $result, PDO::PARAM_STR | PDO::PARAM_INPUT_OUTPUT, 128);
         $stmt->execute();
-        return $result;
+
+        return round((float)$result, 3);
     }
 
     public static function calcPorcentaje($idUsuario)

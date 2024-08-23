@@ -29,66 +29,48 @@ class ObjetivoEconomicoController extends Controller
     }
     public function create()
     {
-
-        $gastos = FideGastosTb::getGastosByUsuarios($this->id_usuario);
-        $transaccions = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
+        $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_OBJETIVOS_BY_ID_USUARIO($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados($this->id_usuario);
-        $categorias = FideTipoCategoriaTb::getAllCategories();
         $ingresos = FideIngresosTb::mostrarIngresosPorUsuarios($this->id_usuario);
         $flujos = FideFlujoTb::getAllFlujos($this->id_usuario);
         return view('crearObjetivo', compact(
-            'transaccions',
-            'estados',
-            'gastos',
-            'ingresos',
             'categorias',
+            'estados',
+            'ingresos',
             'flujos'
         ));
     }
 
-    public function agregarObjetivo(Request $request)
+   public function agregarObjetivo(Request $request)
     {
         $pNombreObjetivo = $request->input('nombre_objetivo');
         $pDescripcionObjetivo = $request->input('descripcion_objetivo');
         $pMontoObjetivo = $request->input('monto_objetivo');
-        $pIdGasto = $request->input('ID_GASTO');
+        $pFechaTope = $request->input('fecha_tope');
         $pIdFlujo = $request->input('ID_FLUJO');
         $pIdEstado = $request->input('ID_ESTADO');
         $pIdTransaccion = $request->input('ID_TRANSACCION');
-        $pIdIngreso = $request->input('ID_INGRESO');
         $pIdUsuario = $this->id_usuario;
 
         DB::beginTransaction();
 
-        $bindings = [
-            'p_nombre_objetivo' => $pNombreObjetivo,
-            'p_descripcion_objetivo' => $pDescripcionObjetivo,
-            'p_monto_objetivo' => $pMontoObjetivo,
-            'p_id_gasto' => $pIdGasto,
-            'p_id_flujo' => $pIdFlujo,
-            'p_id_usuario' => $pIdUsuario,
-            'p_id_estado' => $pIdEstado,
-            'p_id_ingreso' => $pIdIngreso,
-        ];
+        FideObjetivosFinancierosTb::agregarObjetivo(
+            $pNombreObjetivo, $pDescripcionObjetivo, $pMontoObjetivo, $pFechaTope,
+            $pIdFlujo, $pIdEstado, $pIdTransaccion, $pIdUsuario
+        );
 
-        DB::statement('BEGIN FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_AGREGAR_OBJETIVOS_SP(
-            :p_nombre_objetivo, :p_descripcion_objetivo, :p_monto_objetivo,
-            :p_id_gasto, :p_id_usuario,:p_id_flujo,:p_id_estado, :p_id_ingreso
-        ); END;', $bindings);
-
-        DB::commit();
         $objetivos = FideObjetivosFinancierosTb::mostrarObjetivosPorUsuario($this->id_usuario);
-        $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
-        $totalObjetivos = FideObjetivosFinancierosTb::contarObjetivos( $this->id_usuario);
+        $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_OBJETIVOS_BY_ID_USUARIO($this->id_usuario);
+        $totalObjetivos = FideObjetivosFinancierosTb::contarObjetivos($this->id_usuario);
         $objetivosActivos = FideObjetivosFinancierosTb::contarObjetivosActivos($this->id_usuario);
-        $objetivosInactivos = FideObjetivosFinancierosTb::contarObjetivosInactivos( $this->id_usuario);
-        $porcentaje = FideObjetivosFinancierosTb::calcPorcentaje( $this->id_usuario);
+        $objetivosInactivos = FideObjetivosFinancierosTb::contarObjetivosInactivos($this->id_usuario);
+        $porcentaje = FideObjetivosFinancierosTb::calcPorcentaje($this->id_usuario);
         $ingresos = FideIngresosTb::mostrarIngresosPorUsuarios($this->id_usuario);
+
         return view('objetivoEconomico', compact('objetivos'), [
             'totalObjetivos' => $totalObjetivos,
             'objetivosActivos' => $objetivosActivos,
             'objetivosInactivos' => $objetivosInactivos,
-            'objetivos' => $objetivos,
             'porcentaje' => $porcentaje,
             'ingresos' => $ingresos
         ]);
@@ -99,9 +81,8 @@ class ObjetivoEconomicoController extends Controller
         $objetivo = FideObjetivosFinancierosTb::find($id);
 
         $gastos = FideGastosTb::getGastosByUsuarios($this->id_usuario);
-        $transaccions = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
+        $transaccions = FideCategoriaTransaccionTb::Mostrar_Categorias_OBJETIVOS_BY_ID_USUARIO($this->id_usuario);
         $estados = FideEstadoTb::getAllEstados($this->id_usuario);
-        $categorias = FideTipoCategoriaTb::getAllCategories();
         $ingresos = FideIngresosTb::mostrarIngresosPorUsuarioS($this->id_usuario);
         $flujos = FideFlujoTb::getAllFlujos($this->id_usuario);
 
@@ -110,7 +91,6 @@ class ObjetivoEconomicoController extends Controller
             'estados',
             'gastos',
             'objetivo',
-            'categorias',
             'flujos',
             'ingresos'
         ));
@@ -122,22 +102,17 @@ class ObjetivoEconomicoController extends Controller
             'nombre_objetivo' => 'required|string|max:1000',
             'descripcion_objetivo' => 'required|string',
             'monto_objetivo' => 'required|numeric',
-            'ID_GASTO' => 'required|integer',
             'ID_FLUJO' => 'required|integer',
             'id_estado' => 'required|integer',
-            'ID_TRANSACCION' => 'required|integer',
-            'ID_INGRESO' => 'required|integer',
         ]);
 
         FideObjetivosFinancierosTb::editarObjetivo(
             $validated['nombre_objetivo'],
             $validated['descripcion_objetivo'],
             $validated['monto_objetivo'],
-            $validated['ID_GASTO'],
             $this->id_usuario,
             $validated['ID_FLUJO'],
             $validated['id_estado'],
-            $validated['ID_INGRESO'],
             $id
         );
 
@@ -171,6 +146,8 @@ class ObjetivoEconomicoController extends Controller
             return redirect()->back()->with('status', 'error')->with('message', $e->getMessage());
         }
     }
+
+
     public function buscar(Request $request)
     {
         $query = $request->input('buscar');

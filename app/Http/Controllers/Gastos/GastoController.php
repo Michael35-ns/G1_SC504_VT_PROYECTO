@@ -28,12 +28,6 @@ class GastoController extends Controller
     public function index(Request $request)
     {
 
-        // Recuperar los parámetros de filtro desde la solicitud
-        $fecha_inicial = $request->input('fecha_inicial', '1900-01-01');
-        $fecha_final = $request->input('fecha_final', '2050-01-01');
-        $monto_Min = $request->input('monto_min', 0);
-        $monto_Max = $request->input('monto_max', 100000000000);
-
         // Validar los parámetros
         $validated = $request->validate([
             'fecha_inicial' => 'nullable|date',
@@ -44,7 +38,7 @@ class GastoController extends Controller
 
         $flujos = FideFlujoTb::getAllFlujos(1);
         $categorias = FideCategoriaTransaccionTb::Mostrar_Categorias_GASTOS_BY_ID_USUARIO($this->id_usuario);
-        $gastosTabla = FideGastosTb::getGastosByUsuario($this->id_usuario, $fecha_inicial, $fecha_final, $monto_Min, $monto_Max);
+        $gastosTabla = FideGastosTb::getGastosByUsuario($this->id_usuario);
         $suamaGastosTotales = FideGastosTb::suamaGastosTotales($this->id_usuario);
 
         $suamaIngresosTotales = FideIngresosTb::valoresFuncionesActivas($this->id_usuario);
@@ -120,15 +114,15 @@ class GastoController extends Controller
         return view('Gastos.editarGastos', compact('gasto', 'categorias', 'flujos'));
     }
 
-    //Edita el gasto
+
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'descripcion' => 'required|string|max:1000',
             'monto_gasto' => 'required|numeric',
             'fecha_gasto' => 'required|date',
-            'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION',
-            'id_flujo' => 'required|integer|exists:fide_flujo_tb,ID_FLUJO'
+            'id_flujo' => 'required|integer|exists:fide_flujo_tb,ID_FLUJO',
+            'id_transaccion' => 'required|integer|exists:fide_categoria_transaccion_tb,ID_TRANSACCION'
         ]);
 
         FideGastosTb::editarGasto(
@@ -136,8 +130,8 @@ class GastoController extends Controller
             $validated['monto_gasto'],
             $validated['descripcion'],
             $validated['fecha_gasto'],
-            $validated['id_transaccion'],
-            $validated['id_flujo']
+            $validated['id_flujo'],
+            $validated['id_transaccion']
         );
 
         return redirect()->route('Gasto')->with('success', 'Gasto actualizado con éxito');

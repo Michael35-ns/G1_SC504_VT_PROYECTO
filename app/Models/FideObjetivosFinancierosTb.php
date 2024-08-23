@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use PDO;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,6 +62,32 @@ class FideObjetivosFinancierosTb extends Model
         return $this->belongsTo(FideIngresosTb::class, 'id_ingreso');
     }
 
+    public static function agregarObjetivo($nombre_objetivo, $descripcion_objetivo, $monto_objetivo, $fecha_tope, $id_flujo, $id_estado, $id_transaccion, $id_usuario)
+{
+    $date = new DateTime($fecha_tope);
+    $datestr = $date->format('Y-m-d H:i:s');
+
+    $bindings = [
+        'p_nombre_objetivo' => $nombre_objetivo,
+        'p_descripcion_objetivo' => $descripcion_objetivo,
+        'p_monto_objetivo' => $monto_objetivo,
+        'P_FECHA_TOPE' => $datestr,
+        'p_id_flujo' => $id_flujo,
+        'p_id_estado' => $id_estado,
+        'p_id_transaccion' => $id_transaccion,
+        'p_id_usuario' => $id_usuario,
+    ];
+
+    DB::statement('
+        BEGIN 
+            FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_AGREGAR_OBJETIVOS_SP(
+                :p_nombre_objetivo, :p_descripcion_objetivo, :p_monto_objetivo, :P_FECHA_TOPE,
+                :p_id_usuario, :p_id_flujo, :p_id_estado, :p_id_transaccion
+            ); 
+        END;', 
+        $bindings
+    );
+}
 
     public static function mostrarObjetivosPorUsuario($idUsuario)
     {
@@ -138,18 +165,14 @@ class FideObjetivosFinancierosTb extends Model
     }
     
     
-
-    
     
     public static function editarObjetivo(
         $nombreObjetivo,
         $descripcionObjetivo,
         $montoObjetivo,
-        $idGasto,
         $idUsuario,
         $idFlujo,
         $idEstado,
-        $idIngreso,
         $idObjetivo
     ) {
         $pdo = DB::getPdo();
@@ -159,22 +182,18 @@ class FideObjetivosFinancierosTb extends Model
             P_DESCRIPCION_OBJETIVO VARCHAR2(255);
             p_MONTO_OBJETIVO NUMBER;
             P_FECHA_TOPE DATE;
-            p_id_gastos NUMBER;
             p_id_usuario NUMBER;
             P_ID_FLUJO NUMBER;
             p_id_estado NUMBER;
-            p_id_ingreso NUMBER;
             p_id_objetivo NUMBER;
         BEGIN
             FIDE_PROYECTO_FINAL_PKG.FIDE_OBJETIVOS_FINANCIEROS_EDITAR_SP(
                 :P_NOMBRE_OBJETIVO,
                 :P_DESCRIPCION_OBJETIVO,
                 :p_MONTO_OBJETIVO,
-                :p_id_gastos,
                 :p_id_usuario,
                 :P_ID_FLUJO,
                 :p_id_estado,
-                :p_id_ingreso,
                 :p_id_objetivo
             );
         END;
@@ -183,16 +202,15 @@ class FideObjetivosFinancierosTb extends Model
         $stmt->bindParam(':P_NOMBRE_OBJETIVO', $nombreObjetivo);
         $stmt->bindParam(':P_DESCRIPCION_OBJETIVO', $descripcionObjetivo);
         $stmt->bindParam(':p_MONTO_OBJETIVO', $montoObjetivo);
-        $stmt->bindParam(':p_id_gastos', $idGasto);
         $stmt->bindParam(':p_id_usuario', $idUsuario);
         $stmt->bindParam(':P_ID_FLUJO', $idFlujo);
         $stmt->bindParam(':p_id_estado', $idEstado);
-        $stmt->bindParam(':p_id_ingreso', $idIngreso);
         $stmt->bindParam(':p_id_objetivo', $idObjetivo);
     
         $stmt->execute();
     }
-    
+
+
 
     public static function contarObjetivos($idUsuario)
     {
